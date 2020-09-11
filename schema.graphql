@@ -1,5 +1,11 @@
 type Query {
+  getOneRoom(id: ID!): Room
+  getOneRoomBySlug(slug: String!): Room
+  getAllRooms: [Room]
+
+  getAllImages: [ImageUpload]
   getDemo: [Book]
+  getAllEmails: [ScrapedEmail]
 
   getAllTeams: [Menu]
   getOneTeam(id: ID!): Menu
@@ -15,6 +21,42 @@ type Query {
 }
 
 type Mutation {
+  createOneRoom(
+    title: String!
+    description: String!
+    slug: String!
+    price: Int!
+    images: [String]
+  ): Room
+  updateOneRoom(
+    id: ID!
+    title: String
+    description: String
+    slug: String
+    price: Int
+    images: [String]
+  ): Room
+  deleteOneRoom(id: ID!): String
+
+  uploadImage(title: String, imageUrl: String): ImageUpload
+  createOneEmail(businessName: String, emails: [String]): ScrapedEmail
+  createEmailTemplate(
+    templateName: String
+    body: String
+    subject: String
+  ): String
+  sendTemplateEmail(
+    userId: String!
+    templateName: String!
+    businessName: String!
+    emails: [String]
+  ): TemplateEmail
+  sendEmail(
+    userId: String!
+    emails: [String]
+    subject: String!
+    message: String!
+  ): Email
   createOneTeam(slug: String!, title: String!, description: String!): Menu
   updateOneTeam(id: ID!, slug: String, title: String, description: String): Menu
   deleteOneTeam(id: ID!): String
@@ -47,6 +89,38 @@ type Mutation {
   deleteOneIvdrip(id: ID!): String
 }
 
+type Subscription {
+  uploadedImage: ImageUpload @aws_subscribe(mutations: ["uploadImage"])
+}
+
+type Email {
+  _id: ID!
+  userId: String!
+  emails: [String]
+  subject: String!
+  message: String!
+}
+
+type TemplateEmail {
+  _id: ID!
+  userId: String!
+  businessName: String!
+  emails: [String]
+  templateName: String!
+}
+
+type ScrapedEmail {
+  _id: ID!
+  businessName: String!
+  emails: [String]
+}
+
+type ImageUpload {
+  _id: ID!
+  title: String
+  imageUrl: String
+}
+
 type Menu {
   _id: ID!
   slug: String!
@@ -54,13 +128,22 @@ type Menu {
   description: String!
 }
 
-# Entities
 type Book {
   id: ID!
   title: String
 }
 
+type Room {
+  _id: ID!
+  title: String!
+  description: String!
+  slug: String!
+  price: Int!
+  images: [String]
+}
+
 schema {
   query: Query
   mutation: Mutation
+  subscription: Subscription
 }

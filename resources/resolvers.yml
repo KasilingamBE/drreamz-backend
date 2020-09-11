@@ -107,3 +107,71 @@
   field: deleteOneService
   request: menu/deleteOneService.vtl
   response: response.vtl
+# email
+- dataSource: email
+  type: Mutation
+  field: sendEmail
+  request: email/mutation.sendEmail.vtl
+  response: response.vtl
+- dataSource: email
+  type: Query
+  field: getAllEmails
+  request: email/query.getAllEmails.vtl
+  response: response.vtl
+- dataSource: email
+  type: Mutation
+  field: createOneEmail
+  request: email/mutation.createOneEmail.vtl
+  response: response.vtl
+- dataSource: email
+  type: Mutation
+  field: createEmailTemplate
+  request: email/mutation.createEmailTemplate.vtl
+  response: response.vtl
+- dataSource: email
+  type: Mutation
+  field: sendTemplateEmail
+  request: email/mutation.sendTemplateEmail.vtl
+  response: response.vtl
+# ImageUpload
+- dataSource: demo
+  type: Mutation
+  field: uploadImage
+  request: demo/mutation.uploadImage.vtl
+  response: response.vtl
+- dataSource: demo
+  type: Query
+  field: getAllImages
+  request: demo/query.getAllImages.vtl
+  response: response.vtl
+# Room
+- dataSource: room
+  type: Query
+  field: getAllRooms
+  request: room/query.getAllRooms.vtl
+  response: response.vtl
+- dataSource: room
+  type: Query
+  field: getOneRoom
+  request: room/query.getOneRoom.vtl
+  response: response.vtl
+- dataSource: room
+  type: Query
+  field: getOneRoomBySlug
+  request: room/query.getOneRoomBySlug.vtl
+  response: response.vtl
+- dataSource: room
+  type: Mutation
+  field: createOneRoom
+  request: room/mutation.createOneRoom.vtl
+  response: response.vtl
+- dataSource: room
+  type: Mutation
+  field: updateOneRoom
+  request: room/mutation.updateOneRoom.vtl
+  response: response.vtl
+- dataSource: room
+  type: Mutation
+  field: deleteOneRoom
+  request: room/mutation.deleteOneRoom.vtl
+  response: response.vtl
