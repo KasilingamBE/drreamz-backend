@@ -1,20 +1,12 @@
 const mongoose = require("mongoose");
 
-const roomSchema = new mongoose.Schema({
+const imageSliderSchema = new mongoose.Schema({
   title: {
     type: String,
     required: [true, "Title is required"],
     unique: true,
   },
   slug: String,
-  description: {
-    type: String,
-    required: [true, "Description is required"],
-  },
-  price: {
-    type: Number,
-    required: [true, "Price is required"],
-  },
   userId: {
     type: String,
     required: [true, "User ID is required"],
@@ -31,8 +23,8 @@ const roomSchema = new mongoose.Schema({
   },
 });
 
-roomSchema.index({ slug: 1 });
+imageSliderSchema.index({ slug: 1 });
 
-const Room = mongoose.model("Room", roomSchema);
+const ImageSlider = mongoose.model("ImageSlider", imageSliderSchema);
 
-module.exports = Room;
+module.exports = ImageSlider;

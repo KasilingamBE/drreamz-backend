@@ -14,3 +14,11 @@
   name: room
   config:
     functionName: room_lambda
+- type: AWS_LAMBDA
+  name: form
+  config:
+    functionName: form_lambda
+- type: AWS_LAMBDA
+  name: imageSlider
+  config:
+    functionName: imageSlider_lambda

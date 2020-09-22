@@ -10,3 +10,7 @@ email_lambda:
   handler: lambda-functions/email_lambda/index.handler
 room_lambda:
   handler: lambda-functions/room_lambda/index.handler
+form_lambda:
+  handler: lambda-functions/form_lambda/index.handler
+imageSlider_lambda:
+  handler: lambda-functions/imageSlider_lambda/index.handler

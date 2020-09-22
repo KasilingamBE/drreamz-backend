@@ -1,25 +1,17 @@
 const mongoose = require("mongoose");
 
-const roomSchema = new mongoose.Schema({
+const formSchema = new mongoose.Schema({
   title: {
     type: String,
     required: [true, "Title is required"],
     unique: true,
   },
   slug: String,
-  description: {
-    type: String,
-    required: [true, "Description is required"],
-  },
-  price: {
-    type: Number,
-    required: [true, "Price is required"],
-  },
+  formJSON: String,
   userId: {
     type: String,
     required: [true, "User ID is required"],
   },
-  images: [String],
   published: {
     type: Boolean,
     default: false,
@@ -31,8 +23,8 @@ const roomSchema = new mongoose.Schema({
   },
 });
 
-roomSchema.index({ slug: 1 });
+formSchema.index({ slug: 1 });
 
-const Room = mongoose.model("Room", roomSchema);
+const Form = mongoose.model("Form", formSchema);
 
-module.exports = Room;
+module.exports = Form;

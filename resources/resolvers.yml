@@ -175,3 +175,65 @@
   field: deleteOneRoom
   request: room/mutation.deleteOneRoom.vtl
   response: response.vtl
+# Form
+- dataSource: form
+  type: Query
+  field: getAllForms
+  request: form/query.getAllForms.vtl
+  response: response.vtl
+- dataSource: form
+  type: Query
+  field: getOneForm
+  request: form/query.getOneForm.vtl
+  response: response.vtl
+- dataSource: form
+  type: Query
+  field: getOneFormBySlug
+  request: form/query.getOneFormBySlug.vtl
+  response: response.vtl
+- dataSource: form
+  type: Mutation
+  field: createOneForm
+  request: form/mutation.createOneForm.vtl
+  response: response.vtl
+- dataSource: form
+  type: Mutation
+  field: updateOneForm
+  request: form/mutation.updateOneForm.vtl
+  response: response.vtl
+- dataSource: form
+  type: Mutation
+  field: deleteOneForm
+  request: form/mutation.deleteOneForm.vtl
+  response: response.vtl
+# ImageSlider
+- dataSource: imageSlider
+  type: Query
+  field: getAllImageSliders
+  request: imageSlider/query.getAllImageSliders.vtl
+  response: response.vtl
+- dataSource: imageSlider
+  type: Query
+  field: getOneImageSlider
+  request: imageSlider/query.getOneImageSlider.vtl
+  response: response.vtl
+- dataSource: imageSlider
+  type: Query
+  field: getOneImageSliderBySlug
+  request: imageSlider/query.getOneImageSliderBySlug.vtl
+  response: response.vtl
+- dataSource: imageSlider
+  type: Mutation
+  field: createOneImageSlider
+  request: imageSlider/mutation.createOneImageSlider.vtl
+  response: response.vtl
+- dataSource: imageSlider
+  type: Mutation
+  field: updateOneImageSlider
+  request: imageSlider/mutation.updateOneImageSlider.vtl
+  response: response.vtl
+- dataSource: imageSlider
+  type: Mutation
+  field: deleteOneImageSlider
+  request: imageSlider/mutation.deleteOneImageSlider.vtl
+  response: response.vtl
