@@ -206,6 +206,37 @@
   field: deleteOneForm
   request: form/mutation.deleteOneForm.vtl
   response: response.vtl
+# FormSub
+- dataSource: form
+  type: Query
+  field: getAllFormSubs
+  request: form/query.getAllFormSubs.vtl
+  response: response.vtl
+- dataSource: form
+  type: Query
+  field: getOneFormSub
+  request: form/query.getOneFormSub.vtl
+  response: response.vtl
+- dataSource: form
+  type: Query
+  field: getAllFormSubsByFormId
+  request: form/query.getAllFormSubsByFormId.vtl
+  response: response.vtl
+- dataSource: form
+  type: Mutation
+  field: createOneFormSub
+  request: form/mutation.createOneFormSub.vtl
+  response: response.vtl
+- dataSource: form
+  type: Mutation
+  field: updateOneFormSub
+  request: form/mutation.updateOneFormSub.vtl
+  response: response.vtl
+- dataSource: form
+  type: Mutation
+  field: deleteOneFormSub
+  request: form/mutation.deleteOneFormSub.vtl
+  response: response.vtl
 # ImageSlider
 - dataSource: imageSlider
   type: Query

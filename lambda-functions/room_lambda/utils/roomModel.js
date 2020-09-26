@@ -19,7 +19,8 @@ const roomSchema = new mongoose.Schema({
     type: String,
     required: [true, "User ID is required"],
   },
-  images: [String],
+  images: [],
+  youtube: [String],
   published: {
     type: Boolean,
     default: false,

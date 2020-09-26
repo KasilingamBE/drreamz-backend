@@ -11,6 +11,10 @@ type Query {
   getOneFormBySlug(slug: String!, userId: String!): Form
   getAllForms: [Form]
 
+  getOneFormSub(id: ID!): FormSub
+  getAllFormSubsByFormId(formId: String!): [FormSub]
+  getAllFormSubs: [FormSub]
+
   getAllImages: [ImageUpload]
   getDemo: [Book]
   getAllEmails: [ScrapedEmail]
@@ -60,13 +64,30 @@ type Mutation {
   ): Form
   deleteOneForm(id: ID!): String
 
+  createOneFormSub(
+    formId: String!
+    formSlug: String!
+    data: String!
+    submitedBy: String!
+  ): FormSub
+
+  updateOneFormSub(
+    id: ID!
+    formId: String
+    formSlug: String
+    data: String
+  ): FormSub
+
+  deleteOneFormSub(id: ID!): String
+
   createOneRoom(
     userId: String!
     title: String!
     description: String!
     slug: String!
     price: Int!
-    images: [String]
+    images: [RoomImagesInput]
+    youtube: [String]
   ): Room
   updateOneRoom(
     id: ID!
@@ -74,7 +95,8 @@ type Mutation {
     description: String
     slug: String
     price: Int
-    images: [String]
+    images: [RoomImagesInput]
+    youtube: [String]
     published: Boolean
   ): Room
   deleteOneRoom(id: ID!): String
@@ -181,8 +203,19 @@ type Room {
   description: String!
   slug: String!
   price: Int!
-  images: [String]
+  images: [RoomImages]
+  youtube: [String]
   published: Boolean!
+}
+
+type RoomImages {
+  original: String
+  thumbnail: String
+}
+
+input RoomImagesInput {
+  original: String
+  thumbnail: String
 }
 
 type ImageSlider {
@@ -193,6 +226,7 @@ type ImageSlider {
   images: [String]
   published: Boolean!
 }
+
 type Form {
   _id: ID!
   userId: String!
@@ -200,6 +234,15 @@ type Form {
   formJSON: String!
   slug: String!
   published: Boolean!
+}
+
+type FormSub {
+  _id: ID!
+  formId: String!
+  formSlug: String!
+  data: String!
+  submitedBy: String!
+  submitedAt: String
 }
 
 schema {

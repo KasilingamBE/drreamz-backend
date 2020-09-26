@@ -1,5 +1,6 @@
 const DB = require("../../utils/DB");
 const Form = require("./utils/formModel");
+const FormSub = require("./utils/formSubModel");
 DB();
 
 exports.handler = async (event) => {
@@ -29,6 +30,25 @@ exports.handler = async (event) => {
         );
       case "deleteOneForm":
         return await Form.findByIdAndDelete(event.arguments.id);
+      case "getOneFormSub":
+        return await FormSub.findById(event.arguments.id);
+      case "getAllFormSubs":
+        return await FormSub.find();
+      case "getAllFormSubsByFormId":
+        return await FormSub.find({ formId: event.arguments.formId });
+      case "createOneFormSub":
+        return await FormSub.create(event.arguments);
+      case "updateOneFormSub":
+        return await FormSub.findByIdAndUpdate(
+          event.arguments.id,
+          event.arguments,
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
+      case "deleteOneFormSub":
+        return await FormSub.findByIdAndDelete(event.arguments.id);
       default:
         return null;
     }
