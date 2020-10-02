@@ -30,6 +30,9 @@ type Query {
 
   getAllServices: [Menu]
   getOneService(id: ID!): Menu
+
+  getListing(id: ID!): Listing
+  getAllListings: [Listing]
 }
 
 type Mutation {
@@ -150,6 +153,21 @@ type Mutation {
     description: String
   ): Menu
   deleteOneIvdrip(id: ID!): String
+
+  createListing(
+    locationDetails: LocationDataInput!
+    spaceDetails: SpaceDetailsDataInput!
+    spaceAvailable: SpaceAvailableDataInput!
+    pricingDetails: PricingDetailsDataInput!
+  ): Listing
+  updateListing(
+    id: ID!
+    locationDetails: LocationDataInput!
+    spaceDetails: SpaceDetailsDataInput!
+    spaceAvailable: SpaceAvailableDataInput!
+    pricingDetails: PricingDetailsDataInput!
+  ): Listing
+  deleteListing(id: ID!): String
 }
 
 type Subscription {
@@ -243,6 +261,205 @@ type FormSub {
   data: String!
   submitedBy: String!
   submitedAt: String
+}
+
+type Listing {
+  _id: ID!
+  locationDetails: LocationData!
+  spaceDetails: SpaceDetailsData!
+  spaceAvailable: SpaceAvailableData!
+  pricingDetails: PricingDetailsData!
+}
+type LocationDataMarker {
+  lat: Float!
+  lng: Float!
+}
+
+input LocationDataMarkerInput {
+  lat: Float!
+  lng: Float!
+}
+
+type LocationData {
+  listingType: String!
+  propertyType: String!
+  propertyName: String!
+  country: String!
+  address: String!
+  unitNum: String
+  city: String!
+  state: String!
+  postalCode: String!
+  code: String!
+  phone: String!
+  marker: LocationDataMarker!
+  images: [String]
+  features: [String]
+}
+
+input LocationDataInput {
+  listingType: String!
+  propertyType: String!
+  propertyName: String!
+  country: String!
+  address: String!
+  unitNum: String
+  city: String!
+  state: String!
+  postalCode: String!
+  code: String!
+  phone: String!
+  marker: LocationDataMarkerInput!
+  images: [String]
+  features: [String]
+}
+
+type SpaceLabel {
+  label: String!
+  largestSize: String!
+}
+
+input SpaceLabelInput {
+  label: String!
+  largestSize: String!
+}
+
+type Height {
+  value: Int!
+  unit: String!
+}
+
+input HeightInput {
+  value: Int!
+  unit: String!
+}
+
+type SpaceDetailsData {
+  parkingSpaceType: String!
+  qtyOfSpaces: Int!
+  heightRestriction: Boolean!
+  height1: Height
+  height2: Height
+  sameSizeSpaces: Boolean!
+  largestSize: String
+  motorcycle: Boolean!
+  compact: Boolean!
+  midsized: Boolean!
+  large: Boolean!
+  oversized: Boolean!
+  motorcycleSpaces: Int
+  compactSpaces: Int
+  midsizedSpaces: Int
+  largeSpaces: Int
+  oversizedSpaces: Int
+  isLabelled: Boolean!
+  spaceLabels: [SpaceLabel]
+  aboutSpace: String!
+  accessInstructions: String!
+}
+
+input SpaceDetailsDataInput {
+  parkingSpaceType: String!
+  qtyOfSpaces: String!
+  heightRestriction: Boolean!
+  height1: HeightInput
+  height2: HeightInput
+  sameSizeSpaces: Boolean!
+  largestSize: String
+  motorcycle: Boolean!
+  compact: Boolean!
+  midsized: Boolean!
+  large: Boolean!
+  oversized: Boolean!
+  motorcycleSpaces: Int
+  compactSpaces: Int
+  midsizedSpaces: Int
+  largeSpaces: Int
+  oversizedSpaces: Int
+  isLabelled: Boolean!
+  spaceLabels: [SpaceLabelInput]
+  aboutSpace: String!
+  accessInstructions: String!
+}
+
+type Day {
+  isActive: Boolean!
+  startTime: String
+  endTime: String
+}
+
+input DayInput {
+  isActive: Boolean!
+  startTime: String
+  endTime: String
+}
+
+type TimeDuration {
+  value: Int!
+  unit: String!
+}
+
+input TimeDurationInput {
+  value: Int!
+  unit: String!
+}
+
+type SpaceAvailableData {
+  monday: Day!
+  tuesday: Day!
+  wednesday: Day!
+  thursday: Day!
+  friday: Day!
+  saturday: Day!
+  sunday: Day!
+  scheduleType: String!
+  customTimeRange: [String]
+  noticeTime: TimeDuration!
+  advanceBookingTime: TimeDuration!
+  minTime: TimeDuration!
+  maxTime: TimeDuration!
+  instantBooking: Boolean!
+}
+
+input SpaceAvailableDataInput {
+  monday: DayInput!
+  tuesday: DayInput!
+  wednesday: DayInput!
+  thursday: DayInput!
+  friday: DayInput!
+  saturday: DayInput!
+  sunday: DayInput!
+  scheduleType: String!
+  customTimeRange: [String]
+  noticeTime: TimeDurationInput!
+  advanceBookingTime: TimeDurationInput!
+  minTime: TimeDurationInput!
+  maxTime: TimeDurationInput!
+  instantBooking: Boolean!
+}
+
+type PricingRates {
+  perHourRate: Float
+  perDayRate: Float
+  perWeekRate: Float
+  perMonthRate: Float
+}
+
+input PricingRatesInput {
+  perHourRate: Float
+  perDayRate: Float
+  perWeekRate: Float
+  perMonthRate: Float
+}
+
+type PricingDetailsData {
+  pricingType: String!
+  pricingRates: PricingRates!
+}
+
+input PricingDetailsDataInput {
+  pricingType: String!
+  pricingRates: PricingRatesInput!
 }
 
 schema {

@@ -22,3 +22,7 @@
   name: imageSlider
   config:
     functionName: imageSlider_lambda
+- type: AWS_LAMBDA
+  name: listing
+  config:
+    functionName: listing_lambda
