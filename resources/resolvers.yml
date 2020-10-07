@@ -271,19 +271,24 @@
 # Listing
 - dataSource: listing
   type: Query
-  field: getAllListings
-  request: listing/query.getAllListings.vtl
+  field: getPublishedListings
+  request: listing/query.getPublishedListings.vtl
   response: response.vtl
 - dataSource: listing
   type: Query
   field: getListing
   request: listing/query.getListing.vtl
   response: response.vtl
-# - dataSource: listing
-#   type: Query
-#   field: getOneRoomBySlug
-#   request: listing/query.getOneRoomBySlug.vtl
-#   response: response.vtl
+- dataSource: listing
+  type: Query
+  field: getUserListings
+  request: listing/query.getUserListings.vtl
+  response: response.vtl
+- dataSource: listing
+  type: Query
+  field: getPublishedListingsWithLatLng
+  request: listing/query.getPublishedListingsWithLatLng.vtl
+  response: response.vtl
 - dataSource: listing
   type: Mutation
   field: createListing

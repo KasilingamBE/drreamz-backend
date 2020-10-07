@@ -1,21 +1,21 @@
 Resources:
   AppSyncServiceRole:
-    Type: "AWS::IAM::Role"
+    Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: "${self:custom.defaultPrefix}-${self:custom.appSync.serviceRole}"
+      RoleName: '${self:custom.defaultPrefix}-${self:custom.appSync.serviceRole}'
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
-          - Effect: "Allow"
+          - Effect: 'Allow'
             Principal:
               Service:
-                - "appsync.amazonaws.com"
+                - 'appsync.amazonaws.com'
             Action:
-              - "sts:AssumeRole"
+              - 'sts:AssumeRole'
       Policies:
-        - PolicyName: "${self:custom.defaultPrefix}-${self:custom.appSync.serviceRole}-Policy"
+        - PolicyName: '${self:custom.defaultPrefix}-${self:custom.appSync.serviceRole}-Policy'
           PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:

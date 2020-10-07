@@ -32,7 +32,9 @@ type Query {
   getOneService(id: ID!): Menu
 
   getListing(id: ID!): Listing
-  getAllListings: [Listing]
+  getPublishedListings: [Listing]
+  getUserListings(userId: String!): [Listing]
+  getPublishedListingsWithLatLng(lat: Float!, lng: Float!): [Listing]
 }
 
 type Mutation {
@@ -155,17 +157,21 @@ type Mutation {
   deleteOneIvdrip(id: ID!): String
 
   createListing(
-    locationDetails: LocationDataInput!
-    spaceDetails: SpaceDetailsDataInput!
-    spaceAvailable: SpaceAvailableDataInput!
-    pricingDetails: PricingDetailsDataInput!
+    userId: String!
+    locationDetails: LocationDataInput
+    spaceDetails: SpaceDetailsDataInput
+    spaceAvailable: SpaceAvailableDataInput
+    pricingDetails: PricingDetailsDataInput
+    location: LocationDataMarkerInput
   ): Listing
   updateListing(
     id: ID!
-    locationDetails: LocationDataInput!
-    spaceDetails: SpaceDetailsDataInput!
-    spaceAvailable: SpaceAvailableDataInput!
-    pricingDetails: PricingDetailsDataInput!
+    published: Boolean
+    locationDetails: LocationDataInput
+    spaceDetails: SpaceDetailsDataInput
+    spaceAvailable: SpaceAvailableDataInput
+    pricingDetails: PricingDetailsDataInput
+    location: LocationDataMarkerInput
   ): Listing
   deleteListing(id: ID!): String
 }
@@ -265,51 +271,54 @@ type FormSub {
 
 type Listing {
   _id: ID!
+  userId: String!
+  published: Boolean!
   locationDetails: LocationData!
   spaceDetails: SpaceDetailsData!
   spaceAvailable: SpaceAvailableData!
   pricingDetails: PricingDetailsData!
+  location: LocationDataMarker!
 }
 type LocationDataMarker {
-  lat: Float!
-  lng: Float!
+  type: String!
+  coordinates: [Float]
 }
 
 input LocationDataMarkerInput {
-  lat: Float!
-  lng: Float!
+  type: String
+  coordinates: [Float]
 }
 
 type LocationData {
-  listingType: String!
-  propertyType: String!
-  propertyName: String!
-  country: String!
-  address: String!
+  listingType: String
+  propertyType: String
+  propertyName: String
+  country: String
+  address: String
   unitNum: String
-  city: String!
-  state: String!
-  postalCode: String!
-  code: String!
-  phone: String!
-  marker: LocationDataMarker!
+  city: String
+  state: String
+  postalCode: String
+  code: String
+  phone: String
+  marker: LocationDataMarker
   images: [String]
   features: [String]
 }
 
 input LocationDataInput {
-  listingType: String!
-  propertyType: String!
-  propertyName: String!
-  country: String!
-  address: String!
+  listingType: String
+  propertyType: String
+  propertyName: String
+  country: String
+  address: String
   unitNum: String
-  city: String!
-  state: String!
-  postalCode: String!
-  code: String!
-  phone: String!
-  marker: LocationDataMarkerInput!
+  city: String
+  state: String
+  postalCode: String
+  code: String
+  phone: String
+  marker: LocationDataMarkerInput
   images: [String]
   features: [String]
 }
@@ -330,56 +339,56 @@ type Height {
 }
 
 input HeightInput {
-  value: Int!
+  value: Int
   unit: String!
 }
 
 type SpaceDetailsData {
-  parkingSpaceType: String!
-  qtyOfSpaces: Int!
-  heightRestriction: Boolean!
+  parkingSpaceType: String
+  qtyOfSpaces: Int
+  heightRestriction: Boolean
   height1: Height
   height2: Height
-  sameSizeSpaces: Boolean!
+  sameSizeSpaces: Boolean
   largestSize: String
-  motorcycle: Boolean!
-  compact: Boolean!
-  midsized: Boolean!
-  large: Boolean!
-  oversized: Boolean!
+  motorcycle: Boolean
+  compact: Boolean
+  midsized: Boolean
+  large: Boolean
+  oversized: Boolean
   motorcycleSpaces: Int
   compactSpaces: Int
   midsizedSpaces: Int
   largeSpaces: Int
   oversizedSpaces: Int
-  isLabelled: Boolean!
+  isLabelled: Boolean
   spaceLabels: [SpaceLabel]
-  aboutSpace: String!
-  accessInstructions: String!
+  aboutSpace: String
+  accessInstructions: String
 }
 
 input SpaceDetailsDataInput {
-  parkingSpaceType: String!
-  qtyOfSpaces: String!
-  heightRestriction: Boolean!
+  parkingSpaceType: String
+  qtyOfSpaces: String
+  heightRestriction: Boolean
   height1: HeightInput
   height2: HeightInput
-  sameSizeSpaces: Boolean!
+  sameSizeSpaces: Boolean
   largestSize: String
-  motorcycle: Boolean!
-  compact: Boolean!
-  midsized: Boolean!
-  large: Boolean!
-  oversized: Boolean!
+  motorcycle: Boolean
+  compact: Boolean
+  midsized: Boolean
+  large: Boolean
+  oversized: Boolean
   motorcycleSpaces: Int
   compactSpaces: Int
   midsizedSpaces: Int
   largeSpaces: Int
   oversizedSpaces: Int
-  isLabelled: Boolean!
+  isLabelled: Boolean
   spaceLabels: [SpaceLabelInput]
-  aboutSpace: String!
-  accessInstructions: String!
+  aboutSpace: String
+  accessInstructions: String
 }
 
 type Day {
@@ -395,47 +404,47 @@ input DayInput {
 }
 
 type TimeDuration {
-  value: Int!
+  value: Int
   unit: String!
 }
 
 input TimeDurationInput {
-  value: Int!
-  unit: String!
+  value: Int
+  unit: String
 }
 
 type SpaceAvailableData {
-  monday: Day!
-  tuesday: Day!
-  wednesday: Day!
-  thursday: Day!
-  friday: Day!
-  saturday: Day!
-  sunday: Day!
-  scheduleType: String!
+  monday: Day
+  tuesday: Day
+  wednesday: Day
+  thursday: Day
+  friday: Day
+  saturday: Day
+  sunday: Day
+  scheduleType: String
   customTimeRange: [String]
-  noticeTime: TimeDuration!
-  advanceBookingTime: TimeDuration!
-  minTime: TimeDuration!
-  maxTime: TimeDuration!
-  instantBooking: Boolean!
+  noticeTime: TimeDuration
+  advanceBookingTime: TimeDuration
+  minTime: TimeDuration
+  maxTime: TimeDuration
+  instantBooking: Boolean
 }
 
 input SpaceAvailableDataInput {
-  monday: DayInput!
-  tuesday: DayInput!
-  wednesday: DayInput!
-  thursday: DayInput!
-  friday: DayInput!
-  saturday: DayInput!
-  sunday: DayInput!
-  scheduleType: String!
+  monday: DayInput
+  tuesday: DayInput
+  wednesday: DayInput
+  thursday: DayInput
+  friday: DayInput
+  saturday: DayInput
+  sunday: DayInput
+  scheduleType: String
   customTimeRange: [String]
-  noticeTime: TimeDurationInput!
-  advanceBookingTime: TimeDurationInput!
-  minTime: TimeDurationInput!
-  maxTime: TimeDurationInput!
-  instantBooking: Boolean!
+  noticeTime: TimeDurationInput
+  advanceBookingTime: TimeDurationInput
+  minTime: TimeDurationInput
+  maxTime: TimeDurationInput
+  instantBooking: Boolean
 }
 
 type PricingRates {
@@ -453,13 +462,13 @@ input PricingRatesInput {
 }
 
 type PricingDetailsData {
-  pricingType: String!
-  pricingRates: PricingRates!
+  pricingType: String
+  pricingRates: PricingRates
 }
 
 input PricingDetailsDataInput {
-  pricingType: String!
-  pricingRates: PricingRatesInput!
+  pricingType: String
+  pricingRates: PricingRatesInput
 }
 
 schema {

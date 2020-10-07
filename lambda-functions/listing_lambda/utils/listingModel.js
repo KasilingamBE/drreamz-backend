@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
 const markerSchema = new mongoose.Schema({
-  lat: {
-    type: Number,
+  type: {
+    type: String, // Don't do `{ location: { type: String } }`
+    enum: ['Point'], // 'location.type' must be 'Point'
     required: true,
   },
-  lng: {
-    type: Number,
+  coordinates: {
+    type: [Number],
     required: true,
   },
 });
@@ -14,51 +15,51 @@ const markerSchema = new mongoose.Schema({
 const locationDetailsSchema = new mongoose.Schema({
   listingType: {
     type: String,
-    required: true,
+    // required: true,
   },
   propertyType: {
     type: String,
-    required: true,
+    // required: true,
   },
 
   propertyName: {
     type: String,
-    required: true,
+    // required: true,
   },
   country: {
     type: String,
-    required: true,
+    // required: true,
   },
   address: {
     type: String,
-    required: true,
+    // required: true,
   },
   unitNum: {
     type: Number,
   },
   city: {
     type: String,
-    required: true,
+    // required: true,
   },
   state: {
     type: String,
-    required: true,
+    // required: true,
   },
   postalCode: {
     type: String,
-    required: true,
+    // required: true,
   },
   code: {
     type: String,
-    required: true,
+    // required: true,
   },
   phone: {
     type: String,
-    required: true,
+    // required: true,
   },
   marker: {
     type: markerSchema,
-    required: true,
+    // required: true,
   },
   images: [String],
   features: [String],
@@ -78,7 +79,7 @@ const spaceLabelSchema = new mongoose.Schema({
 const heightSchema = new mongoose.Schema({
   value: {
     type: Number,
-    required: true,
+    // required: true,
   },
   unit: {
     type: String,
@@ -89,11 +90,11 @@ const heightSchema = new mongoose.Schema({
 const spaceDetailsSchema = new mongoose.Schema({
   parkingSpaceType: {
     type: String,
-    required: true,
+    // required: true,
   },
   qtyOfSpaces: {
     type: String,
-    required: true,
+    // required: true,
   },
   heightRestriction: {
     type: Boolean,
@@ -147,22 +148,24 @@ const spaceDetailsSchema = new mongoose.Schema({
   oversizedSpaces: {
     type: Number,
   },
-  isLabelled: false,
+  isLabelled: {
+    type: Boolean,
+  },
   spaceLabels: [spaceLabelSchema],
   aboutSpace: {
     type: String,
-    required: true,
+    // required: true,
   },
   accessInstructions: {
     type: String,
-    required: true,
+    // required: true,
   },
 });
 
 const timeDurationSchema = new mongoose.Schema({
   value: {
     type: Number,
-    required: true,
+    // required: true,
   },
   unit: {
     type: String,
@@ -214,7 +217,7 @@ const spaceAvailableSchema = new mongoose.Schema({
   },
   scheduleType: {
     type: String,
-    required: true,
+    // required: true,
   },
   customTimeRange: [String],
   noticeTime: {
@@ -242,26 +245,26 @@ const spaceAvailableSchema = new mongoose.Schema({
 const pricingRatesSchema = new mongoose.Schema({
   perHourRate: {
     type: Number,
-    required: true,
+    // required: true,
   },
   perDayRate: {
     type: Number,
-    required: true,
+    // required: true,
   },
   perWeekRate: {
     type: Number,
-    required: true,
+    // required: true,
   },
   perMonthRate: {
     type: Number,
-    required: true,
+    // required: true,
   },
 });
 
 const pricingDetailsSchema = new mongoose.Schema({
   pricingType: {
     type: String,
-    required: true,
+    // required: true,
   },
   pricingRates: {
     type: pricingRatesSchema,
@@ -270,6 +273,14 @@ const pricingDetailsSchema = new mongoose.Schema({
 });
 
 const listingSchema = new mongoose.Schema({
+  userId: {
+    type: String,
+    required: true,
+  },
+  published: {
+    type: Boolean,
+    default: false,
+  },
   locationDetails: {
     type: locationDetailsSchema,
     required: true,
@@ -286,7 +297,12 @@ const listingSchema = new mongoose.Schema({
     type: pricingDetailsSchema,
     required: true,
   },
+  location: {
+    type: markerSchema,
+  },
 });
+
+listingSchema.index({ location: '2dsphere' });
 
 const Listing = mongoose.model('Listing', listingSchema);
 

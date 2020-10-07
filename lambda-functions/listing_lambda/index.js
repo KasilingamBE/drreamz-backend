@@ -14,8 +14,23 @@ exports.handler = async (event) => {
       //         { slug: event.arguments.slug, userId: event.arguments.userId },
       //       ],
       //     });
-      case 'getAllListings':
-        return await Listing.find();
+      case 'getPublishedListings':
+        return await Listing.find({ published: true }).exec();
+      case 'getPublishedListingsWithLatLng':
+        return await Listing.find({
+          published: true,
+          location: {
+            $near: {
+              $geometry: {
+                type: 'Point',
+                coordinates: [event.arguments.lng, event.arguments.lat],
+              },
+              $maxDistance: 100000,
+            },
+          },
+        }).exec();
+      case 'getUserListings':
+        return await Listing.find({ userId: event.arguments.userId }).exec();
       case 'createListing':
         return await Listing.create(event.arguments);
       case 'updateListing':
