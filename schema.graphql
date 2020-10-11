@@ -35,6 +35,10 @@ type Query {
   getPublishedListings: [Listing]
   getUserListings(userId: String!): [Listing]
   getPublishedListingsWithLatLng(lat: Float!, lng: Float!): [Listing]
+
+  getBooking(id: ID!): Booking
+  getBookingsWithListingId(listingId: ID!): [Booking]
+  getUserBookings(userId: String!): [Booking]
 }
 
 type Mutation {
@@ -163,6 +167,7 @@ type Mutation {
     spaceAvailable: SpaceAvailableDataInput
     pricingDetails: PricingDetailsDataInput
     location: LocationDataMarkerInput
+    bookings: [ID]
   ): Listing
   updateListing(
     id: ID!
@@ -172,8 +177,44 @@ type Mutation {
     spaceAvailable: SpaceAvailableDataInput
     pricingDetails: PricingDetailsDataInput
     location: LocationDataMarkerInput
+    bookings: [ID]
   ): Listing
   deleteListing(id: ID!): String
+
+  createBooking(
+    userId: String!
+    username: String!
+    listingId: ID!
+    address: String!
+    images: [String]
+    startDate: String!
+    startTime: String!
+    endDate: String!
+    endTime: String!
+    payment: Float!
+    cardDetails: CardDetailsInput!
+    vehicle: VehicleInput!
+    profileCategory: String!
+    status: String!
+  ): Booking
+  updateBooking(
+    id: ID!
+    userId: String
+    username: String
+    listingId: ID
+    address: String
+    images: [String]
+    startDate: String
+    startTime: String
+    endDate: String
+    endTime: String
+    payment: Float
+    cardDetails: CardDetailsInput
+    vehicle: VehicleInput
+    profileCategory: String
+    status: String
+  ): Booking
+  deleteBooking(id: ID!): String
 }
 
 type Subscription {
@@ -278,6 +319,7 @@ type Listing {
   spaceAvailable: SpaceAvailableData!
   pricingDetails: PricingDetailsData!
   location: LocationDataMarker!
+  bookings: [ID!]
 }
 type LocationDataMarker {
   type: String!
@@ -469,6 +511,60 @@ type PricingDetailsData {
 input PricingDetailsDataInput {
   pricingType: String
   pricingRates: PricingRatesInput
+}
+
+type Booking {
+  _id: ID!
+  userId: String!
+  username: String!
+  listingId: ID!
+  address: String!
+  images: [String]
+  startDate: String!
+  startTime: String!
+  endDate: String!
+  endTime: String!
+  payment: Float!
+  cardDetails: CardDetails!
+  vehicle: Vehicle!
+  profileCategory: String!
+  status: String!
+}
+
+type CardDetails {
+  number: String!
+  expiry: String!
+  nameOnCard: String!
+  setDefault: Boolean!
+}
+
+input CardDetailsInput {
+  number: String!
+  expiry: String!
+  nameOnCard: String!
+  setDefault: Boolean!
+}
+
+type Vehicle {
+  licensePlate: String!
+  type: String!
+  make: String!
+  model: String!
+  year: String!
+  size: String!
+  color: String
+  image: String
+}
+
+input VehicleInput {
+  licensePlate: String!
+  type: String!
+  make: String!
+  model: String!
+  year: String!
+  size: String!
+  color: String
+  image: String
 }
 
 schema {

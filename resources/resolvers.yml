@@ -304,3 +304,34 @@
   field: deleteListing
   request: listing/mutation.deleteListing.vtl
   response: response.vtl
+# Booking
+- dataSource: booking
+  type: Query
+  field: getBookingsWithListingId
+  request: booking/query.getBookingsWithListingId.vtl
+  response: response.vtl
+- dataSource: booking
+  type: Query
+  field: getBooking
+  request: booking/query.getBooking.vtl
+  response: response.vtl
+- dataSource: booking
+  type: Query
+  field: getUserBookings
+  request: booking/query.getUserBookings.vtl
+  response: response.vtl
+- dataSource: booking
+  type: Mutation
+  field: createBooking
+  request: booking/mutation.createBooking.vtl
+  response: response.vtl
+- dataSource: booking
+  type: Mutation
+  field: updateBooking
+  request: booking/mutation.updateBooking.vtl
+  response: response.vtl
+- dataSource: booking
+  type: Mutation
+  field: deleteBooking
+  request: booking/mutation.deleteBooking.vtl
+  response: response.vtl

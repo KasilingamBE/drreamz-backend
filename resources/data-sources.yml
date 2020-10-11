@@ -26,3 +26,7 @@
   name: listing
   config:
     functionName: listing_lambda
+- type: AWS_LAMBDA
+  name: booking
+  config:
+    functionName: booking_lambda

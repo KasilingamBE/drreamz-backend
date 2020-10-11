@@ -16,3 +16,5 @@ imageSlider_lambda:
   handler: lambda-functions/imageSlider_lambda/index.handler
 listing_lambda:
   handler: lambda-functions/listing_lambda/index.handler
+booking_lambda:
+  handler: lambda-functions/booking_lambda/index.handler

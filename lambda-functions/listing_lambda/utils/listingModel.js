@@ -300,6 +300,12 @@ const listingSchema = new mongoose.Schema({
   location: {
     type: markerSchema,
   },
+  bookings: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'listings',
+    },
+  ],
 });
 
 listingSchema.index({ location: '2dsphere' });
