@@ -30,3 +30,7 @@
   name: booking
   config:
     functionName: booking_lambda
+- type: AWS_LAMBDA
+  name: payment
+  config:
+    functionName: payment_lambda

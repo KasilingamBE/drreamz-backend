@@ -2,7 +2,7 @@ demo:
   handler: lambda-functions/demo_lambda/index.handler
   package:
     include:
-      - '!**'
+      - "!**"
       - lambda-functions/demo_lambda/**
 menu_lambda:
   handler: lambda-functions/menu_lambda/index.handler
@@ -18,3 +18,5 @@ listing_lambda:
   handler: lambda-functions/listing_lambda/index.handler
 booking_lambda:
   handler: lambda-functions/booking_lambda/index.handler
+payment_lambda:
+  handler: lambda-functions/payment_lambda/index.handler

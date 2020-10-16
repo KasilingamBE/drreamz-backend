@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const vehicleSchema = new mongoose.Schema({
   licensePlate: {
@@ -52,62 +52,116 @@ const cardDetailsSchema = new mongoose.Schema({
   },
 });
 
+// const vt = {
+//   images: [
+//     "https://parkyourselfbucket154227-dev.s3.us-east-1.amazonaws.com/public/images/9e455f68-0e4f-4710-9aee-d3482b056d14parking.jpg",
+//   ],
+//   userId: "e4ed0beb-0f8a-4c8a-b6fe-e5ed9a603ddf",
+//   username: "John Doe",
+//   listingId: "id",
+//   address:
+//     "51, Mahatma Gandhi Road, Kala Ghoda, Fort, Mumbai, Maharashtra 400001, India",
+//   start: "00:20",
+//   end: "21:20",
+//   payment: 100,
+//   vehicle: "Car",
+//   profileCategory: "Business",
+//   status: "upcoming",
+// };
+
+// {
+//   driverId,
+//     driverName,
+//     listingId,
+//     ownerId,
+//     startTime,
+//     startDate,
+//     endTime,
+//     endDate,
+//     status,
+//     profileCategory,
+//     vehicle,
+//     address,
+//     images,
+//     payment,
+//     paymentMethod;
+// }
+
+// const bookingSchema = new mongoose.Schema({
+//   userId: {
+//     type: String,
+//     required: true,
+//   },
+//   username: {
+//     type: String,
+//     required: true,
+//   },
+//   listingId: {
+//     type: mongoose.Schema.ObjectId,
+//     ref: "listings",
+//   },
+//   address: {
+//     type: String,
+//     required: true,
+//   },
+//   images: [String],
+//   startDate: {
+//     type: String,
+//     required: true,
+//   },
+//   startTime: {
+//     type: String,
+//     required: true,
+//   },
+//   endDate: {
+//     type: String,
+//     required: true,
+//   },
+//   endTime: {
+//     type: String,
+//     required: true,
+//   },
+//   payment: {
+//     type: Number,
+//     required: true,
+//   },
+//   cardDetails: {
+//     type: cardDetailsSchema,
+//     required: true,
+//   },
+//   vehicle: {
+//     type: vehicleSchema,
+//     required: true,
+//   },
+//   vehicle: String,
+//   profileCategory: {
+//     type: String,
+//     required: true,
+//   },
+//   status: {
+//     type: String,
+//     required: true,
+//   },
+// });
+
 const bookingSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true,
-  },
-  username: {
-    type: String,
-    required: true,
-  },
-  listingId: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'listings',
-  },
-  address: {
-    type: String,
-    required: true,
-  },
+  driverId: String,
+  driverName: String,
+  listingId: String,
+  ownerId: String,
+  address: String,
   images: [String],
-  startDate: {
-    type: String,
-    required: true,
-  },
-  startTime: {
-    type: String,
-    required: true,
-  },
-  endDate: {
-    type: String,
-    required: true,
-  },
-  endTime: {
-    type: String,
-    required: true,
-  },
-  payment: {
-    type: Number,
-    required: true,
-  },
-  cardDetails: {
-    type: cardDetailsSchema,
-    required: true,
-  },
-  vehicle: {
-    type: vehicleSchema,
-    required: true,
-  },
-  profileCategory: {
-    type: String,
-    required: true,
-  },
-  status: {
-    type: String,
-    required: true,
-  },
+  startTime: String,
+  startDate: String,
+  endTime: String,
+  endDate: String,
+  status: String,
+  profileCategory: String,
+  vehicle: String,
+  payment: String,
+  paymentMethod: String,
 });
 
-const Booking = mongoose.model('Booking', bookingSchema);
+const Booking = mongoose.model("Booking", bookingSchema);
 
 module.exports = Booking;

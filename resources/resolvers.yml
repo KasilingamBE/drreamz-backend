@@ -7,8 +7,8 @@
 - dataSource: menu
   type: Query
   field: getAllTeams
-  request: 'menu/getAllTeams.vtl'
-  response: 'response.vtl'
+  request: "menu/getAllTeams.vtl"
+  response: "response.vtl"
 - dataSource: menu
   type: Query
   field: getOneTeam
@@ -317,8 +317,13 @@
   response: response.vtl
 - dataSource: booking
   type: Query
-  field: getUserBookings
-  request: booking/query.getUserBookings.vtl
+  field: getDriverBookings
+  request: booking/query.getDriverBookings.vtl
+  response: response.vtl
+- dataSource: booking
+  type: Query
+  field: getOwnerBookings
+  request: booking/query.getOwnerBookings.vtl
   response: response.vtl
 - dataSource: booking
   type: Mutation
@@ -334,4 +339,9 @@
   type: Mutation
   field: deleteBooking
   request: booking/mutation.deleteBooking.vtl
+  response: response.vtl
+- dataSource: payment
+  type: Query
+  field: createCheckoutSession
+  request: payment/query.createCheckoutSession.vtl
   response: response.vtl

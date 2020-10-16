@@ -1,5 +1,12 @@
 type Query {
+  createCheckoutSession(
+    user: CheckoutUserInput
+    space: CheckoutSpaceInput
+    other: CheckoutOtherInput
+  ): String
+
   getOneImageSlider(id: ID!): ImageSlider
+
   getOneImageSliderBySlug(slug: String!, userId: String!): ImageSlider
   getAllImageSliders: [ImageSlider]
 
@@ -38,7 +45,8 @@ type Query {
 
   getBooking(id: ID!): Booking
   getBookingsWithListingId(listingId: ID!): [Booking]
-  getUserBookings(userId: String!): [Booking]
+  getDriverBookings(driverId: String!): [Booking]
+  getOwnerBookings(ownerId: String!): [Booking]
 }
 
 type Mutation {
@@ -181,44 +189,86 @@ type Mutation {
   ): Listing
   deleteListing(id: ID!): String
 
+  # createBooking(
+  #   userId: String!
+  #   username: String!
+  #   listingId: ID!
+  #   address: String!
+  #   images: [String]
+  #   startDate: String!
+  #   startTime: String!
+  #   endDate: String!
+  #   endTime: String!
+  #   payment: Float!
+  #   cardDetails: CardDetailsInput!
+  #   vehicle: VehicleInput!
+  #   profileCategory: String!
+  #   status: String!
+  # ): Booking
   createBooking(
-    userId: String!
-    username: String!
-    listingId: ID!
-    address: String!
+    driverId: String
+    driverName: String
+    driverEmail: String
+    listingId: String
+    ownerId: String
+    ownerEmail: String
+    address: String
     images: [String]
-    startDate: String!
-    startTime: String!
-    endDate: String!
-    endTime: String!
-    payment: Float!
-    cardDetails: CardDetailsInput!
-    vehicle: VehicleInput!
-    profileCategory: String!
-    status: String!
+    startTime: String
+    startDate: String
+    endTime: String
+    endDate: String
+    status: String
+    profileCategory: String
+    vehicle: String
+    payment: String
+    paymentMethod: String
   ): Booking
   updateBooking(
     id: ID!
-    userId: String
-    username: String
-    listingId: ID
+    driverId: String
+    driverName: String
+    listingId: String
+    ownerId: String
     address: String
     images: [String]
-    startDate: String
     startTime: String
-    endDate: String
+    startDate: String
     endTime: String
-    payment: Float
-    cardDetails: CardDetailsInput
-    vehicle: VehicleInput
-    profileCategory: String
+    endDate: String
     status: String
+    profileCategory: String
+    vehicle: String
+    payment: String
+    paymentMethod: String
   ): Booking
   deleteBooking(id: ID!): String
 }
 
 type Subscription {
   uploadedImage: ImageUpload @aws_subscribe(mutations: ["uploadImage"])
+  driverNewBooking(driverId: String): Booking
+    @aws_subscribe(mutations: ["createBooking"])
+  ownerNewBooking(ownerId: String): Booking
+    @aws_subscribe(mutations: ["createBooking"])
+}
+
+input CheckoutUserInput {
+  _id: String!
+  email: String!
+}
+
+input CheckoutSpaceInput {
+  _id: String!
+  ownerId: String!
+  image: String
+  name: String!
+  description: String!
+  price: Int!
+}
+input CheckoutOtherInput {
+  success_url: String!
+  cancel_url: String!
 }
 
 type Email {
@@ -513,22 +563,40 @@ input PricingDetailsDataInput {
   pricingRates: PricingRatesInput
 }
 
+# type Booking {
+#   _id: ID!
+#   userId: String!
+#   username: String!
+#   listingId: ID!
+#   address: String!
+#   images: [String]
+#   startDate: String!
+#   startTime: String!
+#   endDate: String!
+#   endTime: String!
+#   payment: Float!
+#   cardDetails: CardDetails!
+#   vehicle: Vehicle!
+#   profileCategory: String!
+#   status: String!
+# }
 type Booking {
   _id: ID!
-  userId: String!
-  username: String!
-  listingId: ID!
-  address: String!
+  driverId: String
+  driverName: String
+  listingId: String
+  ownerId: String
+  address: String
   images: [String]
-  startDate: String!
-  startTime: String!
-  endDate: String!
-  endTime: String!
-  payment: Float!
-  cardDetails: CardDetails!
-  vehicle: Vehicle!
-  profileCategory: String!
-  status: String!
+  startTime: String
+  startDate: String
+  endTime: String
+  endDate: String
+  status: String
+  profileCategory: String
+  vehicle: String
+  payment: String
+  paymentMethod: String
 }
 
 type CardDetails {
