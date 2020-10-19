@@ -20,3 +20,5 @@ booking_lambda:
   handler: lambda-functions/booking_lambda/index.handler
 payment_lambda:
   handler: lambda-functions/payment_lambda/index.handler
+message_lambda:
+  handler: lambda-functions/message_lambda/index.handler

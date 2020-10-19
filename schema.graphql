@@ -1,4 +1,6 @@
 type Query {
+  getMessages(filter: String): [Message]
+
   createCheckoutSession(
     user: CheckoutUserInput
     space: CheckoutSpaceInput
@@ -243,6 +245,8 @@ type Mutation {
     paymentMethod: String
   ): Booking
   deleteBooking(id: ID!): String
+
+  createMessage(body: String!, handle: String!): Message!
 }
 
 type Subscription {
@@ -251,6 +255,14 @@ type Subscription {
     @aws_subscribe(mutations: ["createBooking"])
   ownerNewBooking(ownerId: String): Booking
     @aws_subscribe(mutations: ["createBooking"])
+  addMessage: Message @aws_subscribe(mutations: ["createMessage"])
+}
+
+type Message {
+  _id: String!
+  body: String!
+  createdAt: String!
+  handle: String!
 }
 
 input CheckoutUserInput {

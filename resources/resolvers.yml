@@ -345,3 +345,14 @@
   field: createCheckoutSession
   request: payment/query.createCheckoutSession.vtl
   response: response.vtl
+#Message
+- dataSource: message
+  type: Query
+  field: getMessages
+  request: message/query.getMessages.vtl
+  response: response.vtl
+- dataSource: message
+  type: Mutation
+  field: createMessage
+  request: message/mutation.createMessage.vtl
+  response: response.vtl
