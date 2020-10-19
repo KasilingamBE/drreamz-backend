@@ -22,3 +22,5 @@ payment_lambda:
   handler: lambda-functions/payment_lambda/index.handler
 message_lambda:
   handler: lambda-functions/message_lambda/index.handler
+common_lambda:
+  handler: lambda-functions/common_lambda/index.handler

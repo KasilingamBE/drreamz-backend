@@ -1,4 +1,7 @@
 type Query {
+  listUsersInGroup(groupName: String!): [CognitoGroupUser]
+  listCognitoUsersByEmail(email: String!): [CognitoGroupUser]
+
   getMessages(filter: String): [Message]
 
   createCheckoutSession(
@@ -52,10 +55,21 @@ type Query {
 }
 
 type Mutation {
+  createGroup(groupName: String!): String
+  deleteGroup(groupName: String!): String
+  adminAddUserToGroup(groupName: String!, username: String!): String
+  adminRemoveUserFromGroup(groupName: String!, username: String!): String
+  adminUpdateUserAttributes(username: String!, role: String!): String
+  adminAddUserToGroupRole(
+    groupName: String!
+    username: String!
+    role: String!
+    email: String!
+  ): String
+
   createOneImageSlider(
     userId: String!
     title: String!
-
     slug: String!
     images: [String]
   ): ImageSlider
@@ -256,6 +270,20 @@ type Subscription {
   ownerNewBooking(ownerId: String): Booking
     @aws_subscribe(mutations: ["createBooking"])
   addMessage: Message @aws_subscribe(mutations: ["createMessage"])
+}
+
+type CognitoGroupUser {
+  Username: String
+  Attributes: [CognitoGroupUserAttributes]
+  UserCreateDate: String
+  UserLastModifiedDate: String
+  Enabled: String
+  UserStatus: String
+}
+
+type CognitoGroupUserAttributes {
+  Name: String
+  Value: String
 }
 
 type Message {

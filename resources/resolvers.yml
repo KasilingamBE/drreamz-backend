@@ -356,3 +356,44 @@
   field: createMessage
   request: message/mutation.createMessage.vtl
   response: response.vtl
+#Common
+- dataSource: common
+  type: Query
+  field: listUsersInGroup
+  request: common/query.listUsersInGroup.vtl
+  response: response.vtl
+- dataSource: common
+  type: Query
+  field: listCognitoUsersByEmail
+  request: common/query.listCognitoUsersByEmail.vtl
+  response: response.vtl
+- dataSource: common
+  type: Mutation
+  field: createGroup
+  request: common/mutation.createGroup.vtl
+  response: response.vtl
+- dataSource: common
+  type: Mutation
+  field: deleteGroup
+  request: common/mutation.deleteGroup.vtl
+  response: response.vtl
+- dataSource: common
+  type: Mutation
+  field: adminAddUserToGroup
+  request: common/mutation.adminAddUserToGroup.vtl
+  response: response.vtl
+- dataSource: common
+  type: Mutation
+  field: adminRemoveUserFromGroup
+  request: common/mutation.adminRemoveUserFromGroup.vtl
+  response: response.vtl
+- dataSource: common
+  type: Mutation
+  field: adminUpdateUserAttributes
+  request: common/mutation.adminUpdateUserAttributes.vtl
+  response: response.vtl
+- dataSource: common
+  type: Mutation
+  field: adminAddUserToGroupRole
+  request: common/mutation.adminAddUserToGroupRole.vtl
+  response: response.vtl

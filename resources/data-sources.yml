@@ -38,3 +38,7 @@
   name: message
   config:
     functionName: message_lambda
+- type: AWS_LAMBDA
+  name: common
+  config:
+    functionName: common_lambda
