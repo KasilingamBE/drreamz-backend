@@ -29,8 +29,8 @@ exports.handler = async (event) => {
             },
           },
         }).exec();
-      case 'getUserListings':
-        return await Listing.find({ userId: event.arguments.userId }).exec();
+      case 'getOwnerListings':
+        return await Listing.find({ ownerId: event.arguments.ownerId }).exec();
       case 'createListing':
         return await Listing.create(event.arguments);
       case 'updateListing':
