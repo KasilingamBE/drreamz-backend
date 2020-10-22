@@ -61,7 +61,9 @@ const locationDetailsSchema = new mongoose.Schema({
     type: markerSchema,
     // required: true,
   },
-  images: [String],
+  streetViewImages: [String],
+  parkingEntranceImages: [String],
+  parkingSpaceImages: [String],
   features: [String],
 });
 
@@ -273,7 +275,11 @@ const pricingDetailsSchema = new mongoose.Schema({
 });
 
 const listingSchema = new mongoose.Schema({
-  userId: {
+  ownerId: {
+    type: String,
+    required: true,
+  },
+  ownerName:{
     type: String,
     required: true,
   },
@@ -303,9 +309,19 @@ const listingSchema = new mongoose.Schema({
   bookings: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: 'listings',
+      ref: 'bookings',
     },
   ],
+  reviews: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'reviews',
+    },
+  ],
+  createdAt:{
+    type:String,
+    default:new Date().toString()
+  }
 });
 
 listingSchema.index({ location: '2dsphere' });

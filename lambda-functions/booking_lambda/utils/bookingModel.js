@@ -160,6 +160,10 @@ const bookingSchema = new mongoose.Schema({
   vehicle: String,
   payment: String,
   paymentMethod: String,
+  createdAt: {
+    type:String,
+    default:new Date().toString()
+  }
 });
 
 const Booking = mongoose.model("Booking", bookingSchema);

@@ -24,3 +24,15 @@ message_lambda:
   handler: lambda-functions/message_lambda/index.handler
 common_lambda:
   handler: lambda-functions/common_lambda/index.handler
+vehicle_lambda:
+  handler: lambda-functions/vehicle_lambda/index.handler
+businessProfile_lambda:
+  handler: lambda-functions/businessProfile_lambda/index.handler
+spaceOwnerProfile_lambda:
+  handler: lambda-functions/spaceOwnerProfile_lambda/index.handler
+listingReview_lambda:
+  handler: lambda-functions/listingReview_lambda/index.handler
+ownerReview_lambda:
+  handler: lambda-functions/ownerReview_lambda/index.handler
+promoCode_lambda:
+  handler: lambda-functions/promoCode_lambda/index.handler

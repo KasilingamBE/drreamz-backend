@@ -42,3 +42,27 @@
   name: common
   config:
     functionName: common_lambda
+- type: AWS_LAMBDA
+  name: vehicle
+  config:
+    functionName: vehicle_lambda
+- type: AWS_LAMBDA
+  name: businessProfile
+  config:
+    functionName: businessProfile_lambda
+- type: AWS_LAMBDA
+  name: spaceOwnerProfile
+  config:
+    functionName: spaceOwnerProfile_lambda
+- type: AWS_LAMBDA
+  name: listingReview
+  config:
+    functionName: listingReview_lambda
+- type: AWS_LAMBDA
+  name: ownerReview
+  config:
+    functionName: ownerReview_lambda
+- type: AWS_LAMBDA
+  name: promoCode
+  config:
+    functionName: promoCode_lambda

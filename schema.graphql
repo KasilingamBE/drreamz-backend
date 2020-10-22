@@ -45,13 +45,31 @@ type Query {
 
   getListing(id: ID!): Listing
   getPublishedListings: [Listing]
-  getUserListings(userId: String!): [Listing]
+  getOwnerListings(ownerId: String!): [Listing]
   getPublishedListingsWithLatLng(lat: Float!, lng: Float!): [Listing]
 
   getBooking(id: ID!): Booking
   getBookingsWithListingId(listingId: ID!): [Booking]
   getDriverBookings(driverId: String!): [Booking]
   getOwnerBookings(ownerId: String!): [Booking]
+
+  getUserVehicles(userId: String!): [Vehicle]
+  getVehicle(id: ID!): Vehicle
+
+  getUserBusinessProfile(userId: String!): BusinessProfile
+  getBusinessProfiles: [BusinessProfile]
+
+  getUserSpaceOwnerProfile(userId: String!): SpaceOwnerProfile
+  getSpaceOwnerProfiles: [SpaceOwnerProfile]
+
+  getListingReviews(listingId: String!): [ListingReview]
+  getListingReviewsByDriverId(driverId: String!): [ListingReview]
+
+  getOwnerReviews(ownerId: String!): [OwnerReview]
+  getOwnerReviewsByDriverId(driverId: String!): [OwnerReview]
+
+  getPromoCode(id: String!): PromoCode
+  getPromoCodesByListingId(listingId: String!): [PromoCode]
 }
 
 type Mutation {
@@ -185,13 +203,15 @@ type Mutation {
   deleteOneIvdrip(id: ID!): String
 
   createListing(
-    userId: String!
+    ownerId: String!
+    ownerName: String!
     locationDetails: LocationDataInput
     spaceDetails: SpaceDetailsDataInput
     spaceAvailable: SpaceAvailableDataInput
     pricingDetails: PricingDetailsDataInput
     location: LocationDataMarkerInput
     bookings: [ID]
+    createdAt: String
   ): Listing
   updateListing(
     id: ID!
@@ -202,6 +222,8 @@ type Mutation {
     pricingDetails: PricingDetailsDataInput
     location: LocationDataMarkerInput
     bookings: [ID]
+    reviews: [ID]
+    createdAt: String
   ): Listing
   deleteListing(id: ID!): String
 
@@ -224,10 +246,8 @@ type Mutation {
   createBooking(
     driverId: String
     driverName: String
-    driverEmail: String
     listingId: String
     ownerId: String
-    ownerEmail: String
     address: String
     images: [String]
     startTime: String
@@ -239,6 +259,7 @@ type Mutation {
     vehicle: String
     payment: String
     paymentMethod: String
+    createdAt: String
   ): Booking
   updateBooking(
     id: ID!
@@ -257,10 +278,152 @@ type Mutation {
     vehicle: String
     payment: String
     paymentMethod: String
+    createdAt: String
   ): Booking
   deleteBooking(id: ID!): String
 
   createMessage(body: String!, handle: String!): Message!
+  createVehicle(
+    userId: String
+    profileType: String
+    licensePlate: String
+    type: String
+    make: String
+    model: String
+    year: String
+    size: String
+    color: String
+    image: String
+    createdAt: String
+  ): Vehicle
+
+  updateVehicle(
+    id: ID!
+    userId: String
+    profileType: String
+    licensePlate: String
+    type: String
+    make: String
+    model: String
+    year: String
+    size: String
+    color: String
+    image: String
+    createdAt: String
+  ): Vehicle
+
+  deleteVehicle(id: ID!): String
+
+  createBusinessProfile(
+    userId: String!
+    businessName: String!
+    businessEmail: String!
+    businessMobile: String!
+    businessMobileCode: String!
+    createdAt: String
+  ): BusinessProfile
+
+  updateBusinessProfile(
+    id: ID!
+    userId: String
+    businessName: String
+    businessEmail: String
+    businessMobile: String
+    businessMobileCode: String
+    createdAt: String
+  ): BusinessProfile
+
+  deleteBusinessProfile(id: ID!): String
+
+  createSpaceOwnerProfile(
+    userId: String!
+    address: String!
+    businessName: String
+    facebook: String
+    twitter: String
+    instagram: String
+    createdAt: String
+  ): SpaceOwnerProfile
+
+  updateSpaceOwnerProfile(
+    id: ID!
+    userId: String
+    address: String
+    businessName: String
+    facebook: String
+    twitter: String
+    instagram: String
+    createdAt: String
+  ): SpaceOwnerProfile
+
+  deleteSpaceOwnerProfile(id: ID!): String
+
+  createListingReview(
+    listingId: String!
+    ownerName: String!
+    ownerId: String!
+    driverName: String!
+    driverId: String!
+    rating: Float!
+    feedback: String!
+    createdAt: String
+  ): ListingReview
+  updateListingReview(
+    id: ID!
+    listingId: String
+    ownerId: String
+    ownerName: String
+    driverId: String
+    driverName: String
+    rating: Float
+    feedback: String
+    createdAt: String
+  ): ListingReview
+  deleteListingReview(id: ID!): String
+
+  createOwnerReview(
+    ownerId: String!
+    ownerName: String!
+    driverId: String!
+    driverName: String!
+    rating: Float!
+    feedback: String!
+    createdAt: String
+  ): OwnerReview
+  updateOwnerReview(
+    id: ID!
+    ownerId: String
+    ownerName: String
+    driverId: String
+    driverName: String
+    rating: Float
+    feedback: String
+    createdAt: String
+  ): OwnerReview
+  deleteOwnerReview(id: ID!): String
+
+  createPromoCode(
+    code: String!
+    listingId: String!
+    ownerId: String!
+    isValid: Boolean!
+    createdAt: String
+    expiresAt: String!
+    maxLimit: Int!
+    discount: Float!
+  ): PromoCode
+  updatePromoCode(
+    id: ID!
+    code: String
+    listingId: String
+    ownerId: String
+    isValid: Boolean
+    createdAt: String
+    expiresAt: String
+    maxLimit: Int
+    discount: Float
+  ): PromoCode
+  deletePromoCode(id: ID!): String
 }
 
 type Subscription {
@@ -402,7 +565,8 @@ type FormSub {
 
 type Listing {
   _id: ID!
-  userId: String!
+  ownerId: String!
+  ownerName: String!
   published: Boolean!
   locationDetails: LocationData!
   spaceDetails: SpaceDetailsData!
@@ -410,7 +574,10 @@ type Listing {
   pricingDetails: PricingDetailsData!
   location: LocationDataMarker!
   bookings: [ID!]
+  reviews: [ID!]
+  createdAt: String
 }
+
 type LocationDataMarker {
   type: String!
   coordinates: [Float]
@@ -434,7 +601,9 @@ type LocationData {
   code: String
   phone: String
   marker: LocationDataMarker
-  images: [String]
+  streetViewImages: [String]
+  parkingEntranceImages: [String]
+  parkingSpaceImages: [String]
   features: [String]
 }
 
@@ -451,7 +620,9 @@ input LocationDataInput {
   code: String
   phone: String
   marker: LocationDataMarkerInput
-  images: [String]
+  streetViewImages: [String]
+  parkingEntranceImages: [String]
+  parkingSpaceImages: [String]
   features: [String]
 }
 
@@ -637,6 +808,7 @@ type Booking {
   vehicle: String
   payment: String
   paymentMethod: String
+  createdAt: String
 }
 
 type CardDetails {
@@ -654,6 +826,9 @@ input CardDetailsInput {
 }
 
 type Vehicle {
+  _id: ID!
+  userId: String!
+  profileType: String!
   licensePlate: String!
   type: String!
   make: String!
@@ -662,17 +837,63 @@ type Vehicle {
   size: String!
   color: String
   image: String
+  createdAt: String
 }
 
-input VehicleInput {
-  licensePlate: String!
-  type: String!
-  make: String!
-  model: String!
-  year: String!
-  size: String!
-  color: String
-  image: String
+type BusinessProfile {
+  _id: ID!
+  userId: String!
+  businessName: String!
+  businessEmail: String!
+  businessMobile: String!
+  businessMobileCode: String!
+  createdAt: String
+}
+
+type SpaceOwnerProfile {
+  _id: ID!
+  userId: String!
+  address: String!
+  businessName: String
+  facebook: String
+  twitter: String
+  instagram: String
+  createdAt: String
+}
+
+type ListingReview {
+  _id: ID!
+  listingId: String
+  ownerId: String
+  ownerName: String
+  driverName: String
+  driverId: String
+  rating: Float
+  feedback: String
+  createdAt: String
+}
+
+type OwnerReview {
+  _id: ID!
+  ownerId: String
+  ownerName: String
+  driverName: String
+  driverId: String
+  rating: Float
+  feedback: String
+  createdAt: String
+}
+
+type PromoCode {
+  _id: ID!
+  code: String!
+  listingId: String
+  ownerId: String
+  isValid: Boolean
+  createdAt: String
+  expiresAt: String
+  maxLimit: Int
+  discount: Float
 }
 
 schema {
