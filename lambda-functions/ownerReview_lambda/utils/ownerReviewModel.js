@@ -26,7 +26,7 @@ const ownerReviewSchema = new mongoose.Schema({
       required:true
   },
   createdAt:{
-    type:String,
+    type:String,    
     default:new Date().toString()
   }
 });
