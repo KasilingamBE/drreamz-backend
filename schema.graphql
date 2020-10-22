@@ -48,7 +48,7 @@ type Query {
   getOwnerListings(ownerId: String!): [Listing]
   getPublishedListingsWithLatLng(lat: Float!, lng: Float!): [Listing]
 
-  getBooking(id: ID!): Booking
+  getBooking(id: String!): Booking
   getBookingsWithListingId(listingId: ID!): [Booking]
   getDriverBookings(driverId: String!): [Booking]
   getOwnerBookings(ownerId: String!): [Booking]
@@ -205,6 +205,7 @@ type Mutation {
   createListing(
     ownerId: String!
     ownerName: String!
+    ownerEmail: String!
     locationDetails: LocationDataInput
     spaceDetails: SpaceDetailsDataInput
     spaceAvailable: SpaceAvailableDataInput
@@ -246,8 +247,11 @@ type Mutation {
   createBooking(
     driverId: String
     driverName: String
+    driverEmail: String
     listingId: String
     ownerId: String
+    ownerName: String
+    ownerEmail: String
     address: String
     images: [String]
     startTime: String
@@ -263,10 +267,6 @@ type Mutation {
   ): Booking
   updateBooking(
     id: ID!
-    driverId: String
-    driverName: String
-    listingId: String
-    ownerId: String
     address: String
     images: [String]
     startTime: String
@@ -279,6 +279,13 @@ type Mutation {
     payment: String
     paymentMethod: String
     createdAt: String
+    qrCode: String
+  ): Booking
+  updateBookingStatus(
+    id: String!
+    status: String!
+    driverEmail: String!
+    ownerEmail: String!
   ): Booking
   deleteBooking(id: ID!): String
 
@@ -567,6 +574,7 @@ type Listing {
   _id: ID!
   ownerId: String!
   ownerName: String!
+  ownerEmail: String!
   published: Boolean!
   locationDetails: LocationData!
   spaceDetails: SpaceDetailsData!
@@ -795,8 +803,11 @@ type Booking {
   _id: ID!
   driverId: String
   driverName: String
+  driverEmail: String
   listingId: String
   ownerId: String
+  ownerName: String
+  ownerEmail: String
   address: String
   images: [String]
   startTime: String
@@ -809,6 +820,7 @@ type Booking {
   payment: String
   paymentMethod: String
   createdAt: String
+  qrCode: String
 }
 
 type CardDetails {

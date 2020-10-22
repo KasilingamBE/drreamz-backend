@@ -147,8 +147,11 @@ const cardDetailsSchema = new mongoose.Schema({
 const bookingSchema = new mongoose.Schema({
   driverId: String,
   driverName: String,
+  driverEmail: String,
   listingId: String,
   ownerId: String,
+  ownerName:String,
+  ownerEmail:String,
   address: String,
   images: [String],
   startTime: String,
@@ -160,6 +163,7 @@ const bookingSchema = new mongoose.Schema({
   vehicle: String,
   payment: String,
   paymentMethod: String,
+  qrCode:String,
   createdAt: {
     type:String,
     default:new Date().toString()

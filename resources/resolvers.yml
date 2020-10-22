@@ -337,6 +337,11 @@
   response: response.vtl
 - dataSource: booking
   type: Mutation
+  field: updateBookingStatus
+  request: booking/mutation.updateBookingStatus.vtl
+  response: response.vtl
+- dataSource: booking
+  type: Mutation
   field: deleteBooking
   request: booking/mutation.deleteBooking.vtl
   response: response.vtl
