@@ -9,7 +9,6 @@ exports.handler = async (event) => {
         return await Message.find();
       case "createMessage":
         return await Message.create(event.arguments);
-      // return tempMessage;
       default:
         return null;
     }
