@@ -3,3 +3,4 @@ node_modules
 /.dynamodb
 /.serverless
 serverless.yml
+test.js
