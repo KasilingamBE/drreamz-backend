@@ -2,8 +2,6 @@ type Query {
   listUsersInGroup(groupName: String!): [CognitoGroupUser]
   listCognitoUsersByEmail(email: String!): [CognitoGroupUser]
 
-  getMessages(filter: String): [Message]
-
   createCheckoutSession(
     user: CheckoutUserInput
     space: CheckoutSpaceInput
@@ -70,6 +68,15 @@ type Query {
 
   getPromoCode(id: String!): PromoCode
   getPromoCodesByListingId(listingId: String!): [PromoCode]
+
+  getDistinctListingsFromMessages: [String]
+  getDriverOwnerMessagesByListingId(
+    listingId: String!
+    driverId: String!
+    ownerId: String!
+  ): [Message]
+  getDriverMessages(driverId: String!): [Message]
+  getListingMessages(listingId: String!): [Message]
 }
 
 type Mutation {
@@ -289,7 +296,6 @@ type Mutation {
   ): Booking
   deleteBooking(id: ID!): String
 
-  createMessage(body: String!, handle: String!): Message!
   createVehicle(
     userId: String
     profileType: String
@@ -431,6 +437,17 @@ type Mutation {
     discount: Float
   ): PromoCode
   deletePromoCode(id: ID!): String
+
+  createMessage(
+    body: String!
+    listingId: String!
+    listingAddress: String!
+    ownerId: String!
+    ownerName: String!
+    driverId: String!
+    driverName: String!
+    senderName: String!
+  ): Message
 }
 
 type Subscription {
@@ -457,10 +474,16 @@ type CognitoGroupUserAttributes {
 }
 
 type Message {
-  _id: String!
+  _id: ID!
   body: String!
+  listingId: String!
+  listingAddress: String!
+  ownerId: String!
+  ownerName: String!
+  driverId: String!
+  driverName: String!
+  senderName: String!
   createdAt: String!
-  handle: String!
 }
 
 input CheckoutUserInput {

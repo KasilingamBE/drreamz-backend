@@ -7,8 +7,8 @@
 - dataSource: menu
   type: Query
   field: getAllTeams
-  request: "menu/getAllTeams.vtl"
-  response: "response.vtl"
+  request: 'menu/getAllTeams.vtl'
+  response: 'response.vtl'
 - dataSource: menu
   type: Query
   field: getOneTeam
@@ -353,8 +353,23 @@
 #Message
 - dataSource: message
   type: Query
-  field: getMessages
-  request: message/query.getMessages.vtl
+  field: getDistinctListingsFromMessages
+  request: message/query.getDistinctListingsFromMessages.vtl
+  response: response.vtl
+- dataSource: message
+  type: Query
+  field: getDriverOwnerMessagesByListingId
+  request: message/query.getDriverOwnerMessagesByListingId.vtl
+  response: response.vtl
+- dataSource: message
+  type: Query
+  field: getDriverMessages
+  request: message/query.getDriverMessages.vtl
+  response: response.vtl
+- dataSource: message
+  type: Query
+  field: getListingMessages
+  request: message/query.getListingMessages.vtl
   response: response.vtl
 - dataSource: message
   type: Mutation
