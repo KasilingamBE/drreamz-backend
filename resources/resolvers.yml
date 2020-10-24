@@ -573,3 +573,39 @@
   field: deletePromoCode
   request: promoCode/mutation.deletePromoCode.vtl
   response: response.vtl
+# FAQ
+- dataSource: faq
+  type: Query
+  field: getFaq
+  request: faq/query.getFaq.vtl
+  response: response.vtl
+- dataSource: faq
+  type: Query
+  field: getAllFaqs
+  request: faq/query.getAllFaqs.vtl
+  response: response.vtl
+- dataSource: faq
+  type: Query
+  field: getFaqsByRole
+  request: faq/query.getFaqsByRole.vtl
+  response: response.vtl
+- dataSource: faq
+  type: Query
+  field: getFaqsByTopic
+  request: faq/query.getFaqsByTopic.vtl
+  response: response.vtl
+- dataSource: faq
+  type: Mutation
+  field: createFaq
+  request: faq/mutation.createFaq.vtl
+  response: response.vtl
+- dataSource: faq
+  type: Mutation
+  field: updateFaq
+  request: faq/mutation.updateFaq.vtl
+  response: response.vtl
+- dataSource: faq
+  type: Mutation
+  field: deleteFaq
+  request: faq/mutation.deleteFaq.vtl
+  response: response.vtl

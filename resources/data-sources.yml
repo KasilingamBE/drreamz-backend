@@ -66,3 +66,7 @@
   name: promoCode
   config:
     functionName: promoCode_lambda
+- type: AWS_LAMBDA
+  name: faq
+  config:
+    functionName: faq_lambda

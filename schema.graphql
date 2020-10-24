@@ -77,6 +77,11 @@ type Query {
   ): [Message]
   getDriverMessages(driverId: String!): [Message]
   getListingMessages(listingId: String!): [Message]
+
+  getFaq(id: ID!): Faq
+  getAllFaqs: [Faq]
+  getFaqsByRole(role: String!): [Faq]
+  getFaqsByTopic(topic: String!): [Faq]
 }
 
 type Mutation {
@@ -448,6 +453,21 @@ type Mutation {
     driverName: String!
     senderName: String!
   ): Message
+
+  createFaq(
+    roles: [String!]!
+    topic: String!
+    question: String!
+    answer: String!
+  ): Faq
+  updateFaq(
+    id: ID!
+    roles: [String]
+    topic: String
+    question: String
+    answer: String
+  ): Faq
+  deleteFaq(id: ID!): String
 }
 
 type Subscription {
@@ -929,6 +949,15 @@ type PromoCode {
   expiresAt: String
   maxLimit: Int
   discount: Float
+}
+
+type Faq {
+  _id: ID!
+  roles: [String]
+  topic: String
+  question: String
+  answer: String
+  createdAt: String
 }
 
 schema {
