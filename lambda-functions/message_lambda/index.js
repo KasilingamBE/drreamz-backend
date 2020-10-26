@@ -14,7 +14,9 @@ exports.handler = async (event) => {
       case "getDriverMessages":
         return await Message.find({driverId:event.arguments.driverId}); 
       case "getListingMessages":
-        return await Message.find({listingId:event.arguments.listingId});   
+        return await Message.find({listingId:event.arguments.listingId});
+      case "getOwnerMessages":
+        return await Message.find({ownerId:event.arguments.ownerId});   
       case "createMessage":
         return await Message.create(event.arguments);
       default:
