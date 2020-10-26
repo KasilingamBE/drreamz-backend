@@ -368,6 +368,11 @@
   response: response.vtl
 - dataSource: message
   type: Query
+  field: getOwnerMessages
+  request: message/query.getOwnerMessages.vtl
+  response: response.vtl
+- dataSource: message
+  type: Query
   field: getListingMessages
   request: message/query.getListingMessages.vtl
   response: response.vtl

@@ -31,12 +31,18 @@ exports.handler = async (event) => {
       case "createBooking":
         const newBooking = await Booking.create(event.arguments);
         //Send Email to driver and space owner
-        const tempData = {
-          emails: [event.arguments.driverEmail, event.arguments.ownerEmail],
+        const tempOwnerData = {
+          emails: [event.arguments.ownerEmail],
           subject: "You have a new Booking",
-          message: "A User just booked a space at your parking!",
+          message: "A User just booked a space at your Parking!",
         };
-        await mailer(tempData);
+        const tempDriverData = {
+          emails: [event.arguments.driverEmail],
+          subject: "Booking Successful",
+          message: "Congratulations!Your Booking is Successful",
+        }
+        await mailer(tempOwnerData);
+        await mailer(tempDriverData);
         return newBooking;
       case "updateBooking":
         return await Booking.findByIdAndUpdate(

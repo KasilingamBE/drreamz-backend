@@ -76,6 +76,7 @@ type Query {
     ownerId: String!
   ): [Message]
   getDriverMessages(driverId: String!): [Message]
+  getOwnerMessages(ownerId: String!): [Message]
   getListingMessages(listingId: String!): [Message]
 
   getFaq(id: ID!): Faq
@@ -423,24 +424,9 @@ type Mutation {
   createPromoCode(
     code: String!
     listingId: String!
-    ownerId: String!
-    isValid: Boolean!
-    createdAt: String
-    expiresAt: String!
-    maxLimit: Int!
     discount: Float!
   ): PromoCode
-  updatePromoCode(
-    id: ID!
-    code: String
-    listingId: String
-    ownerId: String
-    isValid: Boolean
-    createdAt: String
-    expiresAt: String
-    maxLimit: Int
-    discount: Float
-  ): PromoCode
+  updatePromoCode(id: ID!, code: String, discount: Float): PromoCode
   deletePromoCode(id: ID!): String
 
   createMessage(
@@ -941,13 +927,9 @@ type OwnerReview {
 
 type PromoCode {
   _id: ID!
-  code: String!
+  code: String
   listingId: String
-  ownerId: String
-  isValid: Boolean
   createdAt: String
-  expiresAt: String
-  maxLimit: Int
   discount: Float
 }
 
