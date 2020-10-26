@@ -1,5 +1,9 @@
 const AWS = require("aws-sdk");
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
+const DB = require("../../utils/DB");
+const StripeConnect = require("./utils/stripeConnectModel");
+const StripeConnectMethods = require("./utils/stripeConnect");
+DB();
 
 AWS.config.accessKeyId = process.env.AWS_ACCESS_D;
 AWS.config.secretAccessKey = process.env.AWS_SECRET_D;
@@ -29,7 +33,6 @@ exports.handler = async (event) => {
           cancel_url: other.cancel_url,
           payment_method_types: ["card"],
           customer_email: user.email,
-          // customer:user._id,
           client_reference_id: space._id,
           line_items: [
             {
@@ -63,6 +66,60 @@ exports.handler = async (event) => {
           },
         });
         return JSON.stringify(session);
+      case "stripeCreateAccountLinks":
+        const user2 = await StripeConnect.findOne({
+          userId: event.arguments.userId,
+        });
+        if (user2) {
+          const link = await StripeConnectMethods.createAccountLinks({
+            account: user2.account,
+            type: event.arguments.type,
+            refresh_url: event.arguments.refresh_url,
+            return_url: event.arguments.return_url,
+          });
+          return JSON.stringify(link);
+        } else {
+          const newAccount = await StripeConnectMethods.createAccount({
+            email: event.arguments.email,
+          });
+          const newUser = await StripeConnect.create({
+            userId: event.arguments.userId,
+            account: newAccount.id,
+          });
+          const newLink = await StripeConnectMethods.createAccountLinks({
+            account: newUser.account,
+            type: event.arguments.type,
+            refresh_url: event.arguments.refresh_url,
+            return_url: event.arguments.return_url,
+          });
+          return JSON.stringify(newLink);
+        }
+      case "stripeRetrieveAccount":
+        const user3 = await StripeConnect.findOne({
+          userId: event.arguments.userId,
+        });
+        if (user3) {
+          return JSON.stringify(
+            await StripeConnectMethods.retrieveAccount({
+              account: user3.account,
+            })
+          );
+        } else {
+          return null;
+        }
+      case "stripeCreateLoginLinkAccount":
+        const user4 = await StripeConnect.findOne({
+          userId: event.arguments.userId,
+        });
+        if (user4) {
+          return JSON.stringify(
+            await StripeConnectMethods.createLoginLinkAccount({
+              account: user4.account,
+            })
+          );
+        } else {
+          return null;
+        }
       default:
         return null;
     }

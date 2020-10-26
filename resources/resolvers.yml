@@ -1,111 +1,8 @@
+# demo
 - dataSource: demo
   type: Query
   field: getDemo
   request: book/query.listBooks-request.vtl
-  response: response.vtl
-# Teams
-- dataSource: menu
-  type: Query
-  field: getAllTeams
-  request: 'menu/getAllTeams.vtl'
-  response: 'response.vtl'
-- dataSource: menu
-  type: Query
-  field: getOneTeam
-  request: menu/getOneTeam.vtl
-  response: response.vtl
-- dataSource: menu
-  type: Mutation
-  field: createOneTeam
-  request: menu/createOneTeam.vtl
-  response: response.vtl
-- dataSource: menu
-  type: Mutation
-  field: updateOneTeam
-  request: menu/updateOneTeam.vtl
-  response: response.vtl
-  # Ivdrip
-- dataSource: menu
-  type: Mutation
-  field: deleteOneTeam
-  request: menu/deleteOneTeam.vtl
-  response: response.vtl
-- dataSource: menu
-  type: Query
-  field: getAllIvdrips
-  request: menu/getAllIvdrips.vtl
-  response: response.vtl
-- dataSource: menu
-  type: Query
-  field: getOneIvdrip
-  request: menu/getOneIvdrip.vtl
-  response: response.vtl
-- dataSource: menu
-  type: Mutation
-  field: createOneIvdrip
-  request: menu/createOneIvdrip.vtl
-  response: response.vtl
-- dataSource: menu
-  type: Mutation
-  field: updateOneIvdrip
-  request: menu/updateOneIvdrip.vtl
-  response: response.vtl
-- dataSource: menu
-  type: Mutation
-  field: deleteOneIvdrip
-  request: menu/deleteOneIvdrip.vtl
-  response: response.vtl
-  # Therapie
-- dataSource: menu
-  type: Query
-  field: getAllTherapies
-  request: menu/getAllTherapies.vtl
-  response: response.vtl
-- dataSource: menu
-  type: Query
-  field: getOneTherapie
-  request: menu/getOneTherapie.vtl
-  response: response.vtl
-- dataSource: menu
-  type: Mutation
-  field: createOneTherapie
-  request: menu/createOneTherapie.vtl
-  response: response.vtl
-- dataSource: menu
-  type: Mutation
-  field: updateOneTherapie
-  request: menu/updateOneTherapie.vtl
-  response: response.vtl
-- dataSource: menu
-  type: Mutation
-  field: deleteOneTherapie
-  request: menu/deleteOneTherapie.vtl
-  response: response.vtl
-  # Service
-- dataSource: menu
-  type: Query
-  field: getAllServices
-  request: menu/getAllServices.vtl
-  response: response.vtl
-- dataSource: menu
-  type: Query
-  field: getOneService
-  request: menu/getOneService.vtl
-  response: response.vtl
-- dataSource: menu
-  type: Mutation
-  field: createOneService
-  request: menu/createOneService.vtl
-  response: response.vtl
-- dataSource: menu
-  type: Mutation
-  field: updateOneService
-  request: menu/updateOneService.vtl
-  response: response.vtl
-- dataSource: menu
-  type: Mutation
-  field: deleteOneService
-  request: menu/deleteOneService.vtl
   response: response.vtl
 # email
 - dataSource: email
@@ -608,4 +505,20 @@
   type: Mutation
   field: deleteFaq
   request: faq/mutation.deleteFaq.vtl
+  response: response.vtl
+# Stripe Connect
+- dataSource: payment
+  type: Query
+  field: stripeCreateAccountLinks
+  request: payment/query.stripeCreateAccountLinks.vtl
+  response: response.vtl
+- dataSource: payment
+  type: Query
+  field: stripeRetrieveAccount
+  request: payment/query.stripeRetrieveAccount.vtl
+  response: response.vtl
+- dataSource: payment
+  type: Query
+  field: stripeCreateLoginLinkAccount
+  request: payment/query.stripeCreateLoginLinkAccount.vtl
   response: response.vtl
