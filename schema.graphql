@@ -1,4 +1,5 @@
 type Query {
+  stripeCreatePaymentIntent(ownerId: String!, amount: Int!, fee: Int!): String
   stripeCreateAccountLinks(
     userId: String!
     email: String!

@@ -1,4 +1,4 @@
-const UserPoolId = "us-east-1_pHJygr7bF";
+const UserPoolId = process.env.USER_POOL_ID;
 const AWS = require("aws-sdk");
 
 AWS.config.region = "us-east-1";

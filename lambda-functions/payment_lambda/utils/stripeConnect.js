@@ -30,6 +30,7 @@ const createAccountLinks = async (data) => {
 
 const retrieveAccount = async (data) => {
   const account = await stripe.accounts.retrieve(data.account);
+  console.log(account);
   return account;
 };
 
@@ -40,7 +41,7 @@ const createLoginLinkAccount = async (data) => {
 
 const dataL = {
   type: "account_onboarding", // "account_onboarding", // "account_update"
-  account: "acct_1HgFFcGjqeUI8yCs", //acct_1HgExPDMpteJtjTs
+  account: "acct_1HgQ2zIIQMfBcets", //acct_1HgExPDMpteJtjTs
   refresh_url: "https://example.com/reauth",
   return_url: "https://example.com/return",
 };

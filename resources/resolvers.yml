@@ -527,3 +527,8 @@
   field: stripeCreateLoginLinkAccount
   request: payment/query.stripeCreateLoginLinkAccount.vtl
   response: response.vtl
+- dataSource: payment
+  type: Query
+  field: stripeCreatePaymentIntent
+  request: payment/query.stripeCreatePaymentIntent.vtl
+  response: response.vtl
