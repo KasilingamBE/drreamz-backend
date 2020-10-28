@@ -1,12 +1,6 @@
 const DB = require('../../utils/DB');
 const Listing = require('./utils/listingModel');
-const UserPoolId = process.env.USER_POOL_ID;
-const AWS = require("aws-sdk");
-AWS.config.region = "us-east-1";
-
-AWS.config.apiVersions = {
-  cognitoidentityserviceprovider: "2016-04-18",
-};
+const cognito = require("../common_lambda/utils/Cognito");
 DB();
 
 exports.handler = async (event) => {
@@ -33,14 +27,7 @@ exports.handler = async (event) => {
         return await Listing.find({ ownerId: event.arguments.ownerId }).exec();
       case 'createListing':
         let listing = await Listing.create(event.arguments);
-        const createGroup = (groupName) => {
-          var params = {
-            GroupName: groupName,
-            UserPoolId: UserPoolId,
-          };
-          new AWS.CognitoIdentityServiceProvider().createGroup(params).promise();
-        };
-        createGroup(listing._id);
+        await cognito.createGroup({groupName:`${listing._id}`});
         return listing;
       case 'updateListing':
         return await Listing.findByIdAndUpdate(
@@ -53,14 +40,7 @@ exports.handler = async (event) => {
         );
       case 'deleteListing':
         let deletedListing = await Listing.findByIdAndDelete(event.arguments.id);
-        const deleteGroup = (groupName) => {
-          var params = {
-            GroupName: groupName,
-            UserPoolId: UserPoolId,
-          };
-          new AWS.CognitoIdentityServiceProvider().deleteGroup(params).promise();
-        };
-        deleteGroup(event.arguments.id);
+        await cognito.deleteGroup({groupName:`${event.arguments.id}`});
         return deletedListing;
       default:
         return null;
