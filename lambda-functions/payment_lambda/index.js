@@ -3,6 +3,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const DB = require("../../utils/DB");
 const StripeConnect = require("./utils/stripeConnectModel");
 const StripeConnectMethods = require("./utils/stripeConnect");
+const StripePayment = require("./utils/stripePayment");
 DB();
 
 AWS.config.accessKeyId = process.env.AWS_ACCESS_D;
@@ -21,6 +22,7 @@ const getUser = (sub) => {
 
 exports.handler = async (event) => {
   try {
+    let tempUser = null;
     switch (event.type) {
       case "createCheckoutSession":
         const { user, space, other } = event.arguments;
@@ -117,6 +119,18 @@ exports.handler = async (event) => {
               account: user4.account,
             })
           );
+        } else {
+          return null;
+        }
+      case "stripeCreatePaymentIntent":
+        tempUser = await StripeConnect.findOne({
+          userId: event.arguments.ownerId,
+        });
+        if (tempUser) {
+          return await StripePayment.createPaymentIntent({
+            ...event.arguments,
+            account: tempUser.account,
+          });
         } else {
           return null;
         }
