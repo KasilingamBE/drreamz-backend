@@ -1,4 +1,14 @@
 type Query {
+  stripeCreateAccountLinks(
+    userId: String!
+    email: String!
+    type: String!
+    refresh_url: String!
+    return_url: String!
+  ): String
+  stripeRetrieveAccount(userId: String!): String
+  stripeCreateLoginLinkAccount(userId: String!): String
+
   listUsersInGroup(groupName: String!): [CognitoGroupUser]
   listCognitoUsersByEmail(email: String!): [CognitoGroupUser]
 
