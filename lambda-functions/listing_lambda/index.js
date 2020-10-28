@@ -1,9 +1,8 @@
 const DB = require('../../utils/DB');
 const Listing = require('./utils/listingModel');
-// const UserPoolId = process.env.USER_POOL_ID;
+const UserPoolId = process.env.USER_POOL_ID;
 const AWS = require("aws-sdk");
 AWS.config.region = "us-east-1";
-const UserPoolId = 'us-east-1_biMepTpwK';
 
 AWS.config.apiVersions = {
   cognitoidentityserviceprovider: "2016-04-18",

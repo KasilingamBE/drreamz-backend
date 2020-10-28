@@ -9,10 +9,11 @@ DB();
 AWS.config.accessKeyId = process.env.AWS_ACCESS_D;
 AWS.config.secretAccessKey = process.env.AWS_SECRET_D;
 AWS.config.region = process.env.AWS_REGION_D;
+const UserPoolId = process.env.USER_POOL_ID;
 
 const getUser = (sub) => {
   var params = {
-    UserPoolId: "us-east-1_biMepTpwK",
+    UserPoolId: UserPoolId,
     Username: sub,
   };
   return (sendPromise = new AWS.CognitoIdentityServiceProvider()
