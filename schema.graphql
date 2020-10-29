@@ -1,4 +1,16 @@
 type Query {
+  stripeGetPaymentMethod(payment_method: String!): String
+  stripeDetachPaymentMethod(payment_method: String!): String
+  stripeListUserCards(driverId: String!, type: String!): String
+  stripeCreateSetupIntent(driverId: String!, type: String!): String
+  stripeCreatePaymentIntentOffline(
+    payment_method: String!
+    driverId: String!
+    type: String!
+    ownerId: String!
+    amount: Int!
+    fee: Int!
+  ): String
   stripeCreatePaymentIntent(ownerId: String!, amount: Int!, fee: Int!): String
   stripeCreateAccountLinks(
     userId: String!

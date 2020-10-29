@@ -1,14 +1,11 @@
 const AWS = require("aws-sdk");
-const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const DB = require("../../utils/DB");
 const StripeConnect = require("./utils/stripeConnectModel");
+const StripeCustomer = require("./utils/stripeCustomerModel");
 const StripeConnectMethods = require("./utils/stripeConnect");
 const StripePayment = require("./utils/stripePayment");
 DB();
 
-AWS.config.accessKeyId = process.env.AWS_ACCESS_D;
-AWS.config.secretAccessKey = process.env.AWS_SECRET_D;
-AWS.config.region = process.env.AWS_REGION_D;
 const UserPoolId = process.env.USER_POOL_ID;
 
 const getUser = (sub) => {
@@ -23,52 +20,9 @@ const getUser = (sub) => {
 
 exports.handler = async (event) => {
   try {
-    let tempUser = null;
+    let tempDriver = null;
+    let tempOwner = null;
     switch (event.type) {
-      case "createCheckoutSession":
-        const { user, space, other } = event.arguments;
-        const res = await getUser(space.ownerId);
-        const ownerEmail = res.UserAttributes.filter(
-          (a) => a.Name === "email"
-        )[0].Value;
-        const session = await stripe.checkout.sessions.create({
-          success_url: other.success_url,
-          cancel_url: other.cancel_url,
-          payment_method_types: ["card"],
-          customer_email: user.email,
-          client_reference_id: space._id,
-          line_items: [
-            {
-              name: `Parking near ${space.name}`,
-              description: space.description,
-              images: [space.image],
-              amount: space.price * 100,
-              currency: "usd",
-              quantity: 1,
-            },
-          ],
-          mode: "payment",
-          metadata: {
-            driverId: user._id,
-            driverEmail: user.email,
-            driverName: user.name,
-            ownerId: space.ownerId,
-            ownerEmail: ownerEmail,
-            address: other.address,
-            vehicle: other.vehicle,
-            status: other.status,
-            startTime: other.startTime,
-            startDate: other.startDate,
-            profileCategory: other.profileCategory,
-            paymentMethod: other.paymentMethod,
-            payment: other.payment,
-            listingId: other.status,
-            images: other.images[0],
-            endTime: other.endTime,
-            endDate: other.endDate,
-          },
-        });
-        return JSON.stringify(session);
       case "stripeCreateAccountLinks":
         const user2 = await StripeConnect.findOne({
           userId: event.arguments.userId,
@@ -124,17 +78,81 @@ exports.handler = async (event) => {
           return null;
         }
       case "stripeCreatePaymentIntent":
-        tempUser = await StripeConnect.findOne({
+        tempOwner = await StripeConnect.findOne({
           userId: event.arguments.ownerId,
         });
-        if (tempUser) {
+        if (tempOwner) {
           return await StripePayment.createPaymentIntent({
             ...event.arguments,
-            account: tempUser.account,
+            account: tempOwner.account,
           });
         } else {
           return null;
         }
+      case "stripeCreatePaymentIntentOffline":
+        tempDriver = await StripeCustomer.findOne({
+          userId: event.arguments.driverId,
+          type: event.arguments.type,
+        });
+        tempOwner = await StripeConnect.findOne({
+          userId: event.arguments.ownerId,
+        });
+        if (tempDriver && tempOwner) {
+          return await StripePayment.createPaymentIntentOffline({
+            ...event.arguments,
+            customer: tempDriver.customer,
+            account: tempOwner.account,
+          });
+        } else {
+          return null;
+        }
+      case "stripeCreateSetupIntent":
+        tempDriver = await StripeCustomer.findOne({
+          userId: event.arguments.driverId,
+          type: event.arguments.type,
+        });
+        if (tempDriver) {
+          return await StripePayment.createSetupIntent({
+            customer: tempDriver.customer,
+          });
+        } else {
+          const newCustomer = await StripePayment.createCustomer({
+            email: event.arguments.email,
+            name: event.arguments.name,
+          });
+          const tempCustomer = await StripeCustomer.create({
+            userId: event.arguments.driverId,
+            customer: newCustomer,
+            type: event.arguments.type,
+          });
+          return await StripePayment.createSetupIntent({
+            customer: tempCustomer.customer,
+          });
+        }
+      case "stripeListUserCards":
+        tempDriver = await StripeCustomer.findOne({
+          userId: event.arguments.driverId,
+          type: event.arguments.type,
+        });
+        if (tempDriver) {
+          return JSON.stringify(
+            await StripePayment.listPaymentMethods({
+              customer: tempDriver.customer,
+            })
+          );
+        } else {
+          return null;
+        }
+      case "stripeGetPaymentMethod":
+        return JSON.stringify(
+          await StripePayment.retrievePaymentMethod({
+            payment_method: event.arguments.payment_method,
+          })
+        );
+      case "stripeDetachPaymentMethod":
+        return await StripePayment.detachPaymentMethod({
+          payment_method: event.arguments.payment_method,
+        });
       default:
         return null;
     }

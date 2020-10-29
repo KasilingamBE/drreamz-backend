@@ -532,3 +532,28 @@
   field: stripeCreatePaymentIntent
   request: payment/query.stripeCreatePaymentIntent.vtl
   response: response.vtl
+- dataSource: payment
+  type: Query
+  field: stripeCreatePaymentIntentOffline
+  request: payment/query.stripeCreatePaymentIntentOffline.vtl
+  response: response.vtl
+- dataSource: payment
+  type: Query
+  field: stripeCreateSetupIntent
+  request: payment/query.stripeCreateSetupIntent.vtl
+  response: response.vtl
+- dataSource: payment
+  type: Query
+  field: stripeListUserCards
+  request: payment/query.stripeListUserCards.vtl
+  response: response.vtl
+- dataSource: payment
+  type: Query
+  field: stripeGetPaymentMethod
+  request: payment/query.stripeGetPaymentMethod.vtl
+  response: response.vtl
+- dataSource: payment
+  type: Query
+  field: stripeDetachPaymentMethod
+  request: payment/query.stripeDetachPaymentMethod.vtl
+  response: response.vtl
