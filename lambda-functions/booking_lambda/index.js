@@ -9,16 +9,13 @@ exports.handler = async (event) => {
     switch (event.type) {
       case "getBooking":
         return await Booking.findById(ObjectId(event.arguments.id));
-      //   case "getOneRoomBySlug":
-      //     return await Listing.findOne({
-      //       $or: [
-      //         { slug: event.arguments.slug, published: true },
-      //         { slug: event.arguments.slug, userId: event.arguments.userId },
-      //       ],
-      //     });
       case "getBookingsWithListingId":
         return await Booking.find({
           listingId: event.arguments.listingId,
+        }).exec();
+      case "getBookingsWithListingIdAndStatus":
+        return await Booking.find({
+          listingId: event.arguments.listingId,status:event.arguments.status
         }).exec();
       case "getDriverBookings":
         return await Booking.find({
@@ -77,7 +74,20 @@ exports.handler = async (event) => {
           };
           await mailer(tempOwnerData);
           await mailer(tempDriverData);
-      }
+      }else if(event.arguments.status==='completed'){
+        const tempOwnerData = {
+          emails: [event.arguments.ownerEmail],
+          subject: "A User just Checked Out",
+          message: "A User has been checked out successfully!",
+        };
+        const tempDriverData = {
+          emails: [event.arguments.driverEmail],
+          subject: "You have Checked Out",
+          message: "You have Checked Out Successfully!",
+        };
+        await mailer(tempOwnerData);
+        await mailer(tempDriverData);
+    }
         return updatedBooking;
       case "deleteBooking":
         return await Booking.findByIdAndDelete(event.arguments.id);

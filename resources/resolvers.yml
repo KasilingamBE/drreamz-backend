@@ -209,6 +209,11 @@
   response: response.vtl
 - dataSource: booking
   type: Query
+  field: getBookingsWithListingIdAndStatus
+  request: booking/query.getBookingsWithListingIdAndStatus.vtl
+  response: response.vtl
+- dataSource: booking
+  type: Query
   field: getBooking
   request: booking/query.getBooking.vtl
   response: response.vtl

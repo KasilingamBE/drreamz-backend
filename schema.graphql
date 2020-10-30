@@ -71,6 +71,7 @@ type Query {
 
   getBooking(id: String!): Booking
   getBookingsWithListingId(listingId: ID!): [Booking]
+  getBookingsWithListingIdAndStatus(listingId: ID!, status: String!): [Booking]
   getDriverBookings(driverId: String!): [Booking]
   getOwnerBookings(ownerId: String!): [Booking]
 
