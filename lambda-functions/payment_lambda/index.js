@@ -22,6 +22,8 @@ exports.handler = async (event) => {
   try {
     let tempDriver = null;
     let tempOwner = null;
+    let newCustomer = null;
+    let tempCustomer = null;
     switch (event.type) {
       case "stripeCreateAccountLinks":
         const user2 = await StripeConnect.findOne({
@@ -78,17 +80,47 @@ exports.handler = async (event) => {
           return null;
         }
       case "stripeCreatePaymentIntent":
-        tempOwner = await StripeConnect.findOne({
-          userId: event.arguments.ownerId,
+        tempDriver = await StripeCustomer.findOne({
+          userId: event.arguments.driverId,
+          type: event.arguments.type,
         });
-        if (tempOwner) {
-          return await StripePayment.createPaymentIntent({
-            ...event.arguments,
-            account: tempOwner.account,
+        if (tempDriver) {
+          tempOwner = await StripeConnect.findOne({
+            userId: event.arguments.ownerId,
           });
+          if (tempOwner) {
+            return await StripePayment.createPaymentIntent({
+              ...event.arguments,
+              account: tempOwner.account,
+              customer: tempDriver.customer,
+            });
+          } else {
+            return null;
+          }
         } else {
-          return null;
+          newCustomer = await StripePayment.createCustomer({
+            email: event.arguments.email,
+            name: event.arguments.name,
+          });
+          tempCustomer = await StripeCustomer.create({
+            userId: event.arguments.driverId,
+            customer: newCustomer,
+            type: event.arguments.type,
+          });
+          tempOwner = await StripeConnect.findOne({
+            userId: event.arguments.ownerId,
+          });
+          if (tempOwner) {
+            return await StripePayment.createPaymentIntent({
+              ...event.arguments,
+              account: tempOwner.account,
+              customer: tempCustomer.customer,
+            });
+          } else {
+            return null;
+          }
         }
+
       case "stripeCreatePaymentIntentOffline":
         tempDriver = await StripeCustomer.findOne({
           userId: event.arguments.driverId,
@@ -116,11 +148,11 @@ exports.handler = async (event) => {
             customer: tempDriver.customer,
           });
         } else {
-          const newCustomer = await StripePayment.createCustomer({
+          newCustomer = await StripePayment.createCustomer({
             email: event.arguments.email,
             name: event.arguments.name,
           });
-          const tempCustomer = await StripeCustomer.create({
+          tempCustomer = await StripeCustomer.create({
             userId: event.arguments.driverId,
             customer: newCustomer,
             type: event.arguments.type,

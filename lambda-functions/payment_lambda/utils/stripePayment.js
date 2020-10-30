@@ -2,6 +2,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 const createPaymentIntent = async (data) => {
   const paymentIntent = await stripe.paymentIntents.create({
+    customer: data.customer,
     payment_method_types: ["card"],
     amount: data.amount,
     currency: "usd",
@@ -27,8 +28,8 @@ const createPaymentIntentOffline = async (data) => {
       destination: data.account,
     },
   });
-  // console.log(paymentIntent.client_secret);
-  return paymentIntent.client_secret;
+  // console.log(paymentIntent.status);
+  return paymentIntent.status;
 };
 
 const createSetupIntent = async (data) => {
@@ -73,12 +74,12 @@ const detachPaymentMethod = async (data) => {
 
 const dataP = {
   account: "acct_1HgQ2zIIQMfBcets",
-  amount: 1000,
-  fee: 10,
+  amount: 98765,
+  fee: 136,
   email: "contactvivekvt@gmail.com",
   name: "Vivek Thakur",
-  customer: "cus_IHsT6oMO3C6GzL",
-  payment_method: "pm_1HhIteDPrb5EfwdRsERcvDuI",
+  customer: "cus_IIIc9GiqNJ8gy5",
+  payment_method: "pm_1HhtIxDPrb5EfwdRlUqwmrKT",
 };
 
 // createPaymentIntent(dataP);
@@ -89,7 +90,7 @@ const dataP = {
 // detachPaymentMethod(dataP);
 // retrievePaymentMethod(dataP);
 
-// parkyourselfbackend/lambda-functions/payment_lambda/utils/stripePayment.js
+// node lambda-functions/payment_lambda/utils/stripePayment.js
 
 module.exports = {
   createPaymentIntent: createPaymentIntent,
