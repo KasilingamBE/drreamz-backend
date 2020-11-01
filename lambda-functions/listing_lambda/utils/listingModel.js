@@ -76,6 +76,10 @@ const spaceLabelSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isBooked :{
+    type:Boolean,
+    default:false
+  }
 });
 
 const heightSchema = new mongoose.Schema({

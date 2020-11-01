@@ -304,25 +304,22 @@ type Mutation {
     ownerEmail: String
     address: String
     images: [String]
-    startTime: String
-    startDate: String
-    endTime: String
-    endDate: String
+    start: String
+    end: String
     status: String
     profileCategory: String
     vehicle: String
     payment: String
     paymentMethod: String
     createdAt: String
+    spaceLabel: String
   ): Booking
   updateBooking(
     id: ID!
     address: String
     images: [String]
-    startTime: String
-    startDate: String
-    endTime: String
-    endDate: String
+    start: String
+    end: String
     status: String
     profileCategory: String
     vehicle: String
@@ -330,6 +327,7 @@ type Mutation {
     paymentMethod: String
     createdAt: String
     qrCode: String
+    spaceLabel: String
   ): Booking
   updateBookingStatus(
     id: String!
@@ -703,11 +701,13 @@ input LocationDataInput {
 type SpaceLabel {
   label: String!
   largestSize: String!
+  isBooked: Boolean
 }
 
 input SpaceLabelInput {
   label: String!
   largestSize: String!
+  isBooked: Boolean
 }
 
 type Height {
@@ -876,10 +876,8 @@ type Booking {
   ownerEmail: String
   address: String
   images: [String]
-  startTime: String
-  startDate: String
-  endTime: String
-  endDate: String
+  start: String
+  end: String
   status: String
   profileCategory: String
   vehicle: String
@@ -887,6 +885,7 @@ type Booking {
   paymentMethod: String
   createdAt: String
   qrCode: String
+  spaceLabel: String
 }
 
 type CardDetails {
