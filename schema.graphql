@@ -253,6 +253,7 @@ type Mutation {
   deleteOneIvdrip(id: ID!): String
 
   createListing(
+    thumbnail: String
     ownerId: String!
     ownerName: String!
     ownerEmail: String!
@@ -266,6 +267,7 @@ type Mutation {
   ): Listing
   updateListing(
     id: ID!
+    thumbnail: String
     published: Boolean
     locationDetails: LocationDataInput
     spaceDetails: SpaceDetailsDataInput
@@ -278,22 +280,6 @@ type Mutation {
   ): Listing
   deleteListing(id: ID!): String
 
-  # createBooking(
-  #   userId: String!
-  #   username: String!
-  #   listingId: ID!
-  #   address: String!
-  #   images: [String]
-  #   startDate: String!
-  #   startTime: String!
-  #   endDate: String!
-  #   endTime: String!
-  #   payment: Float!
-  #   cardDetails: CardDetailsInput!
-  #   vehicle: VehicleInput!
-  #   profileCategory: String!
-  #   status: String!
-  # ): Booking
   createBooking(
     driverId: String
     driverName: String
@@ -636,6 +622,7 @@ type FormSub {
 
 type Listing {
   _id: ID!
+  thumbnail: String
   ownerId: String!
   ownerName: String!
   ownerEmail: String!
@@ -848,23 +835,6 @@ input PricingDetailsDataInput {
   pricingRates: PricingRatesInput
 }
 
-# type Booking {
-#   _id: ID!
-#   userId: String!
-#   username: String!
-#   listingId: ID!
-#   address: String!
-#   images: [String]
-#   startDate: String!
-#   startTime: String!
-#   endDate: String!
-#   endTime: String!
-#   payment: Float!
-#   cardDetails: CardDetails!
-#   vehicle: Vehicle!
-#   profileCategory: String!
-#   status: String!
-# }
 type Booking {
   _id: ID!
   driverId: String

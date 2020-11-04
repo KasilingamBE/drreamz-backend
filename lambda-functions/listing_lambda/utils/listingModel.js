@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const markerSchema = new mongoose.Schema({
   type: {
     type: String, // Don't do `{ location: { type: String } }`
-    enum: ['Point'], // 'location.type' must be 'Point'
+    enum: ["Point"], // 'location.type' must be 'Point'
     required: true,
   },
   coordinates: {
@@ -76,10 +76,10 @@ const spaceLabelSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  isBooked :{
-    type:Boolean,
-    default:false
-  }
+  isBooked: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const heightSchema = new mongoose.Schema({
@@ -279,15 +279,16 @@ const pricingDetailsSchema = new mongoose.Schema({
 });
 
 const listingSchema = new mongoose.Schema({
+  thumbnail: String,
   ownerId: {
     type: String,
     required: true,
   },
-  ownerName:{
+  ownerName: {
     type: String,
     required: true,
   },
-  ownerEmail:{
+  ownerEmail: {
     type: String,
     required: true,
   },
@@ -317,23 +318,23 @@ const listingSchema = new mongoose.Schema({
   bookings: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: 'bookings',
+      ref: "bookings",
     },
   ],
   reviews: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: 'reviews',
+      ref: "reviews",
     },
   ],
-  createdAt:{
-    type:String,
-    default:new Date().toString()
-  }
+  createdAt: {
+    type: String,
+    default: new Date().toString(),
+  },
 });
 
-listingSchema.index({ location: '2dsphere' });
+listingSchema.index({ location: "2dsphere" });
 
-const Listing = mongoose.model('Listing', listingSchema);
+const Listing = mongoose.model("Listing", listingSchema);
 
 module.exports = Listing;
