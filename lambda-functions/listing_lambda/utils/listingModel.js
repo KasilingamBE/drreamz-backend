@@ -225,7 +225,11 @@ const spaceAvailableSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
-  customTimeRange: [String],
+  customTimeRange: [[String]],
+  hasNoticeTime: {
+    type: Boolean,
+    required: true,
+  },
   noticeTime: {
     type: timeDurationSchema,
     required: true,

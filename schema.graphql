@@ -786,7 +786,8 @@ type SpaceAvailableData {
   saturday: Day
   sunday: Day
   scheduleType: String
-  customTimeRange: [String]
+  customTimeRange: [[String]]
+  hasNoticeTime: Boolean
   noticeTime: TimeDuration
   advanceBookingTime: TimeDuration
   minTime: TimeDuration
@@ -803,7 +804,8 @@ input SpaceAvailableDataInput {
   saturday: DayInput
   sunday: DayInput
   scheduleType: String
-  customTimeRange: [String]
+  customTimeRange: [[String]]
+  hasNoticeTime: Boolean
   noticeTime: TimeDurationInput
   advanceBookingTime: TimeDurationInput
   minTime: TimeDurationInput
