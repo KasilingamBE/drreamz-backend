@@ -483,7 +483,8 @@ type Subscription {
     @aws_subscribe(mutations: ["createBooking"])
   ownerNewBooking(ownerId: String): Booking
     @aws_subscribe(mutations: ["createBooking"])
-  addMessage: Message @aws_subscribe(mutations: ["createMessage"])
+  addMessage(listingId: String!, ownerId: String!, driverId: String!): Message
+    @aws_subscribe(mutations: ["createMessage"])
 }
 
 type CognitoGroupUser {
