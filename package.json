@@ -9,6 +9,7 @@
   "main": "index.js",
   "dependencies": {
     "mongoose": "^5.10.0",
+    "mongoose-long": "^0.3.2",
     "slugify": "^1.4.5",
     "stripe": "^8.110.0"
   },

@@ -1,4 +1,9 @@
 type Query {
+  checkBookingAvailability(
+    listingId: String!
+    start: String!
+    end: String!
+  ): Int
   stripeGetPaymentMethod(payment_method: String!): String
   stripeDetachPaymentMethod(payment_method: String!): String
   stripeListUserCards(driverId: String!, type: String!): String
@@ -81,6 +86,12 @@ type Query {
   getPublishedListings: [Listing]
   getOwnerListings(ownerId: String!): [Listing]
   getPublishedListingsWithLatLng(lat: Float!, lng: Float!): [Listing]
+  getListingsWithBookings(
+    lat: Float!
+    lng: Float!
+    start: String!
+    end: String!
+  ): [Listing]
 
   getBooking(id: String!): Booking
   getBookingsWithListingId(listingId: ID!): [Booking]
@@ -636,6 +647,11 @@ type Listing {
   bookings: [ID!]
   reviews: [ID!]
   createdAt: String
+  bookingCount: [BookingCount]
+}
+
+type BookingCount {
+  total: Int
 }
 
 type LocationDataMarker {

@@ -187,6 +187,11 @@
   request: listing/query.getPublishedListingsWithLatLng.vtl
   response: response.vtl
 - dataSource: listing
+  type: Query
+  field: getListingsWithBookings
+  request: listing/query.getListingsWithBookings.vtl
+  response: response.vtl
+- dataSource: listing
   type: Mutation
   field: createListing
   request: listing/mutation.createListing.vtl
@@ -202,6 +207,11 @@
   request: listing/mutation.deleteListing.vtl
   response: response.vtl
 # Booking
+- dataSource: booking
+  type: Query
+  field: checkBookingAvailability
+  request: booking/query.checkBookingAvailability.vtl
+  response: response.vtl
 - dataSource: booking
   type: Query
   field: getBookingsWithListingId
