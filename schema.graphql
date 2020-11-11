@@ -327,6 +327,7 @@ type Mutation {
     spaceLabel: String
   ): Booking
   updateBookingStatus(
+    driverId: String
     id: String!
     status: String!
     driverEmail: String!
@@ -496,6 +497,8 @@ type Subscription {
     @aws_subscribe(mutations: ["createBooking"])
   addMessage(listingId: String!, ownerId: String!, driverId: String!): Message
     @aws_subscribe(mutations: ["createMessage"])
+  checkIn(driverId: String): Booking
+    @aws_subscribe(mutations: ["updateBookingStatus"])
 }
 
 type CognitoGroupUser {
