@@ -292,6 +292,7 @@ type Mutation {
   deleteListing(id: ID!): String
 
   createBooking(
+    createdBy: String
     driverId: String
     driverName: String
     driverEmail: String
@@ -859,6 +860,7 @@ input PricingDetailsDataInput {
 
 type Booking {
   _id: ID!
+  createdBy: String
   driverId: String
   driverName: String
   driverEmail: String
