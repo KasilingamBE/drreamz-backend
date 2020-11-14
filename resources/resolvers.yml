@@ -31,140 +31,140 @@
   request: email/mutation.sendTemplateEmail.vtl
   response: response.vtl
 # ImageUpload
-- dataSource: demo
-  type: Mutation
-  field: uploadImage
-  request: demo/mutation.uploadImage.vtl
-  response: response.vtl
-- dataSource: demo
-  type: Query
-  field: getAllImages
-  request: demo/query.getAllImages.vtl
-  response: response.vtl
+# - dataSource: demo
+#   type: Mutation
+#   field: uploadImage
+#   request: demo/mutation.uploadImage.vtl
+#   response: response.vtl
+# - dataSource: demo
+#   type: Query
+#   field: getAllImages
+#   request: demo/query.getAllImages.vtl
+#   response: response.vtl
 # Room
-- dataSource: room
-  type: Query
-  field: getAllRooms
-  request: room/query.getAllRooms.vtl
-  response: response.vtl
-- dataSource: room
-  type: Query
-  field: getOneRoom
-  request: room/query.getOneRoom.vtl
-  response: response.vtl
-- dataSource: room
-  type: Query
-  field: getOneRoomBySlug
-  request: room/query.getOneRoomBySlug.vtl
-  response: response.vtl
-- dataSource: room
-  type: Mutation
-  field: createOneRoom
-  request: room/mutation.createOneRoom.vtl
-  response: response.vtl
-- dataSource: room
-  type: Mutation
-  field: updateOneRoom
-  request: room/mutation.updateOneRoom.vtl
-  response: response.vtl
-- dataSource: room
-  type: Mutation
-  field: deleteOneRoom
-  request: room/mutation.deleteOneRoom.vtl
-  response: response.vtl
-# Form
-- dataSource: form
-  type: Query
-  field: getAllForms
-  request: form/query.getAllForms.vtl
-  response: response.vtl
-- dataSource: form
-  type: Query
-  field: getOneForm
-  request: form/query.getOneForm.vtl
-  response: response.vtl
-- dataSource: form
-  type: Query
-  field: getOneFormBySlug
-  request: form/query.getOneFormBySlug.vtl
-  response: response.vtl
-- dataSource: form
-  type: Mutation
-  field: createOneForm
-  request: form/mutation.createOneForm.vtl
-  response: response.vtl
-- dataSource: form
-  type: Mutation
-  field: updateOneForm
-  request: form/mutation.updateOneForm.vtl
-  response: response.vtl
-- dataSource: form
-  type: Mutation
-  field: deleteOneForm
-  request: form/mutation.deleteOneForm.vtl
-  response: response.vtl
+# - dataSource: room
+#   type: Query
+#   field: getAllRooms
+#   request: room/query.getAllRooms.vtl
+#   response: response.vtl
+# - dataSource: room
+#   type: Query
+#   field: getOneRoom
+#   request: room/query.getOneRoom.vtl
+#   response: response.vtl
+# - dataSource: room
+#   type: Query
+#   field: getOneRoomBySlug
+#   request: room/query.getOneRoomBySlug.vtl
+#   response: response.vtl
+# - dataSource: room
+#   type: Mutation
+#   field: createOneRoom
+#   request: room/mutation.createOneRoom.vtl
+#   response: response.vtl
+# - dataSource: room
+#   type: Mutation
+#   field: updateOneRoom
+#   request: room/mutation.updateOneRoom.vtl
+#   response: response.vtl
+# - dataSource: room
+#   type: Mutation
+#   field: deleteOneRoom
+#   request: room/mutation.deleteOneRoom.vtl
+#   response: response.vtl
+# # Form
+# - dataSource: form
+#   type: Query
+#   field: getAllForms
+#   request: form/query.getAllForms.vtl
+#   response: response.vtl
+# - dataSource: form
+#   type: Query
+#   field: getOneForm
+#   request: form/query.getOneForm.vtl
+#   response: response.vtl
+# - dataSource: form
+#   type: Query
+#   field: getOneFormBySlug
+#   request: form/query.getOneFormBySlug.vtl
+#   response: response.vtl
+# - dataSource: form
+#   type: Mutation
+#   field: createOneForm
+#   request: form/mutation.createOneForm.vtl
+#   response: response.vtl
+# - dataSource: form
+#   type: Mutation
+#   field: updateOneForm
+#   request: form/mutation.updateOneForm.vtl
+#   response: response.vtl
+# - dataSource: form
+#   type: Mutation
+#   field: deleteOneForm
+#   request: form/mutation.deleteOneForm.vtl
+#   response: response.vtl
 # FormSub
-- dataSource: form
-  type: Query
-  field: getAllFormSubs
-  request: form/query.getAllFormSubs.vtl
-  response: response.vtl
-- dataSource: form
-  type: Query
-  field: getOneFormSub
-  request: form/query.getOneFormSub.vtl
-  response: response.vtl
-- dataSource: form
-  type: Query
-  field: getAllFormSubsByFormId
-  request: form/query.getAllFormSubsByFormId.vtl
-  response: response.vtl
-- dataSource: form
-  type: Mutation
-  field: createOneFormSub
-  request: form/mutation.createOneFormSub.vtl
-  response: response.vtl
-- dataSource: form
-  type: Mutation
-  field: updateOneFormSub
-  request: form/mutation.updateOneFormSub.vtl
-  response: response.vtl
-- dataSource: form
-  type: Mutation
-  field: deleteOneFormSub
-  request: form/mutation.deleteOneFormSub.vtl
-  response: response.vtl
-# ImageSlider
-- dataSource: imageSlider
-  type: Query
-  field: getAllImageSliders
-  request: imageSlider/query.getAllImageSliders.vtl
-  response: response.vtl
-- dataSource: imageSlider
-  type: Query
-  field: getOneImageSlider
-  request: imageSlider/query.getOneImageSlider.vtl
-  response: response.vtl
-- dataSource: imageSlider
-  type: Query
-  field: getOneImageSliderBySlug
-  request: imageSlider/query.getOneImageSliderBySlug.vtl
-  response: response.vtl
-- dataSource: imageSlider
-  type: Mutation
-  field: createOneImageSlider
-  request: imageSlider/mutation.createOneImageSlider.vtl
-  response: response.vtl
-- dataSource: imageSlider
-  type: Mutation
-  field: updateOneImageSlider
-  request: imageSlider/mutation.updateOneImageSlider.vtl
-  response: response.vtl
-- dataSource: imageSlider
-  type: Mutation
-  field: deleteOneImageSlider
-  request: imageSlider/mutation.deleteOneImageSlider.vtl
-  response: response.vtl
+# - dataSource: form
+#   type: Query
+#   field: getAllFormSubs
+#   request: form/query.getAllFormSubs.vtl
+#   response: response.vtl
+# - dataSource: form
+#   type: Query
+#   field: getOneFormSub
+#   request: form/query.getOneFormSub.vtl
+#   response: response.vtl
+# - dataSource: form
+#   type: Query
+#   field: getAllFormSubsByFormId
+#   request: form/query.getAllFormSubsByFormId.vtl
+#   response: response.vtl
+# - dataSource: form
+#   type: Mutation
+#   field: createOneFormSub
+#   request: form/mutation.createOneFormSub.vtl
+#   response: response.vtl
+# - dataSource: form
+#   type: Mutation
+#   field: updateOneFormSub
+#   request: form/mutation.updateOneFormSub.vtl
+#   response: response.vtl
+# - dataSource: form
+#   type: Mutation
+#   field: deleteOneFormSub
+#   request: form/mutation.deleteOneFormSub.vtl
+#   response: response.vtl
+# # ImageSlider
+# - dataSource: imageSlider
+#   type: Query
+#   field: getAllImageSliders
+#   request: imageSlider/query.getAllImageSliders.vtl
+#   response: response.vtl
+# - dataSource: imageSlider
+#   type: Query
+#   field: getOneImageSlider
+#   request: imageSlider/query.getOneImageSlider.vtl
+#   response: response.vtl
+# - dataSource: imageSlider
+#   type: Query
+#   field: getOneImageSliderBySlug
+#   request: imageSlider/query.getOneImageSliderBySlug.vtl
+#   response: response.vtl
+# - dataSource: imageSlider
+#   type: Mutation
+#   field: createOneImageSlider
+#   request: imageSlider/mutation.createOneImageSlider.vtl
+#   response: response.vtl
+# - dataSource: imageSlider
+#   type: Mutation
+#   field: updateOneImageSlider
+#   request: imageSlider/mutation.updateOneImageSlider.vtl
+#   response: response.vtl
+# - dataSource: imageSlider
+#   type: Mutation
+#   field: deleteOneImageSlider
+#   request: imageSlider/mutation.deleteOneImageSlider.vtl
+#   response: response.vtl
 # Listing
 - dataSource: listing
   type: Query

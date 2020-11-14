@@ -27,26 +27,24 @@ exports.handler = async (event) => {
           ownerId: event.arguments.ownerId,
         }).exec();
       case "checkBookingAvailability":
-        return (
-          await Booking.find({
-            listingId: ObjectId(event.arguments.listingId),
-            $or: [
-              {
-                $and: [
-                  { startDate: { $lte: Date.parse(event.arguments.start) } },
-                  { endDate: { $gt: Date.parse(event.arguments.start) } },
-                ],
-              },
-              {
-                $and: [
-                  { startDate: { $lt: Date.parse(event.arguments.end) } },
-                  { endDate: { $gte: Date.parse(event.arguments.end) } },
-                ],
-              },
-            ],
-          })
-        ).length;
-
+        const tempSlots = await Booking.find({
+          listingId: ObjectId(event.arguments.listingId),
+          $or: [
+            {
+              $and: [
+                { startDate: { $lte: Date.parse(event.arguments.start) } },
+                { endDate: { $gt: Date.parse(event.arguments.start) } },
+              ],
+            },
+            {
+              $and: [
+                { startDate: { $lt: Date.parse(event.arguments.end) } },
+                { endDate: { $gte: Date.parse(event.arguments.end) } },
+              ],
+            },
+          ],
+        });
+        return JSON.stringify(tempSlots.map((s) => s.spaceLabel));
       case "createBooking":
         const newBooking = await Booking.create({
           ...event.arguments,

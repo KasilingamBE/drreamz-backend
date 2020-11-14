@@ -2,26 +2,26 @@
   name: demo
   config:
     functionName: demo
-- type: AWS_LAMBDA
-  name: menu
-  config:
-    functionName: menu_lambda
+# - type: AWS_LAMBDA
+#   name: menu
+#   config:
+#     functionName: menu_lambda
 - type: AWS_LAMBDA
   name: email
   config:
     functionName: email_lambda
-- type: AWS_LAMBDA
-  name: room
-  config:
-    functionName: room_lambda
-- type: AWS_LAMBDA
-  name: form
-  config:
-    functionName: form_lambda
-- type: AWS_LAMBDA
-  name: imageSlider
-  config:
-    functionName: imageSlider_lambda
+# - type: AWS_LAMBDA
+#   name: room
+#   config:
+#     functionName: room_lambda
+# - type: AWS_LAMBDA
+#   name: form
+#   config:
+#     functionName: form_lambda
+# - type: AWS_LAMBDA
+#   name: imageSlider
+#   config:
+#     functionName: imageSlider_lambda
 - type: AWS_LAMBDA
   name: listing
   config:
