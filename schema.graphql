@@ -3,7 +3,7 @@ type Query {
     listingId: String!
     start: String!
     end: String!
-  ): String
+  ): [String]
   stripeGetPaymentMethod(payment_method: String!): String
   stripeDetachPaymentMethod(payment_method: String!): String
   stripeListUserCards(driverId: String!, type: String!): String

@@ -44,7 +44,7 @@ exports.handler = async (event) => {
             },
           ],
         });
-        return JSON.stringify(tempSlots.map((s) => s.spaceLabel));
+        return tempSlots.map((s) => s.spaceLabel);
       case "createBooking":
         const newBooking = await Booking.create({
           ...event.arguments,
