@@ -11,8 +11,9 @@ const createPaymentIntent = async (data) => {
       destination: data.account,
     },
   });
-  // console.log(paymentIntent.client_secret);
-  return paymentIntent.client_secret;
+  // console.log(paymentIntent);
+  // return paymentIntent.client_secret;
+  return { secret: paymentIntent.client_secret, id: paymentIntent.id };
 };
 
 const createPaymentIntentOffline = async (data) => {
@@ -29,7 +30,16 @@ const createPaymentIntentOffline = async (data) => {
     },
   });
   // console.log(paymentIntent.status);
-  return paymentIntent.status;
+  // return paymentIntent.status;
+  return { secret: paymentIntent.status, id: paymentIntent.id };
+};
+
+const createRefund = async (data) => {
+  const refund = await stripe.refunds.create({
+    payment_intent: data.paymentIntent,
+  });
+  // console.log(refund.status);
+  return refund.status;
 };
 
 const createSetupIntent = async (data) => {
@@ -80,8 +90,10 @@ const dataP = {
   name: "Vivek Thakur",
   customer: "cus_IIIc9GiqNJ8gy5",
   payment_method: "pm_1HhtIxDPrb5EfwdRlUqwmrKT",
+  paymentIntent: "pi_1HoYYpDPrb5EfwdRvYREVUcG",
 };
 
+// createRefund(dataP);
 // createPaymentIntent(dataP);
 // createPaymentIntentOffline(dataP);
 // createCustomer(dataP);
@@ -100,4 +112,5 @@ module.exports = {
   listPaymentMethods: listPaymentMethods,
   retrievePaymentMethod: retrievePaymentMethod,
   detachPaymentMethod: detachPaymentMethod,
+  createRefund: createRefund,
 };

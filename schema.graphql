@@ -1,4 +1,6 @@
 type Query {
+  setupPayout(listingId: String!, triggerTimer: String!): Boolean
+
   checkBookingAvailability(
     listingId: String!
     start: String!
@@ -20,7 +22,7 @@ type Query {
     ownerId: String!
     amount: Int!
     fee: Int!
-  ): String
+  ): PaymentIntentResponse
   stripeCreatePaymentIntent(
     driverId: String!
     type: String!
@@ -29,7 +31,7 @@ type Query {
     ownerId: String!
     amount: Int!
     fee: Int!
-  ): String
+  ): PaymentIntentResponse
   stripeCreateAccountLinks(
     userId: String!
     email: String!
@@ -311,6 +313,7 @@ type Mutation {
     paymentMethod: String
     createdAt: String
     spaceLabel: String
+    paymentIntent: String
   ): Booking
   updateBooking(
     id: ID!
@@ -514,6 +517,11 @@ type CognitoGroupUser {
 type CognitoGroupUserAttributes {
   Name: String
   Value: String
+}
+
+type PaymentIntentResponse {
+  secret: String
+  id: String
 }
 
 type Message {

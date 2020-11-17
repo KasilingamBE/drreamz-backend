@@ -25,6 +25,7 @@ const bookingSchema = new mongoose.Schema({
   vehicle: String,
   payment: String,
   paymentMethod: String,
+  paymentIntent: String,
   qrCode: String,
   spaceLabel: String,
   createdBy: String,

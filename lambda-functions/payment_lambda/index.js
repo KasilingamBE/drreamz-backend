@@ -1,9 +1,11 @@
 const AWS = require("aws-sdk");
 const DB = require("../../utils/DB");
+const Booking = require("../booking_lambda/utils/bookingModel");
 const StripeConnect = require("./utils/stripeConnectModel");
 const StripeCustomer = require("./utils/stripeCustomerModel");
 const StripeConnectMethods = require("./utils/stripeConnect");
 const StripePayment = require("./utils/stripePayment");
+const ObjectId = require("mongodb").ObjectID;
 DB();
 
 const UserPoolId = process.env.USER_POOL_ID;
@@ -24,6 +26,7 @@ exports.handler = async (event) => {
     let tempOwner = null;
     let newCustomer = null;
     let tempCustomer = null;
+    let tempBooking = null;
     switch (event.type) {
       case "stripeCreateAccountLinks":
         const user2 = await StripeConnect.findOne({
@@ -185,6 +188,27 @@ exports.handler = async (event) => {
         return await StripePayment.detachPaymentMethod({
           payment_method: event.arguments.payment_method,
         });
+      case "stripeCreatePayout":
+        tempOwner = await StripeConnect.findOne({
+          userId: event.arguments.userId,
+        });
+        if (tempOwner) {
+          tempBooking = await Booking.findById(
+            ObjectId(event.arguments.bookingId)
+          );
+          if (tempBooking && tempBooking.status !== "cancelled") {
+            return JSON.stringify(
+              await StripeConnectMethods.createPayout({
+                account: tempOwner.account,
+                amount: event.arguments.amount,
+              })
+            );
+          } else {
+            return null;
+          }
+        } else {
+          return null;
+        }
       default:
         return null;
     }

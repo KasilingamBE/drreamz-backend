@@ -1,11 +1,14 @@
 const DB = require("../../utils/DB");
 const Booking = require("./utils/bookingModel");
+const { setupPayout } = require("./utils/cloudWatchEvent");
 const { mailer } = require("../../utils/mailer");
+const StripePayment = require("../payment_lambda/utils/stripePayment");
 const ObjectId = require("mongodb").ObjectID;
 DB();
 
 exports.handler = async (event) => {
   try {
+    let updatedBooking = null;
     switch (event.type) {
       case "getBooking":
         return await Booking.findById(ObjectId(event.arguments.id));
@@ -45,6 +48,12 @@ exports.handler = async (event) => {
           ],
         });
         return tempSlots.map((s) => s.spaceLabel);
+      case "setupPayout":
+        return await setupPayout({
+          bookingId: event.arguments.listingId,
+          end: event.arguments.triggerTimer,
+          amount: 1010,
+        });
       case "createBooking":
         const newBooking = await Booking.create({
           ...event.arguments,
@@ -65,6 +74,11 @@ exports.handler = async (event) => {
         };
         await mailer(tempOwnerData);
         await mailer(tempDriverData);
+        await setupPayout({
+          bookingId: newBooking._id,
+          end: newBooking.end,
+          amount: newBooking.payment,
+        });
         return newBooking;
       case "updateBooking":
         return await Booking.findByIdAndUpdate(
@@ -77,14 +91,35 @@ exports.handler = async (event) => {
         );
 
       case "updateBookingStatus":
-        const updatedBooking = await Booking.findByIdAndUpdate(
-          ObjectId(event.arguments.id),
-          event.arguments,
-          {
-            new: true,
-            runValidators: true,
+        if (event.arguments.status === "cancelled") {
+          const tempBooking = await Booking.findById(
+            ObjectId(event.arguments.id)
+          );
+          const tempRefund = await StripePayment.createRefund({
+            paymentIntent: tempBooking.paymentIntent,
+          });
+          if (tempRefund === "succeeded") {
+            updatedBooking = await Booking.findByIdAndUpdate(
+              ObjectId(event.arguments.id),
+              { status: event.arguments.status },
+              {
+                new: true,
+                runValidators: true,
+              }
+            );
+          } else {
+            return null;
           }
-        );
+        } else {
+          updatedBooking = await Booking.findByIdAndUpdate(
+            ObjectId(event.arguments.id),
+            { status: event.arguments.status },
+            {
+              new: true,
+              runValidators: true,
+            }
+          );
+        }
         //Send Email to driver and space owner
         if (event.arguments.status === "current") {
           const tempOwnerData = {

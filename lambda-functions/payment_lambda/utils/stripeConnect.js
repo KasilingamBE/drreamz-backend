@@ -13,6 +13,13 @@ const createAccount = async (data) => {
         requested: true,
       },
     },
+    settings: {
+      payouts: {
+        schedule: {
+          interval: "manual",
+        },
+      },
+    },
   });
   // console.log(account);
   return account;
@@ -26,6 +33,20 @@ const createAccountLinks = async (data) => {
     type: data.type,
   });
   return accountLinks;
+};
+
+const createPayout = async (data) => {
+  const payout = await stripe.payouts.create(
+    {
+      amount: data.amount,
+      currency: "usd",
+    },
+    {
+      stripeAccount: data.account,
+    }
+  );
+  // console.log("payout", payout);
+  return payout;
 };
 
 const retrieveAccount = async (data) => {
@@ -44,12 +65,14 @@ const dataL = {
   account: "acct_1HgQ2zIIQMfBcets", //acct_1HgExPDMpteJtjTs
   refresh_url: "https://example.com/reauth",
   return_url: "https://example.com/return",
+  amount: 1000,
 };
 
 const dataA = {
   email: "contactvivekvt@gmail.com",
 };
 
+// createPayout(dataL);
 // createAccount(dataA);
 // retrieveAccount(dataL);
 // createLoginLinkAccount(dataL);
@@ -60,4 +83,7 @@ module.exports = {
   createAccountLinks: createAccountLinks,
   retrieveAccount: retrieveAccount,
   createLoginLinkAccount: createLoginLinkAccount,
+  createPayout: createPayout,
 };
+
+// node lambda-functions/payment_lambda/utils/stripeConnect.js

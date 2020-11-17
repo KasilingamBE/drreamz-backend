@@ -209,6 +209,11 @@
 # Booking
 - dataSource: booking
   type: Query
+  field: setupPayout
+  request: booking/query.setupPayout.vtl
+  response: response.vtl
+- dataSource: booking
+  type: Query
   field: checkBookingAvailability
   request: booking/query.checkBookingAvailability.vtl
   response: response.vtl
