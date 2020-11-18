@@ -1,4 +1,7 @@
-const stripe = require("stripe")(process.env.STRIPE_SECRET);
+// const stripe = require("stripe")(process.env.STRIPE_SECRET);
+const stripe = require("stripe")(
+  "sk_test_517LnJnDPrb5EfwdRn0RyqjqyLE5GOWY4Us7x5QZweDoxcvuE3IMa2uaTfmiH6xveoeJ9LhP1B6lRQ4ifr8ItccHa00rQxH8DHo"
+);
 
 const createAccount = async (data) => {
   const account = await stripe.accounts.create({
@@ -32,6 +35,7 @@ const createAccountLinks = async (data) => {
     return_url: data.return_url,
     type: data.type,
   });
+  // console.log("accountLinks", accountLinks);
   return accountLinks;
 };
 
@@ -51,29 +55,33 @@ const createPayout = async (data) => {
 
 const retrieveAccount = async (data) => {
   const account = await stripe.accounts.retrieve(data.account);
-  console.log(account);
+  // console.log(account);
   return account;
 };
 
 const createLoginLinkAccount = async (data) => {
   const link = await stripe.accounts.createLoginLink(data.account);
+  console.log(link);
   return link;
 };
 
 const dataL = {
+  email: "tax@codemarket.io",
   type: "account_onboarding", // "account_onboarding", // "account_update"
-  account: "acct_1HgQ2zIIQMfBcets", //acct_1HgExPDMpteJtjTs
+  // account: "acct_1HgQ2zIIQMfBcets", //acct_1HgExPDMpteJtjTs
+  account: "acct_1HovjvRU1JJZAjj7", // Tax Account
   refresh_url: "https://example.com/reauth",
   return_url: "https://example.com/return",
   amount: 1000,
+  taxAccount: "acct_1HovjvRU1JJZAjj7",
 };
 
-const dataA = {
-  email: "contactvivekvt@gmail.com",
-};
+// const dataA = {
+//   email: "contactvivekvt@gmail.com",
+// };
 
 // createPayout(dataL);
-// createAccount(dataA);
+// createAccount(dataL);
 // retrieveAccount(dataL);
 // createLoginLinkAccount(dataL);
 // createAccountLinks(dataL);

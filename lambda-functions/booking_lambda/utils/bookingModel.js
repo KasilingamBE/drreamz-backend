@@ -26,6 +26,7 @@ const bookingSchema = new mongoose.Schema({
   payment: String,
   paymentMethod: String,
   paymentIntent: String,
+  transferGroup: String,
   qrCode: String,
   spaceLabel: String,
   createdBy: String,

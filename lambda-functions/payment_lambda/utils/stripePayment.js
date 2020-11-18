@@ -1,22 +1,30 @@
+const { v4: uuidv4 } = require("uuid");
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 const createPaymentIntent = async (data) => {
+  const transfer_group = uuidv4();
   const paymentIntent = await stripe.paymentIntents.create({
     customer: data.customer,
     payment_method_types: ["card"],
     amount: data.amount,
     currency: "usd",
-    application_fee_amount: data.fee,
-    transfer_data: {
-      destination: data.account,
-    },
+    transfer_group: transfer_group,
+    // application_fee_amount: data.fee,
+    // transfer_data: {
+    //   destination: data.account,
+    // },
   });
   // console.log(paymentIntent);
   // return paymentIntent.client_secret;
-  return { secret: paymentIntent.client_secret, id: paymentIntent.id };
+  return {
+    secret: paymentIntent.client_secret,
+    id: paymentIntent.id,
+    transferGroup: transfer_group,
+  };
 };
 
 const createPaymentIntentOffline = async (data) => {
+  const transfer_group = uuidv4();
   const paymentIntent = await stripe.paymentIntents.create({
     amount: data.amount,
     currency: "usd",
@@ -24,14 +32,19 @@ const createPaymentIntentOffline = async (data) => {
     payment_method: data.payment_method,
     off_session: true,
     confirm: true,
-    application_fee_amount: data.fee,
-    transfer_data: {
-      destination: data.account,
-    },
+    transfer_group: transfer_group,
+    // application_fee_amount: data.fee,
+    // transfer_data: {
+    //   destination: data.account,
+    // },
   });
   // console.log(paymentIntent.status);
   // return paymentIntent.status;
-  return { secret: paymentIntent.status, id: paymentIntent.id };
+  return {
+    secret: paymentIntent.status,
+    id: paymentIntent.id,
+    transferGroup: transfer_group,
+  };
 };
 
 const createRefund = async (data) => {
@@ -40,6 +53,17 @@ const createRefund = async (data) => {
   });
   // console.log(refund.status);
   return refund.status;
+};
+
+const createTransfer = async (data) => {
+  const transfer = await stripe.transfers.create({
+    amount: data.amount,
+    currency: "usd",
+    destination: data.account,
+    transfer_group: data.transfer_group,
+  });
+  // console.log(transfer);
+  return transfer;
 };
 
 const createSetupIntent = async (data) => {
@@ -113,4 +137,5 @@ module.exports = {
   retrievePaymentMethod: retrievePaymentMethod,
   detachPaymentMethod: detachPaymentMethod,
   createRefund: createRefund,
+  createTransfer: createTransfer,
 };

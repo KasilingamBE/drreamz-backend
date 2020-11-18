@@ -43,7 +43,7 @@ const putTarget = (data) => {
   return new AWS.CloudWatchEvents().putTargets(params).promise();
 };
 
-const setupPayout = async (input) => {
+const setupTransfer = async (input) => {
   let currentDate3 = new Date();
   currentDate3.setDate(currentDate3.getDate() + 3);
   let triggerDate = new Date(input.end);
@@ -60,14 +60,14 @@ const setupPayout = async (input) => {
   const data = {
     Name: `${input.bookingId}`,
     Id: `id ${input.bookingId}`,
-    Description: "Payout to Owner",
+    Description: "Transfer to Owner and Tax Account",
     // RoleArn: "arn:aws:iam::784380094623:role/vivek-cloudwatchevent-role",
     targetArn:
       "arn:aws:lambda:us-east-1:784380094623:function:parkyourself-backend-vivekt-local-payment_lambda",
     ScheduleExpression: ScheduleExpression, // cron(0 10 16 6 ? 2021) // rate(1 minute)
     Input: {
-      type: "stripeCreatePayout",
-      arguments: { bookingId: input.bookingId, amount: input.amount },
+      type: "stripeCreateTransfer",
+      arguments: { bookingId: input.bookingId },
     },
   };
   const rule = await putRule(data);
@@ -107,14 +107,14 @@ const setupPayout = async (input) => {
 // console.log("month", month);
 // console.log("year", year);
 
-// setupPayout({
+// setupTransfer({
 //   bookingId: "5fb417626a886e0008712077",
 //   end: new Date(),
 //   amount: 1000,
 // });
 
 module.exports = {
-  setupPayout: setupPayout,
+  setupTransfer: setupTransfer,
 };
 
 // node lambda-functions/booking_lambda/utils/cloudWatchEvent.js

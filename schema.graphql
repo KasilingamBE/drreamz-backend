@@ -20,8 +20,8 @@ type Query {
     driverId: String!
     type: String!
     ownerId: String!
-    amount: Int!
-    fee: Int!
+    amount: Float!
+    fee: Float
   ): PaymentIntentResponse
   stripeCreatePaymentIntent(
     driverId: String!
@@ -29,8 +29,8 @@ type Query {
     email: String!
     name: String!
     ownerId: String!
-    amount: Int!
-    fee: Int!
+    amount: Float!
+    fee: Float
   ): PaymentIntentResponse
   stripeCreateAccountLinks(
     userId: String!
@@ -309,11 +309,13 @@ type Mutation {
     status: String
     profileCategory: String
     vehicle: String
-    payment: String
+    payment: Float
+    ownerPayment: Float
     paymentMethod: String
     createdAt: String
     spaceLabel: String
     paymentIntent: String
+    transferGroup: String
   ): Booking
   updateBooking(
     id: ID!
@@ -324,7 +326,7 @@ type Mutation {
     status: String
     profileCategory: String
     vehicle: String
-    payment: String
+    payment: Float
     paymentMethod: String
     createdAt: String
     qrCode: String
@@ -520,8 +522,9 @@ type CognitoGroupUserAttributes {
 }
 
 type PaymentIntentResponse {
-  secret: String
   id: String
+  secret: String
+  transferGroup: String
 }
 
 type Message {
@@ -550,6 +553,7 @@ input CheckoutSpaceInput {
   description: String!
   price: Int!
 }
+
 input CheckoutOtherInput {
   success_url: String!
   cancel_url: String!
@@ -883,7 +887,8 @@ type Booking {
   status: String
   profileCategory: String
   vehicle: String
-  payment: String
+  payment: Float
+  ownerPayment: Float
   paymentMethod: String
   createdAt: String
   qrCode: String

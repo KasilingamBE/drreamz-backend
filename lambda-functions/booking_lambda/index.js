@@ -1,6 +1,6 @@
 const DB = require("../../utils/DB");
 const Booking = require("./utils/bookingModel");
-const { setupPayout } = require("./utils/cloudWatchEvent");
+const { setupTransfer } = require("./utils/cloudWatchEvent");
 const { mailer } = require("../../utils/mailer");
 const StripePayment = require("../payment_lambda/utils/stripePayment");
 const ObjectId = require("mongodb").ObjectID;
@@ -49,10 +49,9 @@ exports.handler = async (event) => {
         });
         return tempSlots.map((s) => s.spaceLabel);
       case "setupPayout":
-        return await setupPayout({
+        return await setupTransfer({
           bookingId: event.arguments.listingId,
           end: event.arguments.triggerTimer,
-          amount: 1010,
         });
       case "createBooking":
         const newBooking = await Booking.create({
@@ -74,10 +73,9 @@ exports.handler = async (event) => {
         };
         await mailer(tempOwnerData);
         await mailer(tempDriverData);
-        await setupPayout({
+        await setupTransfer({
           bookingId: newBooking._id,
           end: newBooking.end,
-          amount: newBooking.payment,
         });
         return newBooking;
       case "updateBooking":

@@ -188,19 +188,28 @@ exports.handler = async (event) => {
         return await StripePayment.detachPaymentMethod({
           payment_method: event.arguments.payment_method,
         });
-      case "stripeCreatePayout":
-        tempOwner = await StripeConnect.findOne({
-          userId: event.arguments.userId,
-        });
-        if (tempOwner) {
-          tempBooking = await Booking.findById(
-            ObjectId(event.arguments.bookingId)
-          );
-          if (tempBooking && tempBooking.status !== "cancelled") {
+      case "stripeCreateTransfer":
+        tempBooking = await Booking.findById(
+          ObjectId(event.arguments.bookingId)
+        );
+        if (tempBooking && tempBooking.status !== "cancelled") {
+          tempOwner = await StripeConnect.findOne({
+            userId: tempBooking.ownerId,
+          });
+          if (tempOwner) {
+            // $1 tranfer to tax account
+            await StripePayment.createTransfer({
+              account: process.env.TAX_ACCOUNT,
+              transfer_group: tempBooking.transferGroup,
+              amount: 100,
+            });
+            // tranfer to Space Owner account
             return JSON.stringify(
-              await StripeConnectMethods.createPayout({
+              await StripePayment.createTransfer({
                 account: tempOwner.account,
-                amount: event.arguments.amount,
+                transfer_group: tempBooking.transferGroup,
+                amount:
+                  tempBooking.ownerPayment - tempBooking.ownerPayment * 0.15,
               })
             );
           } else {
