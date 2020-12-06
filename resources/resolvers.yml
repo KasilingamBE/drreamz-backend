@@ -224,6 +224,11 @@
   response: response.vtl
 - dataSource: booking
   type: Query
+  field: getBookingsWithOwnerId
+  request: booking/query.getBookingsWithOwnerId.vtl
+  response: response.vtl
+- dataSource: booking
+  type: Query
   field: getBookingsWithListingIdAndStatus
   request: booking/query.getBookingsWithListingIdAndStatus.vtl
   response: response.vtl
@@ -549,6 +554,11 @@
   response: response.vtl
 - dataSource: payment
   type: Query
+  field: stripeRetrieveBalance
+  request: payment/query.stripeRetrieveBalance.vtl
+  response: response.vtl
+- dataSource: payment
+  type: Query
   field: stripeCreatePaymentIntent
   request: payment/query.stripeCreatePaymentIntent.vtl
   response: response.vtl
@@ -576,4 +586,30 @@
   type: Query
   field: stripeDetachPaymentMethod
   request: payment/query.stripeDetachPaymentMethod.vtl
+  response: response.vtl
+# FormOption
+- dataSource: formOption
+  type: Query
+  field: getAllFormOptions
+  request: formOption/query.getAllFormOptions.vtl
+  response: response.vtl
+- dataSource: formOption
+  type: Query
+  field: getOneFormOption
+  request: formOption/query.getOneFormOption.vtl
+  response: response.vtl
+- dataSource: formOption
+  type: Mutation
+  field: createOneFormOption
+  request: formOption/mutation.createOneFormOption.vtl
+  response: response.vtl
+- dataSource: formOption
+  type: Mutation
+  field: updateOneFormOption
+  request: formOption/mutation.updateOneFormOption.vtl
+  response: response.vtl
+- dataSource: formOption
+  type: Mutation
+  field: deleteOneFormOption
+  request: formOption/mutation.deleteOneFormOption.vtl
   response: response.vtl

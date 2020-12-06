@@ -70,3 +70,7 @@
   name: faq
   config:
     functionName: faq_lambda
+- type: AWS_LAMBDA
+  name: formOption
+  config:
+    functionName: formOption_lambda

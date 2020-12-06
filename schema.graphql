@@ -1,4 +1,7 @@
 type Query {
+  getOneFormOption(id: ID!): FormOption
+  getAllFormOptions: [FormOption]
+
   setupPayout(listingId: String!, triggerTimer: String!): Boolean
 
   checkBookingAvailability(
@@ -41,6 +44,7 @@ type Query {
   ): String
   stripeRetrieveAccount(userId: String!): String
   stripeCreateLoginLinkAccount(userId: String!): String
+  stripeRetrieveBalance(userId: String!): String
 
   listUsersInGroup(groupName: String!): [CognitoGroupUser]
   listCognitoUsersByEmail(email: String!): [CognitoGroupUser]
@@ -72,18 +76,6 @@ type Query {
   getDemo: [Book]
   getAllEmails: [ScrapedEmail]
 
-  getAllTeams: [Menu]
-  getOneTeam(id: ID!): Menu
-
-  getAllIvdrips: [Menu]
-  getOneIvdrip(id: ID!): Menu
-
-  getAllTherapies: [Menu]
-  getOneTherapie(id: ID!): Menu
-
-  getAllServices: [Menu]
-  getOneService(id: ID!): Menu
-
   getListing(id: ID!): Listing
   getPublishedListings: [Listing]
   getOwnerListings(ownerId: String!): [Listing]
@@ -96,7 +88,8 @@ type Query {
   ): [Listing]
 
   getBooking(id: String!): Booking
-  getBookingsWithListingId(listingId: ID!): [Booking]
+  getBookingsWithListingId(listingId: String!): [Booking]
+  getBookingsWithOwnerId(ownerId: String!): [Booking]
   getBookingsWithListingIdAndStatus(listingId: ID!, status: String!): [Booking]
   getDriverBookings(driverId: String!): [Booking]
   getOwnerBookings(ownerId: String!): [Booking]
@@ -136,6 +129,23 @@ type Query {
 }
 
 type Mutation {
+  createOneFormOption(
+    title: String!
+    formName: String!
+    options: [FormOptionInput]
+    createdBy: String!
+  ): FormOption
+
+  updateOneFormOption(
+    id: ID!
+    title: String
+    formName: String
+    options: [FormOptionInput]
+    published: Boolean
+    updatedBy: String
+  ): FormOption
+  deleteOneFormOption(id: ID!): String
+
   createGroup(groupName: String!): String
   deleteGroup(groupName: String!): String
   adminAddUserToGroup(groupName: String!, username: String!): String
@@ -505,6 +515,28 @@ type Subscription {
     @aws_subscribe(mutations: ["createMessage"])
   checkIn(driverId: String): Booking
     @aws_subscribe(mutations: ["updateBookingStatus"])
+}
+
+type FormOption {
+  _id: ID
+  title: String
+  formName: String
+  options: [FormOptionO]
+  published: Boolean
+  createdBy: String
+  updatedBy: String
+  createdAt: String
+  updatedAt: String
+}
+
+input FormOptionInput {
+  label: String
+  value: String
+}
+
+type FormOptionO {
+  label: String
+  value: String
 }
 
 type CognitoGroupUser {

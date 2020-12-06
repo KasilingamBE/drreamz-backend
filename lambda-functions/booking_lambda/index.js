@@ -16,6 +16,10 @@ exports.handler = async (event) => {
         return await Booking.find({
           listingId: ObjectId(event.arguments.listingId),
         }).exec();
+      case "getBookingsWithOwnerId":
+        return await Booking.find({
+          ownerId: ObjectId(event.arguments.ownerId),
+        }).exec();
       case "getBookingsWithListingIdAndStatus":
         return await Booking.find({
           listingId: ObjectId(event.arguments.listingId),

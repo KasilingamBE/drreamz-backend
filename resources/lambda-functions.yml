@@ -38,3 +38,5 @@ promoCode_lambda:
   handler: lambda-functions/promoCode_lambda/index.handler
 faq_lambda:
   handler: lambda-functions/faq_lambda/index.handler
+formOption_lambda:
+  handler: lambda-functions/formOption_lambda/index.handler

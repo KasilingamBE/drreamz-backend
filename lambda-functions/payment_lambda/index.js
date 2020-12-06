@@ -70,13 +70,26 @@ exports.handler = async (event) => {
           return null;
         }
       case "stripeCreateLoginLinkAccount":
-        const user4 = await StripeConnect.findOne({
+        tempOwner = await StripeConnect.findOne({
           userId: event.arguments.userId,
         });
-        if (user4) {
+        if (tempOwner) {
           return JSON.stringify(
             await StripeConnectMethods.createLoginLinkAccount({
-              account: user4.account,
+              account: tempOwner.account,
+            })
+          );
+        } else {
+          return null;
+        }
+      case "stripeRetrieveBalance":
+        tempOwner = await StripeConnect.findOne({
+          userId: event.arguments.userId,
+        });
+        if (tempOwner) {
+          return JSON.stringify(
+            await StripeConnectMethods.retrieveBalance({
+              account: tempOwner.account,
             })
           );
         } else {
@@ -208,8 +221,13 @@ exports.handler = async (event) => {
               await StripePayment.createTransfer({
                 account: tempOwner.account,
                 transfer_group: tempBooking.transferGroup,
-                amount:
-                  tempBooking.ownerPayment - tempBooking.ownerPayment * 0.15,
+                amount: parseInt(
+                  (
+                    (tempBooking.ownerPayment -
+                      tempBooking.ownerPayment * 0.15) *
+                    100
+                  ).toFixed(2)
+                ),
               })
             );
           } else {
