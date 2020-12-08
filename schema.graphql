@@ -532,11 +532,13 @@ type FormOption {
 input FormOptionInput {
   label: String
   value: String
+  published: Boolean
 }
 
 type FormOptionO {
   label: String
   value: String
+  published: Boolean
 }
 
 type CognitoGroupUser {
