@@ -311,6 +311,11 @@
   response: response.vtl
 - dataSource: common
   type: Query
+  field: adminListAllUsers
+  request: common/query.adminListAllUsers.vtl
+  response: response.vtl
+- dataSource: common
+  type: Query
   field: listCognitoUsersByEmail
   request: common/query.listCognitoUsersByEmail.vtl
   response: response.vtl

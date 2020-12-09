@@ -46,6 +46,7 @@ type Query {
   stripeCreateLoginLinkAccount(userId: String!): String
   stripeRetrieveBalance(userId: String!): String
 
+  adminListAllUsers(limit: Int!, paginationToken: String): AllUsers
   listUsersInGroup(groupName: String!): [CognitoGroupUser]
   listCognitoUsersByEmail(email: String!): [CognitoGroupUser]
 
@@ -539,6 +540,11 @@ type FormOptionO {
   label: String
   value: String
   published: Boolean
+}
+
+type AllUsers {
+  Users: [CognitoGroupUser]
+  PaginationToken: String
 }
 
 type CognitoGroupUser {

@@ -7,6 +7,15 @@ AWS.config.apiVersions = {
   cognitoidentityserviceprovider: "2016-04-18",
 };
 
+const listAllUsers = (data) => {
+  var params = {
+    UserPoolId: UserPoolId,
+    Limit: data.limit,
+  };
+  if (data.paginationToken) params.PaginationToken = data.paginationToken;
+  return new AWS.CognitoIdentityServiceProvider().listUsers(params).promise();
+};
+
 const createGroup = (data) => {
   var params = {
     GroupName: data.groupName,
@@ -81,12 +90,15 @@ const listUsers = (data) => {
 
 const test = async () => {
   const data = {
-    GroupName: data.groupName,
-    UserPoolId: UserPoolId,
+    // GroupName: data.groupName,
+    UserPoolId: "us-east-1_biMepTpwK",
     Username: "fbac03ac-c11e-431c-8e5b-c3306f73e875",
+    limit: 2,
+    paginationToken: null,
   };
+  const ress = await listAllUsers(data);
   // const ress = await createGroup();
-  const ress = await deleteGroup();
+  // const ress = await deleteGroup();
   // const ress = await listUsersInGroup();
   // const ress = await adminAddUserToGroup();
   // const ress = await adminRemoveUserFromGroup();
@@ -95,8 +107,11 @@ const test = async () => {
   // console.log("ress", ress.Users[0]);
   console.log("ress", ress);
 };
+// test();
+// node lambda-functions/common_lambda/utils/Cognito.js
 
 module.exports = {
+  listAllUsers: listAllUsers,
   createGroup: createGroup,
   deleteGroup: deleteGroup,
   listUsersInGroup: listUsersInGroup,

@@ -1,12 +1,13 @@
 const cognito = require("./utils/Cognito");
 const { mailer } = require("../../utils/mailer");
 
-// const handler = async (event) => {
 exports.handler = async (event) => {
   try {
     switch (event.type) {
       case "listUsersInGroup":
         return (await cognito.listUsersInGroup(event.arguments)).Users;
+      case "adminListAllUsers":
+        return await cognito.listAllUsers(event.arguments);
       case "listCognitoUsersByEmail":
         return (await cognito.listUsers(event.arguments)).Users;
       case "createGroup":
@@ -36,24 +37,3 @@ exports.handler = async (event) => {
     throw error;
   }
 };
-
-// handler.then((res) => console.log(res)).then((error) => console.log(error));
-
-// const test = async () => {
-//   const data = {
-//     groupName: "VIVEK",
-//     // UserPoolId: UserPoolId,
-//     email: "contactvivekvt@gmail.com",
-//     username: "fbac03ac-c11e-431c-8e5b-c3306f73e875",
-//   };
-//   // const ress = await createGroup();
-//   // const ress = await deleteGroup();
-//   const ress = (await cognito.listUsersInGroup(data)).Users;
-//   // const ress = await adminAddUserToGroup();
-//   // const ress = await adminRemoveUserFromGroup();
-//   // const ress = await adminUpdateUserAttributes();
-//   // const ress = await cognito.listUsers(data);
-//   console.log("test function");
-//   console.log("ress", ress);
-// };
-// test();
