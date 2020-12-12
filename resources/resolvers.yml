@@ -168,6 +168,11 @@
 # Listing
 - dataSource: listing
   type: Query
+  field: getAllListingsSearch
+  request: listing/query.getAllListingsSearch.vtl
+  response: response.vtl
+- dataSource: listing
+  type: Query
   field: getPublishedListings
   request: listing/query.getPublishedListings.vtl
   response: response.vtl
@@ -236,6 +241,16 @@
   type: Query
   field: getBooking
   request: booking/query.getBooking.vtl
+  response: response.vtl
+- dataSource: booking
+  type: Query
+  field: getAllBookings
+  request: booking/query.getAllBookings.vtl
+  response: response.vtl
+- dataSource: booking
+  type: Query
+  field: getAllBookingsSearch
+  request: booking/query.getAllBookingsSearch.vtl
   response: response.vtl
 - dataSource: booking
   type: Query

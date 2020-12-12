@@ -12,6 +12,62 @@ exports.handler = async (event) => {
     switch (event.type) {
       case "getBooking":
         return await Booking.findById(ObjectId(event.arguments.id));
+      case "getAllBookings":
+        return await Booking.find(
+          event.arguments.filter ? JSON.parse(event.arguments.filter) : {}
+        );
+      case "getAllBookingsSearch":
+        const { page = 1, limit = 10, status, search = "" } = event.arguments;
+        const startDate = status == "upcoming" ? Date.parse(new Date()) : 1;
+        const bookings = await Booking.find({
+          status: status,
+          startDate: { $gte: startDate },
+          $or: [
+            {
+              address: { $regex: search, $options: "i" },
+            },
+            {
+              driverName: { $regex: search, $options: "i" },
+            },
+            {
+              driverEmail: { $regex: search, $options: "i" },
+            },
+            {
+              ownerName: { $regex: search, $options: "i" },
+            },
+            {
+              ownerEmail: { $regex: search, $options: "i" },
+            },
+          ],
+        })
+          .limit(limit * 1)
+          .skip((page - 1) * limit);
+
+        const bookingsCount = await Booking.countDocuments({
+          status: status,
+          startDate: { $gte: startDate },
+          $or: [
+            {
+              address: { $regex: search, $options: "i" },
+            },
+            {
+              driverName: { $regex: search, $options: "i" },
+            },
+            {
+              driverEmail: { $regex: search, $options: "i" },
+            },
+            {
+              ownerName: { $regex: search, $options: "i" },
+            },
+            {
+              ownerEmail: { $regex: search, $options: "i" },
+            },
+          ],
+        });
+        return {
+          bookings: bookings,
+          count: bookingsCount,
+        };
       case "getBookingsWithListingId":
         return await Booking.find({
           listingId: ObjectId(event.arguments.listingId),

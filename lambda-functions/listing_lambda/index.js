@@ -8,6 +8,41 @@ exports.handler = async (event) => {
     switch (event.type) {
       case "getListing":
         return await Listing.findById(event.arguments.id);
+      case "getAllListingsSearch":
+        const { page = 1, limit = 10, search = "" } = event.arguments;
+        const listings = await Listing.find({
+          $or: [
+            {
+              "locationDetails.address": { $regex: search, $options: "i" },
+            },
+            {
+              ownerName: { $regex: search, $options: "i" },
+            },
+            {
+              ownerEmail: { $regex: search, $options: "i" },
+            },
+          ],
+        })
+          .limit(limit * 1)
+          .skip((page - 1) * limit);
+
+        const listingsCount = await Listing.countDocuments({
+          $or: [
+            {
+              "locationDetails.address": { $regex: search, $options: "i" },
+            },
+            {
+              ownerName: { $regex: search, $options: "i" },
+            },
+            {
+              ownerEmail: { $regex: search, $options: "i" },
+            },
+          ],
+        });
+        return {
+          listings: listings,
+          count: listingsCount,
+        };
       case "getPublishedListings":
         return await Listing.find({ published: true }).exec();
       case "getListingsWithBookings":

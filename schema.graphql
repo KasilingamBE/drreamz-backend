@@ -78,6 +78,7 @@ type Query {
   getAllEmails: [ScrapedEmail]
 
   getListing(id: ID!): Listing
+  getAllListingsSearch(search: String, limit: Int, page: Int): ListingSearch
   getPublishedListings: [Listing]
   getOwnerListings(ownerId: String!): [Listing]
   getPublishedListingsWithLatLng(lat: Float!, lng: Float!): [Listing]
@@ -89,6 +90,13 @@ type Query {
   ): [Listing]
 
   getBooking(id: String!): Booking
+  getAllBookings(filter: String): [Booking]
+  getAllBookingsSearch(
+    status: String!
+    search: String
+    limit: Int
+    page: Int
+  ): BookingSearch
   getBookingsWithListingId(listingId: String!): [Booking]
   getBookingsWithOwnerId(ownerId: String!): [Booking]
   getBookingsWithListingIdAndStatus(listingId: ID!, status: String!): [Booking]
@@ -688,6 +696,11 @@ type FormSub {
   submitedAt: String
 }
 
+type ListingSearch {
+  listings: [Listing]
+  count: Int
+}
+
 type Listing {
   _id: ID!
   thumbnail: String
@@ -933,6 +946,11 @@ type Booking {
   createdAt: String
   qrCode: String
   spaceLabel: String
+}
+
+type BookingSearch {
+  bookings: [Booking]
+  count: Int
 }
 
 type CardDetails {
