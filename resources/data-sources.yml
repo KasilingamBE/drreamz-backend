@@ -74,3 +74,7 @@
   name: formOption
   config:
     functionName: formOption_lambda
+- type: AWS_LAMBDA
+  name: fee
+  config:
+    functionName: fee_lambda

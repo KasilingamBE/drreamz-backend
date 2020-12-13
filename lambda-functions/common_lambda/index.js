@@ -20,9 +20,14 @@ exports.handler = async (event) => {
         return await cognito.adminRemoveUserFromGroup(event.arguments);
       case "adminUpdateUserAttributes":
         return await cognito.adminUpdateUserAttributes(event.arguments);
+      case "adminToggleUserStatus":
+        return await cognito.adminToggleUserStatus(event.arguments);
       case "adminAddUserToGroupRole":
         await cognito.adminAddUserToGroup(event.arguments);
-        await cognito.adminUpdateUserAttributes(event.arguments);
+        await cognito.adminUpdateUserAttributes({
+          name: "custom:role",
+          value: event.arguments.value,
+        });
         // Send Email to driver and space owner
         const tempData = {
           emails: [event.arguments.email],

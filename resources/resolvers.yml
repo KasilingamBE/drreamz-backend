@@ -364,6 +364,11 @@
   field: adminAddUserToGroupRole
   request: common/mutation.adminAddUserToGroupRole.vtl
   response: response.vtl
+- dataSource: common
+  type: Mutation
+  field: adminToggleUserStatus
+  request: common/mutation.adminToggleUserStatus.vtl
+  response: response.vtl
 # Vehicle
 - dataSource: vehicle
   type: Query
@@ -632,4 +637,20 @@
   type: Mutation
   field: deleteOneFormOption
   request: formOption/mutation.deleteOneFormOption.vtl
+  response: response.vtl
+# Fee
+- dataSource: fee
+  type: Query
+  field: getOneFee
+  request: fee/query.getOneFee.vtl
+  response: response.vtl
+- dataSource: fee
+  type: Mutation
+  field: createOneFee
+  request: fee/mutation.createOneFee.vtl
+  response: response.vtl
+- dataSource: fee
+  type: Mutation
+  field: updateOneFee
+  request: fee/mutation.updateOneFee.vtl
   response: response.vtl

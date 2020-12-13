@@ -1,5 +1,5 @@
-const UserPoolId = process.env.USER_POOL_ID;
 const AWS = require("aws-sdk");
+const UserPoolId = process.env.USER_POOL_ID;
 
 AWS.config.region = "us-east-1";
 
@@ -7,10 +7,29 @@ AWS.config.apiVersions = {
   cognitoidentityserviceprovider: "2016-04-18",
 };
 
+// Disabled , Enabled
+// Filter: `status = \"Disabled"`,
+const adminToggleUserStatus = (data) => {
+  var params = {
+    UserPoolId: UserPoolId,
+    Username: data.username,
+  };
+  if (data.status) {
+    return new AWS.CognitoIdentityServiceProvider()
+      .adminEnableUser(params)
+      .promise();
+  } else {
+    return new AWS.CognitoIdentityServiceProvider()
+      .adminDisableUser(params)
+      .promise();
+  }
+};
+
 const listAllUsers = (data) => {
   var params = {
     UserPoolId: UserPoolId,
     Limit: data.limit,
+    Filter: data.filter ? data.filter : "", //`email ^= \"${data.email ? data.email : ""}"`,
   };
   if (data.paginationToken) params.PaginationToken = data.paginationToken;
   return new AWS.CognitoIdentityServiceProvider().listUsers(params).promise();
@@ -70,8 +89,8 @@ const adminUpdateUserAttributes = (data) => {
     Username: data.username,
     UserAttributes: [
       {
-        Name: "custom:role",
-        Value: data.role,
+        Name: data.name,
+        Value: data.value,
       },
     ],
   };
@@ -92,11 +111,13 @@ const test = async () => {
   const data = {
     // GroupName: data.groupName,
     UserPoolId: "us-east-1_biMepTpwK",
-    Username: "fbac03ac-c11e-431c-8e5b-c3306f73e875",
-    limit: 2,
+    username: "Google_101516729143320988639",
+    limit: 20,
     paginationToken: null,
+    status: false,
   };
-  const ress = await listAllUsers(data);
+  const ress = await adminToggleUserStatus(data);
+  // const ress = await listAllUsers(data);
   // const ress = await createGroup();
   // const ress = await deleteGroup();
   // const ress = await listUsersInGroup();
@@ -111,6 +132,7 @@ const test = async () => {
 // node lambda-functions/common_lambda/utils/Cognito.js
 
 module.exports = {
+  adminToggleUserStatus: adminToggleUserStatus,
   listAllUsers: listAllUsers,
   createGroup: createGroup,
   deleteGroup: deleteGroup,

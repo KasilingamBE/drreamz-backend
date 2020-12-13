@@ -1,4 +1,5 @@
 type Query {
+  getOneFee: Fee
   getOneFormOption(id: ID!): FormOption
   getAllFormOptions: [FormOption]
 
@@ -46,7 +47,11 @@ type Query {
   stripeCreateLoginLinkAccount(userId: String!): String
   stripeRetrieveBalance(userId: String!): String
 
-  adminListAllUsers(limit: Int!, paginationToken: String): AllUsers
+  adminListAllUsers(
+    limit: Int!
+    paginationToken: String
+    filter: String
+  ): AllUsers
   listUsersInGroup(groupName: String!): [CognitoGroupUser]
   listCognitoUsersByEmail(email: String!): [CognitoGroupUser]
 
@@ -138,6 +143,8 @@ type Query {
 }
 
 type Mutation {
+  createOneFee(fee: Int!, createdBy: String!): Fee
+  updateOneFee(fee: Int!, updatedBy: String!): Fee
   createOneFormOption(
     title: String!
     formName: String!
@@ -159,13 +166,18 @@ type Mutation {
   deleteGroup(groupName: String!): String
   adminAddUserToGroup(groupName: String!, username: String!): String
   adminRemoveUserFromGroup(groupName: String!, username: String!): String
-  adminUpdateUserAttributes(username: String!, role: String!): String
+  adminUpdateUserAttributes(
+    username: String!
+    name: String!
+    value: String!
+  ): String
   adminAddUserToGroupRole(
     groupName: String!
     username: String!
     role: String!
     email: String!
   ): String
+  adminToggleUserStatus(username: String!, status: Boolean!): String
 
   createOneImageSlider(
     userId: String!
@@ -524,6 +536,16 @@ type Subscription {
     @aws_subscribe(mutations: ["createMessage"])
   checkIn(driverId: String): Booking
     @aws_subscribe(mutations: ["updateBookingStatus"])
+}
+
+type Fee {
+  fee: Int
+  decimal: Float
+  createdAt: String
+  updatedAt: String
+  createdBy: String
+  updatedBy: String
+  published: Boolean
 }
 
 type FormOption {
