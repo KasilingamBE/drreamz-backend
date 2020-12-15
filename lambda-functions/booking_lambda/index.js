@@ -17,11 +17,16 @@ exports.handler = async (event) => {
           event.arguments.filter ? JSON.parse(event.arguments.filter) : {}
         );
       case "getAllBookingsSearch":
-        const { page = 1, limit = 10, status, search = "" } = event.arguments;
-        const startDate = status == "upcoming" ? Date.parse(new Date()) : 1;
+        let oneYearFromNow = new Date();
+        oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
+        let yearsBackFromNow = new Date();
+        yearsBackFromNow.setFullYear(yearsBackFromNow.getFullYear() - 20);
+        const { page = 1, limit = 10, status, search = "", startDate = yearsBackFromNow, endDate = oneYearFromNow, sortBy = 'startDate' } = event.arguments;
+        // const startDate = status == "upcoming" ? Date.parse(new Date()) : 1;
         const bookings = await Booking.find({
           status: status,
-          startDate: { $gte: startDate },
+          startDate: { $gte: Date.parse(startDate) },
+          endDate: { $lte: Date.parse(endDate) },
           $or: [
             {
               address: { $regex: search, $options: "i" },
@@ -41,11 +46,12 @@ exports.handler = async (event) => {
           ],
         })
           .limit(limit * 1)
-          .skip((page - 1) * limit);
+          .skip((page - 1) * limit).sort(sortBy).exec();
 
         const bookingsCount = await Booking.countDocuments({
           status: status,
-          startDate: { $gte: startDate },
+          startDate: { $gte: Date.parse(startDate) },
+          endDate: { $lte: Date.parse(endDate) },
           $or: [
             {
               address: { $regex: search, $options: "i" },

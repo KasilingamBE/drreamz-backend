@@ -101,6 +101,9 @@ type Query {
     search: String
     limit: Int
     page: Int
+    startDate: String
+    endDate: String
+    sortBy: String
   ): BookingSearch
   getBookingsWithListingId(listingId: String!): [Booking]
   getBookingsWithOwnerId(ownerId: String!): [Booking]

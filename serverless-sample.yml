@@ -1,0 +1,65 @@
+service: parkyourself-backend-vivekt #your service name eg internplan-backend-vivekt
+
+plugins:
+  - serverless-prune-plugin
+  - serverless-appsync-plugin
+  - serverless-appsync-offline
+  - serverless-offline
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'local'}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+        - lambda:*
+        - s3:*
+      Resource:
+        - arn:aws:dynamodb:${self:provider.region}:*:*
+        - arn:aws:lambda:${self:provider.region}:*:*
+    - Effect: Allow
+      Action:
+        - ses:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - cognito-idp:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - events:*
+      Resource: "*"
+  environment:
+    DATABASE: "mongodb+srv://<username>:<password>@codemarket-staging.k16z7.mongodb.net/parkyourself?retryWrites=true&w=majority"
+    FEE_ID: "5fd65bd01a73d200080cf73b"
+    AWS_REGION_D: "us-east-1"
+    TAX_ACCOUNT: "acct_1HovjvRU1JJZAjj7"
+    STRIPE_SECRET: "<stripe-secret>"
+    SENDER_EMAIL: "Codemarket <sumi@codemarket.io>"
+    REGION: "${self:provider.region}"
+    STAGE: "${self:provider.stage}"
+    USER_POOL_ID: "us-east-1_biMepTpwK"
+
+custom:
+  appSync: # appsync plugin configuration
+    name: ${self:service}
+    authenticationType: API_KEY
+    serviceRole: "AppSyncServiceRole"
+    dataSources: ${file(resources/data-sources.yml)}
+    mappingTemplates: ${file(resources/resolvers.yml)}
+  appsync-offline: # appsync-offline configuration
+    port: 3030
+  defaultPrefix: ${self:service}-${self:provider.stage}
+  prune:
+    automatic: true
+    number: 3
+
+functions:
+  - ${file(resources/lambda-functions.yml)}
+
+resources:
+  # Roles
+  - ${file(resources/roles.yml)}
