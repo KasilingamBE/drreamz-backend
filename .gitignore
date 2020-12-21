@@ -2,5 +2,9 @@
 node_modules
 /.dynamodb
 /.serverless
-serverless.yml
+# serverless.yml
 test.js
+.DS_Store
+config.yml
+
+vivekt

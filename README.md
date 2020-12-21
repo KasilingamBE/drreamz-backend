@@ -11,13 +11,7 @@ npm install -g serverless
 npm install
 ```
 
-Rename serverless-sample.yml to serverless.yml and add your mongodb username password in environment variable.
-
-## Run Locally
-
-```bash
-npm start
-```
+Duplicate config-sample.yml and rename to config.yml and add your mongodb connection string in environment variable.
 
 ## Deploy to AWS
 

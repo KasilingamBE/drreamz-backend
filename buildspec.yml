@@ -1,0 +1,13 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - npm install
+      - npm install -g serverless
+  pre_build:
+    commands:
+      # - aws s3 sync s3://unitabiz-codebuild/unitabiz-nextjs/master/.serverless .serverless --delete
+  build:
+    commands:
+      - serverless deploy --SERVICE_NAME parkyourself-backend-vivekt --MONGO_USERNAME vivekt --MONGO_PASSWORD $MONGO_PASSWORD
+      # aws s3 sync s3://codemarket-cicd/parkyourself/backend/vivekt vivekt --delete

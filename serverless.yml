@@ -1,10 +1,8 @@
-service: parkyourself-backend-vivekt #your service name eg internplan-backend-vivekt
+service: ${opt:SERVICE_NAME, 'parkyourself-backend'}
 
 plugins:
-  - serverless-prune-plugin
+  # - serverless-prune-plugin
   - serverless-appsync-plugin
-  - serverless-appsync-offline
-  - serverless-offline
 
 provider:
   name: aws
@@ -23,31 +21,30 @@ provider:
     - Effect: Allow
       Action:
         - ses:*
-      Resource: "*"
+      Resource: '*'
     - Effect: Allow
       Action:
         - cognito-idp:*
-      Resource: "*"
+      Resource: '*'
     - Effect: Allow
       Action:
         - events:*
-      Resource: "*"
+      Resource: '*'
   environment:
-    DATABASE: "mongodb+srv://<username>:<password>@codemarket-staging.k16z7.mongodb.net/parkyourself?retryWrites=true&w=majority"
-    FEE_ID: "5fd65bd01a73d200080cf73b"
-    REGION: "us-east-1"
-    TAX_ACCOUNT: "acct_1HovjvRU1JJZAjj7"
-    STRIPE_SECRET: "<stripe-secret>"
-    SENDER_EMAIL: "Codemarket <sumi@codemarket.io>"
-    REGION: "${self:provider.region}"
-    STAGE: "${self:provider.stage}"
-    USER_POOL_ID: "us-east-1_biMepTpwK"
+    SENDER_EMAIL: ${ssm:/parkyourself/sender/email}
+    REGION: '${self:provider.region}'
+    STAGE: '${self:provider.stage}'
+    DATABASE: 'mongodb+srv://${opt:MONGO_USERNAME}:${opt:MONGO_PASSWORD}@codemarket-staging.k16z7.mongodb.net/parkyourself?retryWrites=true&w=majority'
+    STRIPE_SECRET: ${ssm:/parkyourself/stripe/test/secret}
+    USER_POOL_ID: ${ssm:/parkyourself/userpool}
+    FEE_ID: ${ssm:/parkyourself/fee}
+    TAX_ACCOUNT: ${ssm:/parkyourself/tax/account}
 
 custom:
   appSync: # appsync plugin configuration
     name: ${self:service}
     authenticationType: API_KEY
-    serviceRole: "AppSyncServiceRole"
+    serviceRole: 'AppSyncServiceRole'
     dataSources: ${file(resources/data-sources.yml)}
     mappingTemplates: ${file(resources/resolvers.yml)}
   appsync-offline: # appsync-offline configuration
