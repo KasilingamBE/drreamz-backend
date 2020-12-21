@@ -9,5 +9,5 @@ phases:
       # - aws s3 sync s3://unitabiz-codebuild/unitabiz-nextjs/master/.serverless .serverless --delete
   build:
     commands:
-      - serverless deploy --SERVICE_NAME parkyourself-backend-vivekt --MONGO_USERNAME vivekt --MONGO_PASSWORD $MONGO_PASSWORD
+      - serverless deploy --SERVICE_NAME $SERVICE_NAME --MONGO_USERNAME $MONGO_USERNAME --MONGO_PASSWORD $MONGO_PASSWORD
       # aws s3 sync s3://codemarket-cicd/parkyourself/backend/vivekt vivekt --delete
