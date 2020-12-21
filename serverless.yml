@@ -1,7 +1,7 @@
 service: ${opt:SERVICE_NAME, 'parkyourself-backend'}
 
 plugins:
-  # - serverless-prune-plugin
+  - serverless-prune-plugin
   - serverless-appsync-plugin
 
 provider:
