@@ -6,11 +6,10 @@ phases:
       - npm install -g serverless
   pre_build:
     commands:
-      # - aws s3 sync s3://unitabiz-codebuild/unitabiz-nextjs/master/.serverless .serverless --delete
+      - echo Starting deployment
   build:
     commands:
       - serverless deploy --SERVICE_NAME $SERVICE_NAME --MONGO_USERNAME $MONGO_USERNAME --MONGO_PASSWORD $MONGO_PASSWORD
-      # aws s3 sync s3://codemarket-cicd/parkyourself/backend/vivekt vivekt --delete
   post_build:
     commands:
       - echo Build completed on `date`

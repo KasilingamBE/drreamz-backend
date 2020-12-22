@@ -1,4 +1,4 @@
-# package directories
+## package directories
 node_modules
 /.dynamodb
 /.serverless
