@@ -1,20 +1,21 @@
-const DB = require("../../utils/DB");
-const Fee = require("./utils/feeModel");
+const ObjectId = require('mongodb').ObjectID;
+const DB = require('../../utils/DB');
+const Fee = require('./utils/feeModel');
 DB();
 
 exports.handler = async (event) => {
   try {
     switch (event.type) {
-      case "getOneFee":
-        return await Fee.findById(process.env.FEE_ID);
-      case "createOneFee":
+      case 'getOneFee':
+        return await Fee.findById(ObjectId(process.env.FEE_ID));
+      case 'createOneFee':
         return await Fee.create({
           ...event.arguments,
           decimal: event.arguments.fee / 100,
         });
-      case "updateOneFee":
+      case 'updateOneFee':
         return await Fee.findByIdAndUpdate(
-          process.env.FEE_ID,
+          ObjectId(process.env.FEE_ID),
           {
             ...event.arguments,
             decimal: event.arguments.fee / 100,
