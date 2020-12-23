@@ -1,9 +1,9 @@
-demo:
-  handler: lambda-functions/demo_lambda/index.handler
-  package:
-    include:
-      - "!**"
-      - lambda-functions/demo_lambda/**
+# demo:
+#   handler: lambda-functions/demo_lambda/index.handler
+#   package:
+#     include:
+#       - "!**"
+#       - lambda-functions/demo_lambda/**
 # menu_lambda:
 #   handler: lambda-functions/menu_lambda/index.handler
 email_lambda:
@@ -42,3 +42,5 @@ formOption_lambda:
   handler: lambda-functions/formOption_lambda/index.handler
 fee_lambda:
   handler: lambda-functions/fee_lambda/index.handler
+fee2_lambda:
+  handler: lambda-functions/fee2_lambda/index.handler

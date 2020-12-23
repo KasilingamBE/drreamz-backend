@@ -1,4 +1,5 @@
 type Query {
+  getOneFee2: String
   getOneFee: Fee
   getOneFormOption(id: ID!): FormOption
   getAllFormOptions: [FormOption]

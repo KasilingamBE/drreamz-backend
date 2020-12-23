@@ -1,7 +1,7 @@
-- type: AWS_LAMBDA
-  name: demo
-  config:
-    functionName: demo
+# - type: AWS_LAMBDA
+#   name: demo
+#   config:
+#     functionName: demo
 # - type: AWS_LAMBDA
 #   name: menu
 #   config:
@@ -78,3 +78,7 @@
   name: fee
   config:
     functionName: fee_lambda
+- type: AWS_LAMBDA
+  name: fee2
+  config:
+    functionName: fee2_lambda
