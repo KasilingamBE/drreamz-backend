@@ -1,52 +1,61 @@
-const DB = require("../../utils/DB");
-const Booking = require("./utils/bookingModel");
-const { setupTransfer } = require("./utils/cloudWatchEvent");
-const { mailer } = require("../../utils/mailer");
-const StripePayment = require("../payment_lambda/utils/stripePayment");
-const ObjectId = require("mongodb").ObjectID;
+const DB = require('../../utils/DB');
+const Booking = require('./utils/bookingModel');
+const { setupTransfer } = require('./utils/cloudWatchEvent');
+const { mailer } = require('../../utils/mailer');
+const StripePayment = require('../payment_lambda/utils/stripePayment');
+const ObjectId = require('mongodb').ObjectID;
 DB();
 
 exports.handler = async (event) => {
   try {
     let updatedBooking = null;
     switch (event.type) {
-      case "getBooking":
+      case 'getBooking':
         return await Booking.findById(ObjectId(event.arguments.id));
-      case "getAllBookings":
+      case 'getAllBookings':
         return await Booking.find(
           event.arguments.filter ? JSON.parse(event.arguments.filter) : {}
         );
-      case "getAllBookingsSearch":
+      case 'getAllBookingsSearch':
         let oneYearFromNow = new Date();
         oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
         let yearsBackFromNow = new Date();
-        yearsBackFromNow.setFullYear(yearsBackFromNow.getFullYear() - 20);
-        const { page = 1, limit = 10, status, search = "", startDate = yearsBackFromNow, endDate = oneYearFromNow, sortBy = 'startDate' } = event.arguments;
-        // const startDate = status == "upcoming" ? Date.parse(new Date()) : 1;
+        yearsBackFromNow.setFullYear(yearsBackFromNow.getFullYear() - 100);
+        const {
+          page = 1,
+          limit = 10,
+          status,
+          search = '',
+          startDate = yearsBackFromNow,
+          endDate = oneYearFromNow,
+          sortBy = 'startDate',
+        } = event.arguments;
         const bookings = await Booking.find({
           status: status,
           startDate: { $gte: Date.parse(startDate) },
           endDate: { $lte: Date.parse(endDate) },
           $or: [
             {
-              address: { $regex: search, $options: "i" },
+              address: { $regex: search, $options: 'i' },
             },
             {
-              driverName: { $regex: search, $options: "i" },
+              driverName: { $regex: search, $options: 'i' },
             },
             {
-              driverEmail: { $regex: search, $options: "i" },
+              driverEmail: { $regex: search, $options: 'i' },
             },
             {
-              ownerName: { $regex: search, $options: "i" },
+              ownerName: { $regex: search, $options: 'i' },
             },
             {
-              ownerEmail: { $regex: search, $options: "i" },
+              ownerEmail: { $regex: search, $options: 'i' },
             },
           ],
         })
           .limit(limit * 1)
-          .skip((page - 1) * limit).sort(sortBy).exec();
+          .skip((page - 1) * limit)
+          .sort(sortBy)
+          .exec();
 
         const bookingsCount = await Booking.countDocuments({
           status: status,
@@ -54,19 +63,19 @@ exports.handler = async (event) => {
           endDate: { $lte: Date.parse(endDate) },
           $or: [
             {
-              address: { $regex: search, $options: "i" },
+              address: { $regex: search, $options: 'i' },
             },
             {
-              driverName: { $regex: search, $options: "i" },
+              driverName: { $regex: search, $options: 'i' },
             },
             {
-              driverEmail: { $regex: search, $options: "i" },
+              driverEmail: { $regex: search, $options: 'i' },
             },
             {
-              ownerName: { $regex: search, $options: "i" },
+              ownerName: { $regex: search, $options: 'i' },
             },
             {
-              ownerEmail: { $regex: search, $options: "i" },
+              ownerEmail: { $regex: search, $options: 'i' },
             },
           ],
         });
@@ -74,28 +83,28 @@ exports.handler = async (event) => {
           bookings: bookings,
           count: bookingsCount,
         };
-      case "getBookingsWithListingId":
+      case 'getBookingsWithListingId':
         return await Booking.find({
           listingId: ObjectId(event.arguments.listingId),
         }).exec();
-      case "getBookingsWithOwnerId":
+      case 'getBookingsWithOwnerId':
         return await Booking.find({
           ownerId: ObjectId(event.arguments.ownerId),
         }).exec();
-      case "getBookingsWithListingIdAndStatus":
+      case 'getBookingsWithListingIdAndStatus':
         return await Booking.find({
           listingId: ObjectId(event.arguments.listingId),
           status: event.arguments.status,
         }).exec();
-      case "getDriverBookings":
+      case 'getDriverBookings':
         return await Booking.find({
           driverId: event.arguments.driverId,
         }).exec();
-      case "getOwnerBookings":
+      case 'getOwnerBookings':
         return await Booking.find({
           ownerId: event.arguments.ownerId,
         }).exec();
-      case "checkBookingAvailability":
+      case 'checkBookingAvailability':
         const tempSlots = await Booking.find({
           listingId: ObjectId(event.arguments.listingId),
           $or: [
@@ -114,12 +123,12 @@ exports.handler = async (event) => {
           ],
         });
         return tempSlots.map((s) => s.spaceLabel);
-      case "setupPayout":
+      case 'setupPayout':
         return await setupTransfer({
           bookingId: event.arguments.listingId,
           end: event.arguments.triggerTimer,
         });
-      case "createBooking":
+      case 'createBooking':
         const newBooking = await Booking.create({
           ...event.arguments,
           listingId: ObjectId(event.arguments.listingId),
@@ -129,13 +138,13 @@ exports.handler = async (event) => {
         // Send Email to driver and space owner
         const tempOwnerData = {
           emails: [event.arguments.ownerEmail],
-          subject: "You have a new Booking",
-          message: "A User just booked a space at your Parking!",
+          subject: 'You have a new Booking',
+          message: 'A User just booked a space at your Parking!',
         };
         const tempDriverData = {
           emails: [event.arguments.driverEmail],
-          subject: "Booking Successful",
-          message: "Congratulations!Your Booking is Successful",
+          subject: 'Booking Successful',
+          message: 'Congratulations!Your Booking is Successful',
         };
         await mailer(tempOwnerData);
         await mailer(tempDriverData);
@@ -144,7 +153,7 @@ exports.handler = async (event) => {
           end: newBooking.end,
         });
         return newBooking;
-      case "updateBooking":
+      case 'updateBooking':
         return await Booking.findByIdAndUpdate(
           event.arguments.id,
           event.arguments,
@@ -154,15 +163,15 @@ exports.handler = async (event) => {
           }
         );
 
-      case "updateBookingStatus":
-        if (event.arguments.status === "cancelled") {
+      case 'updateBookingStatus':
+        if (event.arguments.status === 'cancelled') {
           const tempBooking = await Booking.findById(
             ObjectId(event.arguments.id)
           );
           const tempRefund = await StripePayment.createRefund({
             paymentIntent: tempBooking.paymentIntent,
           });
-          if (tempRefund === "succeeded") {
+          if (tempRefund === 'succeeded') {
             updatedBooking = await Booking.findByIdAndUpdate(
               ObjectId(event.arguments.id),
               { status: event.arguments.status },
@@ -185,35 +194,35 @@ exports.handler = async (event) => {
           );
         }
         //Send Email to driver and space owner
-        if (event.arguments.status === "current") {
+        if (event.arguments.status === 'current') {
           const tempOwnerData = {
             emails: [event.arguments.ownerEmail],
-            subject: "A User just Checked In",
-            message: "A User has been checked in successfully!",
+            subject: 'A User just Checked In',
+            message: 'A User has been checked in successfully!',
           };
           const tempDriverData = {
             emails: [event.arguments.driverEmail],
-            subject: "You have Checked In",
-            message: "You have Checked in Successfully!",
+            subject: 'You have Checked In',
+            message: 'You have Checked in Successfully!',
           };
           await mailer(tempOwnerData);
           await mailer(tempDriverData);
-        } else if (event.arguments.status === "completed") {
+        } else if (event.arguments.status === 'completed') {
           const tempOwnerData = {
             emails: [event.arguments.ownerEmail],
-            subject: "A User just Checked Out",
-            message: "A User has been checked out successfully!",
+            subject: 'A User just Checked Out',
+            message: 'A User has been checked out successfully!',
           };
           const tempDriverData = {
             emails: [event.arguments.driverEmail],
-            subject: "You have Checked Out",
-            message: "You have Checked Out Successfully!",
+            subject: 'You have Checked Out',
+            message: 'You have Checked Out Successfully!',
           };
           await mailer(tempOwnerData);
           await mailer(tempDriverData);
         }
         return updatedBooking;
-      case "deleteBooking":
+      case 'deleteBooking':
         return await Booking.findByIdAndDelete(event.arguments.id);
       default:
         return null;

@@ -1,5 +1,5 @@
-# demo:
-#   handler: lambda-functions/demo_lambda/index.handler
+demo:
+  handler: lambda-functions/demo_lambda/index.handler
 #   package:
 #     include:
 #       - "!**"
@@ -44,3 +44,5 @@ fee_lambda:
   handler: lambda-functions/fee_lambda/index.handler
 fee2_lambda:
   handler: lambda-functions/fee2_lambda/index.handler
+user_lambda:
+  handler: lambda-functions/user_lambda/index.handler

@@ -1,4 +1,20 @@
 type Query {
+  getAllUsers(filter: String): [User]
+  getAllUsersSearch(
+    page: Int
+    limit: Int
+    status: String
+    search: String
+    createdAt: String
+    createdAtMax: String
+    sortBy: String
+  ): UserSearch
+  getOneUserId(id: ID!): User
+  getOneUserSub(username: String!): User
+
+  getAllDemos(status: String, ref: ID): [Demo]
+  getOneDemo(id: ID!): Demo
+
   getOneFee2: String
   getOneFee: Fee
   getOneFormOption(id: ID!): FormOption
@@ -80,7 +96,7 @@ type Query {
   getAllFormSubs: [FormSub]
 
   getAllImages: [ImageUpload]
-  getDemo: [Book]
+  # getDemo: [Book]
   getAllEmails: [ScrapedEmail]
 
   getListing(id: ID!): Listing
@@ -147,6 +163,22 @@ type Query {
 }
 
 type Mutation {
+  toggleOneUserStatus(
+    username: String!
+    updatedBy: String!
+    status: Boolean!
+  ): User
+  updateOneUser(
+    username: String!
+    updatedBy: String!
+    name: String
+    email: String
+    picture: String
+  ): User
+
+  createOneDemo(name: String!, phone: Int!, createdBy: String!): Demo
+  updateOneDemo(id: ID!, name: String, phone: Int, updatedBy: String!): Demo
+  deleteOneDemo(id: ID!, updatedBy: String!): Boolean
   createOneFee(fee: Int!, createdBy: String!): Fee
   updateOneFee(fee: Int!, updatedBy: String!): Fee
   createOneFormOption(
@@ -540,6 +572,38 @@ type Subscription {
     @aws_subscribe(mutations: ["createMessage"])
   checkIn(driverId: String): Booking
     @aws_subscribe(mutations: ["updateBookingStatus"])
+}
+
+type UserSearch {
+  users: [User]
+  count: Int
+}
+type User {
+  _id: ID
+  username: String
+  name: String
+  email: String
+  picture: String
+  active: Boolean
+  status: String
+  confirmed: Boolean
+  ref: ID
+  createdAt: String
+  createdBy: String
+  updatedAt: String
+  updatedBy: String
+}
+
+type Demo {
+  _id: ID
+  name: String
+  phone: Int
+  ref: ID
+  status: String
+  createdBy: String
+  createdAt: String
+  updatedAt: String
+  updatedBy: String
 }
 
 type Fee {

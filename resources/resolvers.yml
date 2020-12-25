@@ -1,9 +1,29 @@
 # demo
-# - dataSource: demo
-#   type: Query
-#   field: getDemo
-#   request: book/query.listBooks-request.vtl
-#   response: response.vtl
+- dataSource: demo
+  type: Query
+  field: getAllDemos
+  request: demo/query.getAllDemos.vtl
+  response: response.vtl
+- dataSource: demo
+  type: Query
+  field: getOneDemo
+  request: demo/query.getOneDemo.vtl
+  response: response.vtl
+- dataSource: demo
+  type: Mutation
+  field: createOneDemo
+  request: demo/mutation.createOneDemo.vtl
+  response: response.vtl
+- dataSource: demo
+  type: Mutation
+  field: updateOneDemo
+  request: demo/mutation.updateOneDemo.vtl
+  response: response.vtl
+- dataSource: demo
+  type: Mutation
+  field: deleteOneDemo
+  request: demo/mutation.deleteOneDemo.vtl
+  response: response.vtl
 # email
 - dataSource: email
   type: Mutation
@@ -669,4 +689,35 @@
   type: Mutation
   field: updateOneFee
   request: fee2/mutation.updateOneFee.vtl
+  response: response.vtl
+# Users
+- dataSource: user
+  type: Query
+  field: getAllUsers
+  request: user/query.getAllUsers.vtl
+  response: response.vtl
+- dataSource: user
+  type: Query
+  field: getAllUsersSearch
+  request: user/query.getAllUsersSearch.vtl
+  response: response.vtl
+- dataSource: user
+  type: Query
+  field: getOneUserId
+  request: user/query.getOneUserId.vtl
+  response: response.vtl
+- dataSource: user
+  type: Query
+  field: getOneUserSub
+  request: user/query.getOneUserSub.vtl
+  response: response.vtl
+- dataSource: user
+  type: Mutation
+  field: toggleOneUserStatus
+  request: user/mutation.toggleOneUserStatus.vtl
+  response: response.vtl
+- dataSource: user
+  type: Mutation
+  field: updateOneUser
+  request: user/mutation.updateOneUser.vtl
   response: response.vtl
