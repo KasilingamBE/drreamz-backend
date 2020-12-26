@@ -1,25 +1,26 @@
-const DB = require("../../utils/DB");
-const Listing = require("./utils/listingModel");
-const cognito = require("../common_lambda/utils/Cognito");
+const DB = require('../../utils/DB');
+const Listing = require('./utils/listingModel');
+const cognito = require('../common_lambda/utils/Cognito');
+const User = require('../user_lambda/utils/userModel');
 DB();
 
 exports.handler = async (event) => {
   try {
     switch (event.type) {
-      case "getListing":
+      case 'getListing':
         return await Listing.findById(event.arguments.id);
-      case "getAllListingsSearch":
-        const { page = 1, limit = 10, search = "" } = event.arguments;
+      case 'getAllListingsSearch':
+        const { page = 1, limit = 10, search = '' } = event.arguments;
         const listings = await Listing.find({
           $or: [
             {
-              "locationDetails.address": { $regex: search, $options: "i" },
+              'locationDetails.address': { $regex: search, $options: 'i' },
             },
             {
-              ownerName: { $regex: search, $options: "i" },
+              ownerName: { $regex: search, $options: 'i' },
             },
             {
-              ownerEmail: { $regex: search, $options: "i" },
+              ownerEmail: { $regex: search, $options: 'i' },
             },
           ],
         })
@@ -29,13 +30,13 @@ exports.handler = async (event) => {
         const listingsCount = await Listing.countDocuments({
           $or: [
             {
-              "locationDetails.address": { $regex: search, $options: "i" },
+              'locationDetails.address': { $regex: search, $options: 'i' },
             },
             {
-              ownerName: { $regex: search, $options: "i" },
+              ownerName: { $regex: search, $options: 'i' },
             },
             {
-              ownerEmail: { $regex: search, $options: "i" },
+              ownerEmail: { $regex: search, $options: 'i' },
             },
           ],
         });
@@ -43,28 +44,28 @@ exports.handler = async (event) => {
           listings: listings,
           count: listingsCount,
         };
-      case "getPublishedListings":
+      case 'getPublishedListings':
         return await Listing.find({ published: true }).exec();
-      case "getListingsWithBookings":
+      case 'getListingsWithBookings':
         return await Listing.aggregate([
           {
             $geoNear: {
               near: {
-                type: "Point",
+                type: 'Point',
                 coordinates: [event.arguments.lng, event.arguments.lat],
               },
               maxDistance: 100000,
               spherical: true,
-              distanceField: "distance",
+              distanceField: 'distance',
             },
           },
           { $match: { published: true } },
           {
             $lookup: {
-              from: "bookings",
-              as: "bookingCount",
+              from: 'bookings',
+              as: 'bookingCount',
               let: {
-                listingId: "$_id",
+                listingId: '$_id',
               },
               pipeline: [
                 {
@@ -73,16 +74,16 @@ exports.handler = async (event) => {
                       $or: [
                         {
                           $and: [
-                            { $eq: ["$listingId", "$$listingId"] },
+                            { $eq: ['$listingId', '$$listingId'] },
                             {
                               $lte: [
-                                "$startDate",
+                                '$startDate',
                                 Date.parse(event.arguments.start),
                               ],
                             },
                             {
                               $gt: [
-                                "$endDate",
+                                '$endDate',
                                 Date.parse(event.arguments.start),
                               ],
                             },
@@ -90,16 +91,16 @@ exports.handler = async (event) => {
                         },
                         {
                           $and: [
-                            { $eq: ["$listingId", "$$listingId"] },
+                            { $eq: ['$listingId', '$$listingId'] },
                             {
                               $lt: [
-                                "$startDate",
+                                '$startDate',
                                 Date.parse(event.arguments.end),
                               ],
                             },
                             {
                               $gte: [
-                                "$endDate",
+                                '$endDate',
                                 Date.parse(event.arguments.end),
                               ],
                             },
@@ -110,32 +111,36 @@ exports.handler = async (event) => {
                   },
                 },
                 {
-                  $count: "total",
+                  $count: 'total',
                 },
               ],
             },
           },
         ]);
-      case "getPublishedListingsWithLatLng":
+      case 'getPublishedListingsWithLatLng':
         return await Listing.find({
           published: true,
           location: {
             $near: {
               $geometry: {
-                type: "Point",
+                type: 'Point',
                 coordinates: [event.arguments.lng, event.arguments.lat],
               },
               $maxDistance: 100000,
             },
           },
         }).exec();
-      case "getOwnerListings":
+      case 'getOwnerListings':
         return await Listing.find({ ownerId: event.arguments.ownerId }).exec();
-      case "createListing":
+      case 'createListing':
         let listing = await Listing.create(event.arguments);
+        User.findOneAndUpdate(
+          { username: event.arguments.ownerId },
+          { $inc: { listings: 1 } }
+        );
         await cognito.createGroup({ groupName: `${listing._id}` });
         return listing;
-      case "updateListing":
+      case 'updateListing':
         return await Listing.findByIdAndUpdate(
           event.arguments.id,
           event.arguments,
@@ -144,9 +149,13 @@ exports.handler = async (event) => {
             runValidators: true,
           }
         );
-      case "deleteListing":
+      case 'deleteListing':
         let deletedListing = await Listing.findByIdAndDelete(
           event.arguments.id
+        );
+        User.findOneAndUpdate(
+          { username: event.arguments.ownerId },
+          { $inc: { listings: -1 } }
         );
         await cognito.deleteGroup({ groupName: `${event.arguments.id}` });
         return deletedListing;

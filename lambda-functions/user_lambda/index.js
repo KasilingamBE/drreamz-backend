@@ -9,6 +9,8 @@ exports.handler = async (event) => {
     let tempUser = null;
     let tempCognitoUser = null;
     let userFlag = null;
+    let tempId = null;
+    let tempFilter = {};
     if (event.triggerSource) {
       console.log('Pre Sign up Event', event);
       if (event.triggerSource.includes('Facebook')) {
@@ -23,10 +25,6 @@ exports.handler = async (event) => {
         tempCognitoUser.Users &&
         tempCognitoUser.Users[0] &&
         tempCognitoUser.Users[0].Username;
-      // if (event.triggerSource == 'PreSignUp_AdminCreateUser') {
-      //   event.response.autoVerifyEmail = true;
-      //   return event;
-      // } else
       if (!userFlag) {
         if (event.triggerSource == 'PreSignUp_ExternalProvider') {
           let [providerName, providerUserId] = event.userName.split('_');
@@ -105,13 +103,23 @@ exports.handler = async (event) => {
           createdAt = yearsBackFromNow,
           createdAtMax = oneYearFromNow,
           sortBy = '-createdAtDate',
+          bookings = 0,
+          listings = 0,
+          active = null,
         } = event.arguments;
+
+        if (active !== null) {
+          tempFilter.active = active;
+        }
         const users = await User.find({
+          ...tempFilter,
           status,
           createdAtDate: {
             $gte: Date.parse(createdAt),
             $lte: Date.parse(createdAtMax),
           },
+          bookings: { $gte: bookings },
+          listings: { $gte: listings },
           $or: [
             {
               email: { $regex: search, $options: 'i' },
@@ -127,11 +135,14 @@ exports.handler = async (event) => {
           .exec();
 
         const usersCount = await User.countDocuments({
+          ...tempFilter,
           status,
           createdAtDate: {
             $gte: Date.parse(createdAt),
             $lte: Date.parse(createdAtMax),
           },
+          bookings: { $gte: bookings },
+          listings: { $gte: listings },
           $or: [
             {
               email: { $regex: search, $options: 'i' },
@@ -149,17 +160,24 @@ exports.handler = async (event) => {
       case 'getOneUserId':
         return await User.findById(event.arguments.id);
       case 'getOneUserSub':
-        return await User.findOne({ username: event.arguments.username });
+        return await User.findOne({
+          username: event.arguments.username,
+          status: 'open',
+        });
       case 'toggleOneUserStatus':
         await cognito.adminToggleUserStatus(event.arguments);
-        tempUser = await User.findOne({ username: event.arguments.username });
+        tempUser = await User.findOne({
+          username: event.arguments.username,
+          status: 'open',
+        });
+        tempId = tempUser._id;
         tempUser._id = mongoose.Types.ObjectId();
-        tempUser.ref = mongoose.Types.ObjectId(event.arguments.id);
+        tempUser.ref = mongoose.Types.ObjectId(tempId);
         tempUser.status = 'close';
         tempUser.isNew = true;
         tempUser.save();
         return await User.findByIdAndUpdate(
-          event.arguments.id,
+          tempId,
           {
             active: event.arguments.status,
             updatedBy: event.arguments.updatedBy,
@@ -171,14 +189,18 @@ exports.handler = async (event) => {
           }
         );
       case 'updateOneUser':
-        tempUser = await User.findOne({ username: event.arguments.username });
+        tempUser = await User.findOne({
+          username: event.arguments.username,
+          status: 'open',
+        });
+        tempId = tempUser._id;
         tempUser._id = mongoose.Types.ObjectId();
-        tempUser.ref = mongoose.Types.ObjectId(event.arguments.id);
+        tempUser.ref = mongoose.Types.ObjectId(tempId);
         tempUser.status = 'close';
         tempUser.isNew = true;
         tempUser.save();
         return await User.findByIdAndUpdate(
-          event.arguments.id,
+          tempId,
           { ...event.arguments, updatedAt: new Date() },
           {
             new: true,

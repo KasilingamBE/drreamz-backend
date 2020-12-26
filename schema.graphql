@@ -8,6 +8,9 @@ type Query {
     createdAt: String
     createdAtMax: String
     sortBy: String
+    listings: Int
+    bookings: Int
+    active: Boolean
   ): UserSearch
   getOneUserId(id: ID!): User
   getOneUserSub(username: String!): User
@@ -586,6 +589,8 @@ type User {
   picture: String
   active: Boolean
   status: String
+  listings: Int
+  bookings: Int
   confirmed: Boolean
   ref: ID
   createdAt: String

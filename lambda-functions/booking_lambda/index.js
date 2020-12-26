@@ -1,9 +1,10 @@
+const ObjectId = require('mongodb').ObjectID;
 const DB = require('../../utils/DB');
 const Booking = require('./utils/bookingModel');
 const { setupTransfer } = require('./utils/cloudWatchEvent');
 const { mailer } = require('../../utils/mailer');
 const StripePayment = require('../payment_lambda/utils/stripePayment');
-const ObjectId = require('mongodb').ObjectID;
+const User = require('../user_lambda/utils/userModel');
 DB();
 
 exports.handler = async (event) => {
@@ -135,6 +136,10 @@ exports.handler = async (event) => {
           startDate: Date.parse(event.arguments.start),
           endDate: Date.parse(event.arguments.end),
         });
+        User.findOneAndUpdate(
+          { username: event.arguments.driverId },
+          { $inc: { bookings: 1 } }
+        );
         // Send Email to driver and space owner
         const tempOwnerData = {
           emails: [event.arguments.ownerEmail],
@@ -179,6 +184,10 @@ exports.handler = async (event) => {
                 new: true,
                 runValidators: true,
               }
+            );
+            User.findOneAndUpdate(
+              { username: event.arguments.driverId },
+              { $inc: { bookings: -1 } }
             );
           } else {
             return null;

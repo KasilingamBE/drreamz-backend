@@ -78,7 +78,7 @@ const adminSetUserPassword = ({ username, password }) => {
 const adminToggleUserStatus = (data) => {
   var params = {
     UserPoolId: UserPoolId,
-    Username: data.userName,
+    Username: data.username,
   };
   if (data.status) {
     return new AWS.CognitoIdentityServiceProvider()

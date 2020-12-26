@@ -25,6 +25,14 @@ const userSchema = new mongoose.Schema({
     enum: ['open', 'close'],
     default: 'open',
   },
+  listings: {
+    type: Number,
+    default: 0,
+  },
+  bookings: {
+    type: Number,
+    default: 0,
+  },
   ref: ObjectId,
   createdBy: { type: String, default: 'PreSignUp_SignUp' },
   updatedBy: String,
