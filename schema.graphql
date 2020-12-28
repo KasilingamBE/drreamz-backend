@@ -103,7 +103,12 @@ type Query {
   getAllEmails: [ScrapedEmail]
 
   getListing(id: ID!): Listing
-  getAllListingsSearch(search: String, limit: Int, page: Int): ListingSearch
+  getAllListingsSearch(
+    search: String
+    limit: Int
+    page: Int
+    username: String
+  ): ListingSearch
   getPublishedListings: [Listing]
   getOwnerListings(ownerId: String!): [Listing]
   getPublishedListingsWithLatLng(lat: Float!, lng: Float!): [Listing]
@@ -124,6 +129,7 @@ type Query {
     startDate: String
     endDate: String
     sortBy: String
+    username: String
   ): BookingSearch
   getBookingsWithListingId(listingId: String!): [Booking]
   getBookingsWithOwnerId(ownerId: String!): [Booking]

@@ -10,6 +10,7 @@ DB();
 exports.handler = async (event) => {
   try {
     let updatedBooking = null;
+    let tempFilter = {};
     switch (event.type) {
       case 'getBooking':
         return await Booking.findById(ObjectId(event.arguments.id));
@@ -30,8 +31,14 @@ exports.handler = async (event) => {
           startDate = yearsBackFromNow,
           endDate = oneYearFromNow,
           sortBy = 'startDate',
+          username = null,
         } = event.arguments;
+
+        if (username !== null) {
+          tempFilter.driverId = username;
+        }
         const bookings = await Booking.find({
+          ...tempFilter,
           status: status,
           startDate: { $gte: Date.parse(startDate) },
           endDate: { $lte: Date.parse(endDate) },
@@ -59,6 +66,7 @@ exports.handler = async (event) => {
           .exec();
 
         const bookingsCount = await Booking.countDocuments({
+          ...tempFilter,
           status: status,
           startDate: { $gte: Date.parse(startDate) },
           endDate: { $lte: Date.parse(endDate) },

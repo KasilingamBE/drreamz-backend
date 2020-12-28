@@ -7,7 +7,7 @@ AWS.config.apiVersions = {
   cognitoidentityserviceprovider: '2016-04-18',
 };
 
-const adminCreateUser = ({ password, email, name }) => {
+const adminCreateUser = ({ password, email, name, picture }) => {
   return new AWS.CognitoIdentityServiceProvider()
     .adminCreateUser({
       UserPoolId: UserPoolId,
@@ -29,8 +29,9 @@ const adminCreateUser = ({ password, email, name }) => {
         },
         {
           Name: 'picture',
-          Value:
-            'https://parkyourselfbucket154227-dev.s3.amazonaws.com/public/default/default.jpg',
+          Value: picture
+            ? picture
+            : 'https://parkyourselfbucket154227-dev.s3.amazonaws.com/public/default/default.jpg',
         },
       ],
     })
@@ -40,6 +41,7 @@ const adminCreateUser = ({ password, email, name }) => {
 const adminCreateNativeUserAndLink = async ({
   email,
   name,
+  picture,
   providerName,
   providerUserId,
 }) => {
@@ -50,7 +52,7 @@ const adminCreateNativeUserAndLink = async ({
     Math.random().toString(36).slice(2) +
     Math.random().toString(36).toUpperCase().slice(2);
 
-  const user = await adminCreateUser({ name, email, password });
+  const user = await adminCreateUser({ name, email, picture, password });
   // console.log('adminCreateUser', user);
   await adminSetUserPassword({
     username: user.User.Username,

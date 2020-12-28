@@ -31,6 +31,7 @@ exports.handler = async (event) => {
           let tempUsername = await cognito.adminCreateNativeUserAndLink({
             name: event.request.userAttributes.name,
             email: event.request.userAttributes.email,
+            picture: event.request.userAttributes.picture,
             providerName,
             providerUserId,
           });

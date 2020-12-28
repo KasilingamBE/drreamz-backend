@@ -6,12 +6,24 @@ DB();
 
 exports.handler = async (event) => {
   try {
+    let tempFilter = {};
     switch (event.type) {
       case 'getListing':
         return await Listing.findById(event.arguments.id);
       case 'getAllListingsSearch':
-        const { page = 1, limit = 10, search = '' } = event.arguments;
+        const {
+          page = 1,
+          limit = 10,
+          search = '',
+          username = null,
+        } = event.arguments;
+
+        if (username !== null) {
+          tempFilter.ownerId = username;
+        }
+
         const listings = await Listing.find({
+          ...tempFilter,
           $or: [
             {
               'locationDetails.address': { $regex: search, $options: 'i' },
@@ -28,6 +40,7 @@ exports.handler = async (event) => {
           .skip((page - 1) * limit);
 
         const listingsCount = await Listing.countDocuments({
+          ...tempFilter,
           $or: [
             {
               'locationDetails.address': { $regex: search, $options: 'i' },
