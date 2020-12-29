@@ -12,8 +12,8 @@ exports.handler = async (event) => {
     let tempId = null;
     let tempFilter = {};
     if (event.triggerSource) {
-      console.log('Pre Sign up Event', event);
-      if (event.triggerSource.includes('Facebook')) {
+      // console.log('Pre Sign up Event', event);
+      if (event.userName.includes('Facebook')) {
         event.request.userAttributes.picture =
           event.request.userAttributes.picture.data.url;
       }
@@ -67,17 +67,16 @@ exports.handler = async (event) => {
           providerName,
           providerUserId,
         });
-        tempUser = {
-          username: event.userName,
-          name: event.request.userAttributes.name,
-          email: event.request.userAttributes.email,
-          picture: event.request.userAttributes.picture,
-          createdBy: event.triggerSource,
-        };
-        await User.create(tempUser);
+        // tempUser = {
+        //   username: event.userName,
+        //   name: event.request.userAttributes.name,
+        //   email: event.request.userAttributes.email,
+        //   picture: event.request.userAttributes.picture,
+        //   createdBy: event.triggerSource,
+        // };
+        // await User.create(tempUser);
         // throw new Error('ACCOUNT_LINKED');
         return 'ACCOUNT_LINKED';
-        // return event;
       } else if (
         (userFlag && event.triggerSource == 'PreSignUp_SignUp') ||
         event.triggerSource == 'PreSignUp_AdminCreateUser'
