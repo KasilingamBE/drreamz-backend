@@ -92,17 +92,13 @@ exports.handler = async (event) => {
           event.arguments.filter ? JSON.parse(event.arguments.filter) : {}
         );
       case 'getAllUsersSearch':
-        let oneYearFromNow = new Date();
-        oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
-        let yearsBackFromNow = new Date();
-        yearsBackFromNow.setFullYear(yearsBackFromNow.getFullYear() - 100);
         const {
           page = 1,
           limit = 10,
           status = 'open',
           search = '',
-          createdAt = yearsBackFromNow,
-          createdAtMax = oneYearFromNow,
+          lowerRange = null,
+          higherRange = null,
           sortBy = '-createdAtDate',
           bookings = 0,
           listings = 0,
@@ -112,13 +108,17 @@ exports.handler = async (event) => {
         if (active !== null) {
           tempFilter.active = active;
         }
+
+        if (lowerRange !== null && higherRange !== null) {
+          tempFilter.createdAtDate = {
+            $gte: Date.parse(lowerRange),
+            $lte: Date.parse(higherRange),
+          };
+        }
+
         const users = await User.find({
           ...tempFilter,
           status,
-          createdAtDate: {
-            $gte: Date.parse(createdAt),
-            $lte: Date.parse(createdAtMax),
-          },
           bookings: { $gte: bookings },
           listings: { $gte: listings },
           $or: [
@@ -138,10 +138,6 @@ exports.handler = async (event) => {
         const usersCount = await User.countDocuments({
           ...tempFilter,
           status,
-          createdAtDate: {
-            $gte: Date.parse(createdAt),
-            $lte: Date.parse(createdAtMax),
-          },
           bookings: { $gte: bookings },
           listings: { $gte: listings },
           $or: [

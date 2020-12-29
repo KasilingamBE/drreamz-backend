@@ -5,8 +5,8 @@ type Query {
     limit: Int
     status: String
     search: String
-    createdAt: String
-    createdAtMax: String
+    lowerRange: String
+    higherRange: String
     sortBy: String
     listings: Int
     bookings: Int
