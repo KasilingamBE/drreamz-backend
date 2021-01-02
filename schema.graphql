@@ -108,6 +108,7 @@ type Query {
     limit: Int
     page: Int
     username: String
+    active: Boolean
   ): ListingSearch
   getPublishedListings: [Listing]
   getOwnerListings(ownerId: String!): [Listing]

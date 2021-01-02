@@ -16,10 +16,14 @@ exports.handler = async (event) => {
           limit = 10,
           search = '',
           username = null,
+          active = null,
         } = event.arguments;
 
         if (username !== null) {
           tempFilter.ownerId = username;
+        }
+        if (active !== null) {
+          tempFilter.published = active;
         }
 
         const listings = await Listing.find({
