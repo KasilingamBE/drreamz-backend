@@ -64,6 +64,10 @@ exports.handler = async (event) => {
       case 'getPublishedListings':
         return await Listing.find({ published: true }).exec();
       case 'getListingsWithBookings':
+        const diff =
+          Date.parse(event.arguments.end) - Date.parse(event.arguments.start);
+        const diffFromNow =
+          Date.parse(event.arguments.start) - Date.parse(new Date());
         return await Listing.aggregate([
           {
             $geoNear: {
@@ -76,7 +80,18 @@ exports.handler = async (event) => {
               distanceField: 'distance',
             },
           },
-          { $match: { published: true } },
+          {
+            $match: {
+              published: true,
+              'spaceAvailable.minTime.value': { $lte: diff },
+              'spaceAvailable.maxTime.value': { $gte: diff },
+              'spaceAvailable.advanceBookingTime.value': { $gte: diffFromNow },
+              $or: [
+                { 'spaceAvailable.hasNoticeTime': false },
+                { 'spaceAvailable.noticeTime.value': { $lte: diffFromNow } },
+              ],
+            },
+          },
           {
             $lookup: {
               from: 'bookings',

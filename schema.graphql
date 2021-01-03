@@ -1,3 +1,5 @@
+scalar Long
+
 type Query {
   getAllUsers(filter: String): [User]
   getAllUsersSearch(
@@ -280,6 +282,7 @@ type Mutation {
     images: [RoomImagesInput]
     youtube: [String]
   ): Room
+
   updateOneRoom(
     id: ID!
     title: String
@@ -311,36 +314,6 @@ type Mutation {
     subject: String!
     message: String!
   ): Email
-  createOneTeam(slug: String!, title: String!, description: String!): Menu
-  updateOneTeam(id: ID!, slug: String, title: String, description: String): Menu
-  deleteOneTeam(id: ID!): String
-
-  createOneService(slug: String!, title: String!, description: String!): Menu
-  updateOneService(
-    id: ID!
-    slug: String
-    title: String
-    description: String
-  ): Menu
-  deleteOneService(id: ID!): String
-
-  createOneTherapie(slug: String!, title: String!, description: String!): Menu
-  updateOneTherapie(
-    id: ID!
-    slug: String
-    title: String
-    description: String
-  ): Menu
-  deleteOneTherapie(id: ID!): String
-
-  createOneIvdrip(slug: String!, title: String!, description: String!): Menu
-  updateOneIvdrip(
-    id: ID!
-    slug: String
-    title: String
-    description: String
-  ): Menu
-  deleteOneIvdrip(id: ID!): String
 
   createListing(
     thumbnail: String
@@ -352,7 +325,7 @@ type Mutation {
     spaceAvailable: SpaceAvailableDataInput
     pricingDetails: PricingDetailsDataInput
     location: LocationDataMarkerInput
-    bookings: [ID]
+    bookings: Int
     createdAt: String
   ): Listing
   updateListing(
@@ -364,7 +337,7 @@ type Mutation {
     spaceAvailable: SpaceAvailableDataInput
     pricingDetails: PricingDetailsDataInput
     location: LocationDataMarkerInput
-    bookings: [ID]
+    bookings: Int
     reviews: [ID]
     createdAt: String
   ): Listing
@@ -815,7 +788,7 @@ type Listing {
   spaceAvailable: SpaceAvailableData!
   pricingDetails: PricingDetailsData!
   location: LocationDataMarker!
-  bookings: [ID!]
+  bookings: Int
   reviews: [ID!]
   createdAt: String
   bookingCount: [BookingCount]
@@ -956,12 +929,12 @@ input DayInput {
 }
 
 type TimeDuration {
-  value: Int
+  value: Long
   unit: String!
 }
 
 input TimeDurationInput {
-  value: Int
+  value: Long
   unit: String
 }
 

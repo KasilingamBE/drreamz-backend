@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-require('mongoose-long')(mongoose);
-const Long = mongoose.Schema.Types.Long;
 
 const markerSchema = new mongoose.Schema({
   type: {
@@ -77,10 +75,6 @@ const spaceLabelSchema = new mongoose.Schema({
   largestSize: {
     type: String,
     required: true,
-  },
-  isBooked: {
-    type: Boolean,
-    default: false,
   },
 });
 
@@ -172,7 +166,7 @@ const spaceDetailsSchema = new mongoose.Schema({
 
 const timeDurationSchema = new mongoose.Schema({
   value: {
-    type: Long,
+    type: Number,
     // required: true,
   },
   unit: {
@@ -284,7 +278,7 @@ const pricingDetailsSchema = new mongoose.Schema({
   },
 });
 
-const listingSchema = new mongoose.Schema({
+const listing2Schema = new mongoose.Schema({
   thumbnail: String,
   ownerId: {
     type: String,
@@ -321,10 +315,12 @@ const listingSchema = new mongoose.Schema({
   location: {
     type: markerSchema,
   },
-  bookings: {
-    type: Number,
-    default: 0,
-  },
+  bookings: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'bookings',
+    },
+  ],
   reviews: [
     {
       type: mongoose.Schema.ObjectId,
@@ -337,8 +333,8 @@ const listingSchema = new mongoose.Schema({
   },
 });
 
-listingSchema.index({ location: '2dsphere' });
+listing2Schema.index({ location: '2dsphere' });
 
-const Listing = mongoose.model('Listing', listingSchema);
+const Listing2 = mongoose.model('Listing2', listing2Schema);
 
-module.exports = Listing;
+module.exports = Listing2;
