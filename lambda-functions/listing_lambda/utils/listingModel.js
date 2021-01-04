@@ -186,11 +186,17 @@ const daySchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
-  startTime: {
-    type: String,
+  startHour: {
+    type: Number,
   },
-  endTime: {
-    type: String,
+  startMinute: {
+    type: Number,
+  },
+  endHour: {
+    type: Number,
+  },
+  endMinute: {
+    type: Number,
   },
 });
 

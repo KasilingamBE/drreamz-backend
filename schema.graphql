@@ -918,14 +918,18 @@ input SpaceDetailsDataInput {
 
 type Day {
   isActive: Boolean!
-  startTime: String
-  endTime: String
+  startHour: Int
+  startMinute: Int
+  endHour: Int
+  endMinute: Int
 }
 
 input DayInput {
   isActive: Boolean!
-  startTime: String
-  endTime: String
+  startHour: Int
+  startMinute: Int
+  endHour: Int
+  endMinute: Int
 }
 
 type TimeDuration {
