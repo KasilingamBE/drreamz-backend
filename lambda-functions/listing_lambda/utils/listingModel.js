@@ -200,6 +200,15 @@ const daySchema = new mongoose.Schema({
   },
 });
 
+const customTimeSchema = new mongoose.Schema({
+  startDate: {
+    type: Date,
+  },
+  endDate: {
+    type: Date,
+  },
+});
+
 const spaceAvailableSchema = new mongoose.Schema({
   monday: {
     type: daySchema,
@@ -233,7 +242,7 @@ const spaceAvailableSchema = new mongoose.Schema({
     type: String,
     // required: true,
   },
-  customTimeRange: [[String]],
+  customTimeRange: [customTimeSchema],
   hasNoticeTime: {
     type: Boolean,
     required: true,

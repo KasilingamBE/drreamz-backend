@@ -78,7 +78,8 @@ exports.handler = async (event) => {
           endHour,
           endMinute,
         } = event.arguments;
-
+        startDate = new Date(event.arguments.start);
+        endDate = new Date(event.arguments.end);
         const isStartDayMonday = startDay === 1 ? true : 'null';
         const isEndDayMonday = endDay === 1 ? true : 'null';
         const isStartDayTuesday = startDay === 2 ? true : 'null';
@@ -465,6 +466,23 @@ exports.handler = async (event) => {
                           ],
                         },
                       ],
+                    },
+                  ],
+                },
+                {
+                  $and: [
+                    {
+                      'spaceAvailable.scheduleType': 'custom',
+                    },
+                    {
+                      'spaceAvailable.customTimeRange.startDate': {
+                        $lte: startDate,
+                      },
+                    },
+                    {
+                      'spaceAvailable.customTimeRange.endDate': {
+                        $gte: endDate,
+                      },
                     },
                   ],
                 },

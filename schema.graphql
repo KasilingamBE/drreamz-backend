@@ -948,6 +948,15 @@ input TimeDurationInput {
   unit: String
 }
 
+type CustomTimeRange {
+  startDate: AWSDateTime
+  endDate: AWSDateTime
+}
+input CustomTimeRangeInput {
+  startDate: AWSDateTime
+  endDate: AWSDateTime
+}
+
 type SpaceAvailableData {
   monday: Day
   tuesday: Day
@@ -957,7 +966,7 @@ type SpaceAvailableData {
   saturday: Day
   sunday: Day
   scheduleType: String
-  customTimeRange: [[String]]
+  customTimeRange: [CustomTimeRange]
   hasNoticeTime: Boolean
   noticeTime: TimeDuration
   advanceBookingTime: TimeDuration
@@ -975,7 +984,7 @@ input SpaceAvailableDataInput {
   saturday: DayInput
   sunday: DayInput
   scheduleType: String
-  customTimeRange: [[String]]
+  customTimeRange: [CustomTimeRangeInput]
   hasNoticeTime: Boolean
   noticeTime: TimeDurationInput
   advanceBookingTime: TimeDurationInput
