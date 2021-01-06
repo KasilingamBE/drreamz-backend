@@ -120,6 +120,12 @@ type Query {
     lng: Float!
     start: String!
     end: String!
+    startDay: Int!
+    startHour: Int!
+    startMinute: Int!
+    endDay: Int!
+    endHour: Int!
+    endMinute: Int!
   ): [Listing]
 
   getBooking(id: String!): Booking
