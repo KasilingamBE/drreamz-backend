@@ -23,7 +23,7 @@ type Query {
   getOneFee2: String
   getOneFee: Fee
   getOneFormOption(id: ID!): FormOption
-  getAllFormOptions: [FormOption]
+  getAllFormOptions(filter: String): [FormOption]
 
   setupPayout(listingId: String!, triggerTimer: String!): Boolean
 

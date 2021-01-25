@@ -1,19 +1,18 @@
-const DB = require("../../utils/DB");
-const FormOption = require("./utils/formOptionModel");
+const DB = require('../../utils/DB');
+const FormOption = require('./utils/formOptionModel');
 DB();
 
 exports.handler = async (event) => {
   try {
     switch (event.type) {
-      case "getOneFormOption":
+      case 'getOneFormOption':
         return await FormOption.findById(event.arguments.id);
-      case "getAllFormOptions":
-        return await FormOption.find(
-          event.arguments.filter ? JSON.parse(event.arguments.filter) : {}
-        );
-      case "createOneFormOption":
+      case 'getAllFormOptions':
+        const { filter = null } = event.arguments;
+        return await FormOption.find(filter ? JSON.parse(filter) : {});
+      case 'createOneFormOption':
         return await FormOption.create(event.arguments);
-      case "updateOneFormOption":
+      case 'updateOneFormOption':
         return await FormOption.findByIdAndUpdate(
           event.arguments.id,
           { ...event.arguments, updatedAt: new Date() },
@@ -22,7 +21,7 @@ exports.handler = async (event) => {
             runValidators: true,
           }
         );
-      case "deleteOneFormOption":
+      case 'deleteOneFormOption':
         return await FormOption.findByIdAndDelete(event.arguments.id);
       default:
         return null;
