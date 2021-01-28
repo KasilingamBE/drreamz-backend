@@ -65,6 +65,7 @@ exports.handler = async (event) => {
           .sort(sortBy)
           .exec();
 
+          
         const bookingsCount = await Booking.countDocuments({
           ...tempFilter,
           status: status,
