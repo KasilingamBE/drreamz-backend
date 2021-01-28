@@ -86,3 +86,7 @@
   name: user
   config:
     functionName: user_lambda
+- type: AWS_LAMBDA
+  name: jobUser
+  config:
+    functionName: job_lambda

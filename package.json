@@ -1,5 +1,5 @@
 {
-  "name": "parkyourself-backend",
+  "name": "parkyourself-backend-Mohitk",
   "version": "1.0.0",
   "scripts": {
     "start": "serverless offline start --printOutput --stage local",

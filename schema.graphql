@@ -92,6 +92,10 @@ type Query {
   getOneRoomBySlug(slug: String!, userId: String!): Room
   getAllRooms: [Room]
 
+  getOneJobUse(id: ID!): JobUser
+  getOneJobUseBySlug(slug: String!): JobUser
+  getAllJobUse: [JobUser]
+
   getOneForm(id: ID!): Form
   getOneFormBySlug(slug: String!, userId: String!): Form
   getAllForms: [Form]
@@ -320,6 +324,13 @@ type Mutation {
     subject: String!
     message: String!
   ): Email
+
+  createOneJobUser(
+    fname: String!
+    lname: String!
+    slug: String!
+    
+  ): JobUser
 
   createListing(
     thumbnail: String
@@ -583,6 +594,14 @@ type User {
   createdBy: String
   updatedAt: String
   updatedBy: String
+}
+
+type JobUser {
+  _id: ID!
+  fname: String,
+  lname: String,
+  slug: String!
+  
 }
 
 type Demo {

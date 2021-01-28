@@ -721,3 +721,24 @@
   field: updateOneUser
   request: user/mutation.updateOneUser.vtl
   response: response.vtl
+# JobUser
+- dataSource: jobUser
+  type: Query
+  field: getAllJobUser
+  request: jobUser/query.getAllJobUser.vtl
+  response: response.vtl
+- dataSource: jobUser
+  type: Query
+  field: getOneJobUser
+  request: jobUser/query.getOneJobUser.vtl
+  response: response.vtl
+- dataSource: jobUser
+  type: Query
+  field: getOneJobUserBySlug
+  request: jobUser/query.getOneJobUserBySlug.vtl
+  response: response.vtl
+- dataSource: jobUser
+  type: Mutation
+  field: createOneJobUser
+  request: jobUser/mutation.createOneJobUser.vtl
+  response: response.vtl
