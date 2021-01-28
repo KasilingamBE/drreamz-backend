@@ -93,7 +93,7 @@ type Query {
   getAllRooms: [Room]
 
   getOneJobUse(id: ID!): JobUser
-  getOneJobUseBySlug(slug: String!): JobUser
+  getOneJobUseBySlug(slug: String!, fname: String!): JobUser
   getAllJobUse: [JobUser]
 
   getOneForm(id: ID!): Form
