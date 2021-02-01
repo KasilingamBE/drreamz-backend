@@ -88,6 +88,6 @@
     functionName: user_lambda
 #homepage_lambda
 - type: AWS_LAMBDA
-  name: homepageEmailTask
+  name: homepage
   config:
     functionName: homepage_lambda
