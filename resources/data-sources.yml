@@ -86,3 +86,8 @@
   name: user
   config:
     functionName: user_lambda
+#homepage_lambda
+- type: AWS_LAMBDA
+  name: homepage
+  config:
+    functionName: homepage_lambda

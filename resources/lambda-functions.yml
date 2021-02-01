@@ -46,3 +46,6 @@ fee2_lambda:
   handler: lambda-functions/fee2_lambda/index.handler
 user_lambda:
   handler: lambda-functions/user_lambda/index.handler
+#homepage_lambda handler
+homepage_lambda:
+  handler: lambda-functions/homepage_lambda/index.handler

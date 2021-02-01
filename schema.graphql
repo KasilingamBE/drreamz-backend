@@ -549,6 +549,10 @@ type Mutation {
     answer: String
   ): Faq
   deleteFaq(id: ID!): String
+  
+  homepage_email(
+    Email_id: String!
+  ): String
 }
 
 type Subscription {

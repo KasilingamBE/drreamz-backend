@@ -721,3 +721,9 @@
   field: updateOneUser
   request: user/mutation.updateOneUser.vtl
   response: response.vtl
+#homepage
+- dataSource: homepage
+  type: Mutation
+  field: homepage_email
+  request: homepage/mutation.homepage.vtl
+  response: response.vtl
