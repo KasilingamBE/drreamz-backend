@@ -550,7 +550,7 @@ type Mutation {
   ): Faq
   deleteFaq(id: ID!): String
 
-  runhomepageEmailTask(
+  homepageEmailTask(
     Email_id: String!
   ): String
 }
