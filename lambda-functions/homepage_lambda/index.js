@@ -6,7 +6,7 @@ DB();
 exports.handler = async (event) => {
   try {
     switch (event.type) {
-      case "homepage":
+      case "homepageEmailTask":
         return await HomePage.create({Email_id: event.arguments.Email_id,
                                         });
       
