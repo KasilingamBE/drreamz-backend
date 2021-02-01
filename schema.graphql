@@ -549,8 +549,8 @@ type Mutation {
     answer: String
   ): Faq
   deleteFaq(id: ID!): String
-  
-  homepage_email(
+
+  homepage(
     Email_id: String!
   ): String
 }
