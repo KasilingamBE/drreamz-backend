@@ -724,6 +724,6 @@
 #homepage
 - dataSource: homepage
   type: Mutation
-  field: homepageEmailTask
+  field: runHomepageEmailTask
   request: homepage/mutation.homepage.vtl
   response: response.vtl
