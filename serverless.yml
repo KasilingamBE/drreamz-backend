@@ -1,4 +1,4 @@
-service: ${opt:SERVICE_NAME, 'parkyourself-backend'}
+service: ${opt:SERVICE_NAME, 'drreamz-backend-bilalm'}
 
 plugins:
   - serverless-prune-plugin
@@ -36,7 +36,7 @@ provider:
     SENDER_EMAIL: ${ssm:/parkyourself/sender/email}
     REGION: '${self:provider.region}'
     STAGE: '${self:provider.stage}'
-    DATABASE: 'mongodb+srv://${opt:MONGO_USERNAME}:${opt:MONGO_PASSWORD}@codemarket-staging.k16z7.mongodb.net/parkyourself?retryWrites=true&w=majority'
+    DATABASE: 'mongodb+srv://${opt:MONGO_USERNAME}:${opt:MONGO_PASSWORD}@codemarket-staging.k16z7.mongodb.net/dreamjobpal?retryWrites=true&w=majority'
     STRIPE_SECRET: ${ssm:/parkyourself/stripe/test/secret}
     USER_POOL_ID: ${ssm:/parkyourself/userpool}
     FEE_ID: ${ssm:/parkyourself/fee}
