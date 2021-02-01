@@ -1,4 +1,4 @@
-service: ${opt:SERVICE_NAME, 'drreamz-backend-bilalm'}
+service: ${opt:SERVICE_NAME, 'parkyourself-backend'}
 
 plugins:
   - serverless-prune-plugin
