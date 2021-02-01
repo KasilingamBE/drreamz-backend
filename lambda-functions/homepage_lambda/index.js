@@ -7,7 +7,7 @@ exports.handler = async (event) => {
   try {
     switch (event.type) {
       case "homepage_email":
-        return await InterviewForm.create({Email_id: event.arguments.Email_id,
+        return await HomePage.create({Email_id: event.arguments.Email_id,
                                         });
       
                                        
