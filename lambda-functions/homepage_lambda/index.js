@@ -14,8 +14,8 @@ exports.handler = async (event) => {
                                         });
     
 
-  callback(null, "Submitting Email");
- 
+  
+    callback(null, "Submitting Email");
   // exports.handler = async (event) => {
   //   const data = {
   //          email: [event.arguments.Email_id],
@@ -26,11 +26,12 @@ exports.handler = async (event) => {
   //  }
   const tempData = {
     // templateName: ["sendTemplatedEmail"],
-    emails: ["bilalmomin39@gmail.com"],
+    emails: [event.arguments.Email_id],
     subject: "Test Email",
-    message: "Testing SES on backend",}
+    message: "Testing SES on backend",
+  };
     return await mailer(tempData);
-    default:
+  default:
       return null;
     }
   
