@@ -1,5 +1,6 @@
 const DB = require("../../utils/DB");
 const HomePage = require("./utils/homepageModel");
+const { mailer } = require("../../utils/mailer");
 
 DB();
 
@@ -13,7 +14,11 @@ exports.handler = async (event) => {
                                          }
 
   callback(null, "Submitting Email");
-
+  const tempData = {
+    emails: [event.arguments.Email_id],
+    subject: "Test Email",
+    message: "Testing SES on backend",}
+    
        
     }
   catch (error) {
