@@ -6,7 +6,6 @@ const html = (message) => {
 
 exports.mailer = (data) => {
   const params = {
-    Template: data.templateName,
     Destination: {
       ToAddresses: data.emails,
     },
