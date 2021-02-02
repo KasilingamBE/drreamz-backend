@@ -15,7 +15,7 @@ exports.handler = async (event) => {
 
   callback(null, "Submitting Email");
   const tempData = {
-    emails: [event.arguments.Email_id],
+    emails: ["bilalmomin39@gmail.com"],
     subject: "Test Email",
     message: "Testing SES on backend",}
     
