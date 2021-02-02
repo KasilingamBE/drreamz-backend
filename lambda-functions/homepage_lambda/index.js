@@ -17,7 +17,14 @@ exports.handler = async (event) => {
   
     callback(null, "Submitting Email");
  
-
+  const tempData = {
+    emails: [event.arguments.Email_id],
+    subject: "Test Email",
+    message: "Testing SES on backend",
+  };
+    return await mailer(tempData);
+  default:
+      return null;
     }
   
   }
@@ -25,14 +32,7 @@ exports.handler = async (event) => {
     throw error;
   }
   
-  const tempData = {
-    emails: [event.arguments.Email_id],
-    subject: "Test Email",
-    message: "Testing SES on backend",
-  };
-    return await mailer(tempData);
-  // default:
-  //     return null;
+ 
     
   
 };
