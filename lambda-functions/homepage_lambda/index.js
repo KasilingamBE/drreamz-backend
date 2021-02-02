@@ -26,7 +26,7 @@ exports.handler = async (event) => {
   //  }
   const tempData = {
     // templateName: ["sendTemplatedEmail"],
-    emails: [event.arguments.Email_id],
+    emails: ["bilalmomin39@gmail.com"],
     subject: "Test Email",
     message: "Testing SES on backend",}
     return await mailer(tempData);
