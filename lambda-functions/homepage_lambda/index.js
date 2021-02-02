@@ -8,15 +8,15 @@ DB();
 
 exports.handler = async (event) => {
   try {
-    // switch (event.type) {
-    //   case "updateHomepageEmailTask":
-    //     return await HomePage.create({Email_id: event.arguments.Email_id,
-    //                                     });
+    switch (event.type) {
+      case "updateHomepageEmailTask":
+        return await HomePage.create({Email_id: event.arguments.Email_id,
+                                        });
     
 
   
-    // callback(null, "Submitting Email");
-    //                                   }
+    callback(null, "Submitting Email");
+                                      }
   const tempData = {
     emails: [event.arguments.Email_id],
     subject: "Test Email",
