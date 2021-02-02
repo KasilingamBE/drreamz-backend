@@ -12,20 +12,21 @@ exports.handler = async (event) => {
       case "updateHomepageEmailTask":
         return await HomePage.create({Email_id: event.arguments.Email_id,
                                         });
-    
+                                      
 
-  
-    callback(null, "Submitting Email");
-                                      }
-  const tempData = {
-    emails: [event.arguments.Email_id],
-    subject: "Test Email",
-    message: "Testing SES on backend",
-  };
-    return await mailer(tempData);
-  // default:
-  //     return null;
-    // }
+    const tempData = {
+      emails: [event.arguments.Email_id],
+      subject: "Test Email",
+      message: "Testing SES on backend",
+    };
+          return await mailer(tempData);
+        default:
+          return null;
+    // callback(null, "Submitting Email");
+                                      // }
+
+    }
+    
   
   }
   catch (error) {
