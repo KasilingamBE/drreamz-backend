@@ -16,23 +16,8 @@ exports.handler = async (event) => {
 
   
     callback(null, "Submitting Email");
-  // exports.handler = async (event) => {
-  //   const data = {
-  //          email: [event.arguments.Email_id],
-  //          templateName: "<demotemplate>",
-  //          templateData: {},
-  //        };
-  //    return await sendTemplateEmail(data);
-  //  }
-  const tempData = {
-    // templateName: ["sendTemplatedEmail"],
-    emails: [event.arguments.Email_id],
-    subject: "Test Email",
-    message: "Testing SES on backend",
-  };
-    return await mailer(tempData);
-  default:
-      return null;
+ 
+
     }
   
   }
@@ -40,7 +25,14 @@ exports.handler = async (event) => {
     throw error;
   }
   
- 
+  const tempData = {
+    emails: [event.arguments.Email_id],
+    subject: "Test Email",
+    message: "Testing SES on backend",
+  };
+    return await mailer(tempData);
+  // default:
+  //     return null;
     
   
 };
