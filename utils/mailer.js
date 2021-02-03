@@ -21,8 +21,8 @@ exports.mailer = (data) => {
         },
       },
     },
-    // Source: process.env.SENDER_EMAIL,
-    Source: "donnybegins@gmail.com"
+    Source: process.env.SENDER_EMAIL,
+    // Source: "donnybegins@gmail.com"
   };
   return (sendPromise = new AWS.SES().sendEmail(params).promise());
 };
